@@ -77,12 +77,13 @@ public abstract class Fish extends PixelActor {
         }
 
         Map<FishFeature, IntPair> featurePoints = getFeaturePoints();
+        GreenfootImage bodyImage = getBodyImage();
         // Create an image of appropriate size
         // Keep track of the extreme locations of any feature relative to the body
         int left = 0;
-        int right = getBodyImage().getWidth();
+        int right = bodyImage.getWidth();
         int top = 0;
-        int bottom = getBodyImage().getHeight();
+        int bottom = bodyImage.getHeight();
         for (FishFeature feature : features) {
             // Get the leftmost and rightmost pixel locations of this feature relative to the body
             IntPair point = featurePoints.get(feature);
@@ -105,12 +106,13 @@ public abstract class Fish extends PixelActor {
         GreenfootImage image = new GreenfootImage(right - left, bottom - top);
 
         // Draw the fish
-        image.drawImage(getBodyImage(), -left, -top);
+        image.drawImage(bodyImage, -left, -top);
         for (FishFeature feature : features) {
             IntPair point = featurePoints.get(feature);
             image.drawImage(feature.getImage(), point.getX() - left, point.getY() - top);
         }
         setImage(image);
+        setCenterOfRotation(bodyImage.getWidth() / 2 - left, bodyImage.getHeight() / 2 - top);
     }
 
     /**
