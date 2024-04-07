@@ -78,7 +78,7 @@ public class Fisher extends PixelActor {
         setRotation(Math.sin(driftTimer.progress() * Math.PI * 2) * driftMagnitude + 360);
 
         // Drift in a elliptical pattern, matching the rotation
-        double driftOffsetX = Math.cos(driftTimer.progress() * Math.PI * 2) * driftMagnitude * 1;
+        double driftOffsetX = Math.cos(driftTimer.progress() * Math.PI * 2) * driftMagnitude * 0.8;
         double driftOffsetY = Math.sin(driftTimer.progress() * Math.PI * 2) * driftMagnitude * 0.4;
 
         // Find the target location
