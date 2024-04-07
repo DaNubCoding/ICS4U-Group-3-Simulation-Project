@@ -1,6 +1,7 @@
 import greenfoot.*;
 import java.util.Map;
 import java.util.EnumMap;
+import java.util.Collections;
 
 /**
  * A large deep sea fish.
@@ -13,8 +14,9 @@ public class Anglerfish extends Fish {
 
     private static final Map<FishFeature, IntPair> FEATURE_POINTS;
     static {
-        FEATURE_POINTS = new EnumMap(FishFeature.class);
-        FEATURE_POINTS.put(FishFeature.BIG_EYE, new IntPair(19, 8));
+        Map<FishFeature, IntPair> m = new EnumMap(FishFeature.class);
+        m.put(FishFeature.BIG_EYE, new IntPair(19, 8));
+        FEATURE_POINTS = Collections.unmodifiableMap(m);
     }
 
     public Anglerfish(FishFeature... features) {
