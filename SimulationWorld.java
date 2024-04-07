@@ -28,7 +28,7 @@ public class SimulationWorld extends PixelWorld {
 
     public void act() {
         render();
-        incrementAct();
+        Timer.incrementAct();
     }
 
     /**

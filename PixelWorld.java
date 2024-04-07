@@ -12,27 +12,6 @@ public abstract class PixelWorld extends World {
      * The scale factor of all PixelWorld display images
      */
     public static final int PIXEL_SCALE = 4;
-    
-    // The number of acts since the world was initialized
-    private static int currentAct = 0;
-    
-    /**
-     * Get the number of acts since the world was initialized.
-     * This is used in the Timer class.
-     * 
-     * @return The number of acts since the world was initialized
-     */
-    public static int getCurrentAct() {
-        return currentAct;
-    }
-    
-    /**
-     * Increment the current act number.
-     * <p>Call this at the end of the act method.</p>
-     */
-    protected static void incrementAct() {
-        currentAct++;
-    }
 
     private final int worldWidth;
     private final int worldHeight;
