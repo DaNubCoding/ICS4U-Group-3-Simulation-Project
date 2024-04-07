@@ -10,7 +10,7 @@ import java.util.Collections;
  * @version April 2024
  */
 public class Anglerfish extends Fish {
-    private static final GreenfootImage bodyImage = new GreenfootImage("images/anglerfish.png");
+    private static final GreenfootImage bodyImage = new GreenfootImage("anglerfish.png");
 
     private static final Map<FishFeature, IntPair> FEATURE_POINTS;
     static {

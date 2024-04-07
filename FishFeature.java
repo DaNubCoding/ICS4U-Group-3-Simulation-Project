@@ -8,7 +8,7 @@ import greenfoot.*;
  * @version April 2024
  */
 public enum FishFeature {
-    BIG_EYE("images/big_eye.png");
+    BIG_EYE("big_eye.png");
 
     private final GreenfootImage image;
 
