@@ -36,7 +36,7 @@ public class Fisher extends PixelActor {
 
     public Fisher(int side) {
         super("boat" + side + ".png");
-        setCenterOfRotation(24, 30);
+        setCenterOfRotation(20, 22);
         this.side = side;
 
         swayMagnitude = 3;

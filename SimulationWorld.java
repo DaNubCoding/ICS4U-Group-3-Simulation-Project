@@ -17,8 +17,8 @@ public class SimulationWorld extends PixelWorld {
     public SimulationWorld() {
         super(250, 160);
 
-        addObject(new Fisher(1), 50, 35);
-        addObject(new Fisher(2), 200, 35);
+        addObject(new Fisher(1), 50, 36);
+        addObject(new Fisher(2), 200, 36);
 
         render();
     }
