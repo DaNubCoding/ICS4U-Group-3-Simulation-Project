@@ -1,6 +1,6 @@
 import greenfoot.*;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.EnumSet;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -15,10 +15,14 @@ import java.util.Map;
  */
 public abstract class Fish extends PixelActor {
     // All features present on this fish
-    private List<FishFeature> features;
+    private Set<FishFeature> features;
 
     /**
      * Creates a new Fish with the given features.
+     * <p>
+     * Pass any number of arguments of type FishFeature to this constructor
+     * (including zero) or a FishFeature array and all of the features will be
+     * added to the new Fish.
      *
      * @param features any FishFeatures to add to this Fish
      */
@@ -28,7 +32,8 @@ public abstract class Fish extends PixelActor {
         if (getFeaturePoints().size() != FishFeature.class.getEnumConstants().length) {
             throw new IllegalArgumentException("Number of FishFeature attachment points on FishBody does not match the number of existing FishFeature types");
         }
-        this.features = new ArrayList<FishFeature>(Arrays.asList(features));
+        this.features = EnumSet.noneOf(FishFeature.class);
+        this.features.addAll(Arrays.asList(features));
         updateImage();
     }
 
