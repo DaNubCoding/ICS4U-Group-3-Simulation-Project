@@ -20,6 +20,9 @@ public class SimulationWorld extends PixelWorld {
         addObject(new Fisher(1), 50, 36);
         addObject(new Fisher(2), 200, 36);
 
+        addObject(new Anglerfish(), 32, 80);
+        addObject(new Anglerfish(FishFeature.BIG_EYE), 72, 80);
+
         render();
     }
 
