@@ -14,18 +14,18 @@ public class Fisher extends PixelActor {
     private double anchorY;
     private int leftBound;
     private int rightBound;
-    
+
     private int swayCounter;
     private int swayPeriodCounter;
     private double swayMagnitude;
-    
+
     private int sinkCounter;
     private int sinkPeriodCounter;
     private double sinkOffset;
     private double sinkMagnitude;
-    
+
     private double driftOffset;
-    
+
     private int moveCounter;
     // Number of frames before the next movement
     private int nextMove;
@@ -33,21 +33,21 @@ public class Fisher extends PixelActor {
     // Number of frames it will move for
     private int moveAmount;
     private double moveSpeed;
-    
+
     public Fisher(int side) {
         super("boat" + side + ".png");
         setCenterOfRotation(24, 30);
         this.side = side;
-        
+
         swayMagnitude = 3;
         sinkMagnitude = 2;
         nextMove = 120;
     }
-    
+
     public void addedToWorld(World world) {
         anchorX = getX();
         anchorY = getY();
-        
+
         if (side == 1) {
             leftBound = 30;
             rightBound = getWorld().getWorldWidth() / 2 - 30;
@@ -56,13 +56,13 @@ public class Fisher extends PixelActor {
             rightBound = getWorld().getWorldWidth() - 30;
         }
     }
-    
+
     public void act() {
         doInconspicuousMovement();
         doConspicuousMovement();
         checkBounds();
     }
-    
+
     /**
      * Move the boat in ways that don't significantly affect it but
      * make it look more realistic.
@@ -75,7 +75,7 @@ public class Fisher extends PixelActor {
             swayMagnitude = Util.randDouble(2, 5);
             swayPeriodCounter = (int) (swayCounter / 180);
         }
-        
+
         // Random up and down motion
         // cos because we want it to begin at 0, and each "period" ends at 0
         sinkOffset = -Math.cos(Math.toRadians(++sinkCounter * 0.5)) * sinkMagnitude + sinkMagnitude;
@@ -83,16 +83,16 @@ public class Fisher extends PixelActor {
             sinkMagnitude = Util.randDouble(0.5, 1.5);
             sinkPeriodCounter = (int) (sinkCounter / 720);
         }
-        
+
         // Random left and right drift
         // The drift is based on sway
         driftOffset += Math.sin(Math.toRadians(swayCounter)) * swayMagnitude * 0.012;
         driftOffset *= 0.995;
-        
+
         // + sinkMagnitude to make the value always positive
         setLocation(anchorX + driftOffset, anchorY + sinkOffset);
     }
-    
+
     /**
      * Intentionally move the boat a certain distance away.
      */
@@ -109,7 +109,7 @@ public class Fisher extends PixelActor {
             anchorX += moveSpeed;
         }
     }
-    
+
     /**
      * Restrict the boat to its area.
      */

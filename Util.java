@@ -38,11 +38,11 @@ public class Util {
         croppedImage.drawImage(image, 0, 0);
         return croppedImage;
     }
-    
+
     /**
      * Get a random integer between a minimum and maximum value,
      * inclusive on both ends.
-     * 
+     *
      * @param min The minimum bound (inclusive)
      * @param max The maximum bound (inclusive)
      * @return A random integer between the bounds
@@ -50,20 +50,20 @@ public class Util {
     public static int randInt(int min, int max) {
         return Greenfoot.getRandomNumber(max - min + 1) + min;
     }
-    
+
     /**
      * Get a random integer between a 0 and maximum value inclusive on both ends.
-     * 
+     *
      * @param max The maximum bound (inclusive)
      * @return A random integer <= the upper bound
      */
     public static int randInt(int max) {
         return Greenfoot.getRandomNumber(max + 1);
     }
-    
+
     /**
      * Get a random double between a minimum and maximum value.
-     * 
+     *
      * @param min The lower bound
      * @param max The upper bound
      * @return A random double between the bounds

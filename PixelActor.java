@@ -137,11 +137,11 @@ public abstract class PixelActor extends Actor {
         setCenterOfRotation(originalWidth / 2, originalHeight / 2);
         updateImage();
     }
-    
+
     /**
      * Set the point from which the image is rotated (center of rotation)
      * relative to the top-left corner of the original image.
-     * 
+     *
      * @param x The x offset of the center of rotation
      * @param y The y offset of the center of rotation
      */
@@ -150,7 +150,7 @@ public abstract class PixelActor extends Actor {
         centerOfRotationY = y;
         updateImage();
     }
-    
+
     /**
      * Offsets the original image in such a way so that when being rotated,
      * it will rotate around the defined center of rotation.
@@ -165,7 +165,7 @@ public abstract class PixelActor extends Actor {
         centeredWidth = centeredImage.getWidth();
         centeredHeight = centeredImage.getHeight();
     }
-    
+
     /**
      * Generate the image that is a version of the centered image but with extra
      * margins, as to make it just large enough to contain any potential rotation
@@ -189,7 +189,7 @@ public abstract class PixelActor extends Actor {
         // Round to nearest even number to prevent jittering
         transformedWidth = (int) Math.ceil((Math.abs(centeredWidth * cosAngle) + Math.abs(centeredHeight * sinAngle)) / 2) * 2;
         transformedHeight = (int) Math.ceil((Math.abs(centeredWidth * sinAngle) + Math.abs(centeredHeight * cosAngle)) / 2) * 2;
-        
+
         GreenfootImage rotatedImage = new GreenfootImage(expandedImage);
         rotatedImage.rotate((int) rotation);
         transformedImage = new GreenfootImage((int) transformedWidth, (int) transformedHeight);
@@ -197,7 +197,7 @@ public abstract class PixelActor extends Actor {
         int localY = (int) Math.floor((transformedHeight - maxDimension) / 2);
         transformedImage.drawImage(rotatedImage, localX, localY);
     }
-    
+
     /**
      * Update all intermediate images.
      */
@@ -438,10 +438,10 @@ public abstract class PixelActor extends Actor {
     public double getTransformedHeight() {
         return transformedHeight;
     }
-    
+
     /**
      * Get the PixelWorld that this PixelActor lives in.
-     * 
+     *
      * @return The PixelWorld the PixelActor lives in
      */
     @Override

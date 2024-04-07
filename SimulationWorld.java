@@ -9,17 +9,17 @@ import greenfoot.*;
 public class SimulationWorld extends PixelWorld {
     private static final GreenfootImage background = new GreenfootImage("background.png");
     private static final GreenfootImage foreground = new GreenfootImage("foreground.png");
-    
+
     static {
         foreground.setTransparency(100);
     }
-    
+
     public SimulationWorld() {
         super(250, 160);
-        
+
         addObject(new Fisher(1), 50, 35);
         addObject(new Fisher(2), 200, 35);
-        
+
         render();
     }
 

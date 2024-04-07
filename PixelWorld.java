@@ -57,19 +57,19 @@ public abstract class PixelWorld extends World {
         scaled.scale(getWidth(), getHeight());
         getBackground().drawImage(scaled, 0, 0);
     }
-    
+
     /**
      * Get the width of the downscaled world.
-     * 
+     *
      * @return The width of the world
      */
     public int getWorldWidth() {
         return worldWidth;
     }
-    
+
     /**
      * Get the height of the downscaled world.
-     * 
+     *
      * @return The height of the world
      */
     public int getWorldHeight() {
