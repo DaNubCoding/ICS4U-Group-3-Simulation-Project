@@ -107,7 +107,7 @@ public class Fisher extends PixelActor {
      */
     private void initNextDrive() {
         moveTimer.restart(Util.randInt(420, 720));
-        anchorX += Util.randInt(-15, 15);
+        anchorX += Util.randInt(10, 15) * (Util.randInt(1) == 0 ? -1 : 1);
     }
 
     /**
@@ -125,8 +125,10 @@ public class Fisher extends PixelActor {
     private void checkBounds() {
         if (getDoubleX() < leftBound) {
             setLocation(leftBound, getDoubleY());
+            anchorX -= 4;
         } else if (getDoubleX() > rightBound) {
             setLocation(rightBound, getDoubleY());
+            anchorX += 4;
         }
     }
 }
