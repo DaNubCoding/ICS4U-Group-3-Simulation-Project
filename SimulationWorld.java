@@ -17,8 +17,12 @@ public class SimulationWorld extends PixelWorld {
     public SimulationWorld() {
         super(250, 160);
 
-        addObject(new Fisher(1), 50, 36);
-        addObject(new Fisher(2), 200, 36);
+        Fisher fisher1 = new Fisher(1);
+        Fisher fisher2 = new Fisher(2);
+        addObject(fisher1, 50, 36);
+        addObject(fisher2, 200, 36);
+        addObject(new FishingLine(fisher1), 0, 0);
+        addObject(new FishingLine(fisher2), 0, 0);
 
         addObject(new Anglerfish(), 32, 80);
         addObject(new Anglerfish(FishFeature.BIG_EYE), 72, 80);
@@ -28,6 +32,7 @@ public class SimulationWorld extends PixelWorld {
 
     public void act() {
         render();
+        incrementAct();
     }
 
     /**

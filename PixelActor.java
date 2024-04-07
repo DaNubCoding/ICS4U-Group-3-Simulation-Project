@@ -7,6 +7,7 @@ import greenfoot.*;
  * <li>Can move towards any direction</li>
  * <li>Can rotate independently of movement</li>
  * <li>Can mirror itself</li>
+ * <li>Has center of rotation</li>
  * </ul>
  *
  * @author Andrew Wang
@@ -42,6 +43,8 @@ public abstract class PixelActor extends Actor {
     // Whether the image is mirrored in either axis
     private boolean mirrorX;
     private boolean mirrorY;
+    // Whether the PixelActor will be rendered
+    private boolean visible;
 
     /**
      * Create a PixelActor with a starting GreenfootImage.
@@ -54,6 +57,8 @@ public abstract class PixelActor extends Actor {
         heading = 0;
         rotation = 0;
         mirrorX = mirrorY = false;
+        visible = true;
+
         setImage(image);
         // Ensure Greenfoot does not draw this actor's image on its own
         super.setImage((GreenfootImage) null);
@@ -84,7 +89,7 @@ public abstract class PixelActor extends Actor {
      *        (almost always just the PixelWorld canvas)
      */
     public void render(GreenfootImage canvas) {
-        if (originalImage == null) return;
+        if (originalImage == null || !visible) return;
         canvas.drawImage(transformedImage, (int) (x - transformedWidth / 2), (int) (y - transformedHeight / 2));
     }
 
@@ -164,6 +169,24 @@ public abstract class PixelActor extends Actor {
     }
 
     /**
+     * Get the x coordinate of the center of rotation.
+     *
+     * @return The x coordinate of the center of rotation
+     */
+    public int getCenterOfRotationX() {
+        return centerOfRotationX;
+    }
+
+    /**
+     * Get the y coordinate of the center of rotation
+     *
+     * @return The y coordinate of the center of rotation
+     */
+    public int getCenterOfRotationY() {
+        return centerOfRotationY;
+    }
+
+    /**
      * Offsets the original image in such a way so that when being rotated,
      * it will rotate around the defined center of rotation.
      */
@@ -194,9 +217,10 @@ public abstract class PixelActor extends Actor {
     }
 
     /**
-     * Rotate the image.
+     * Generate the rotated image while keeping it centered and expand the image
+     * in order to fully contain the rotated image.
      */
-    private void rotateImage() {
+    private void createRotatedImage() {
         if (originalImage == null) return;
         double angle = Math.toRadians(rotation);
         double sinAngle = Math.sin(angle);
@@ -219,7 +243,7 @@ public abstract class PixelActor extends Actor {
     private void updateImage() {
         createCenteredImage();
         createExpandedImage();
-        rotateImage();
+        createRotatedImage();
     }
 
     /**
@@ -327,7 +351,7 @@ public abstract class PixelActor extends Actor {
      */
     public void setRotation(double rotation) {
         this.rotation = rotation;
-        rotateImage();
+        createRotatedImage();
     }
 
     /**
@@ -341,7 +365,7 @@ public abstract class PixelActor extends Actor {
      */
     public void setRotation(double rotation, boolean updateImage) {
         this.rotation = rotation;
-        if (updateImage) rotateImage();
+        if (updateImage) createRotatedImage();
     }
 
     /**
@@ -468,5 +492,39 @@ public abstract class PixelActor extends Actor {
     @Override
     public PixelWorld getWorld() {
         return (PixelWorld) super.getWorld();
+    }
+
+    /**
+     * Get the location of a point relative to the center of rotation
+     * AFTER the transformations of the image.
+     *
+     * @param offsetX The x offset of the point
+     * @param offsetY The y offset of the point
+     * @return A two element array of the new x and y offsets
+     */
+    public double[] getRelativeOffset(int offsetX, int offsetY) {
+        if (mirrorX) offsetX *= -1;
+        if (mirrorY) offsetY *= -1;
+        double[] newOffset = Util.rotateVector(offsetX, offsetY, rotation);
+        return newOffset;
+    }
+
+    /**
+     * Whether the PixelActor is visible.
+     *
+     * @return True if visible, false otherwise
+     */
+    public boolean isVisible() {
+        return visible;
+    }
+
+    /**
+     * Set the visibility of the PixelActor, it will not be rendered
+     * if visible is false.
+     *
+     * @param visible Whether the PixelActor should be visible
+     */
+    public void setVisibility(boolean visible) {
+        this.visible = visible;
     }
 }

@@ -71,4 +71,19 @@ public class Util {
     public static double randDouble(double min, double max) {
         return Math.random() * (max - min) + min;
     }
+
+    /**
+     * Rotate a 2-component vector by an angle to obtain a new vector.
+     *
+     * @param x The x component of the vector
+     * @param y The y component of the vector
+     * @param angle The angle to rotate the vector by
+     * @return A two element array of the components of the rotated vector
+     */
+    public static double[] rotateVector(double x, double y, double angle) {
+        double radians = Math.toRadians(angle);
+        double newX = x * Math.cos(radians) - y * Math.sin(radians);
+        double newY = x * Math.sin(radians) + y * Math.cos(radians);
+        return new double[] {newX, newY};
+    }
 }
