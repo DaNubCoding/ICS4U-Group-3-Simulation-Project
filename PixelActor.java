@@ -69,6 +69,13 @@ public abstract class PixelActor extends Actor {
     }
 
     /**
+     * Create a PixelActor without a starting image.
+     */
+    public PixelActor() {
+        this((GreenfootImage) null);
+    }
+
+    /**
      * Render the PixelActor onto the canvas of the world it lives in.
      * <p>If any additional rendering aside from rendering its image need to
      * be done, override this method.</p>
@@ -77,6 +84,7 @@ public abstract class PixelActor extends Actor {
      *        (almost always just the PixelWorld canvas)
      */
     public void render(GreenfootImage canvas) {
+        if (originalImage == null) return;
         canvas.drawImage(transformedImage, (int) (x - transformedWidth / 2), (int) (y - transformedHeight / 2));
     }
 
@@ -131,6 +139,10 @@ public abstract class PixelActor extends Actor {
      */
     @Override
     public void setImage(GreenfootImage newImage) {
+        if (newImage == null) {
+            originalImage = null;
+            return;
+        }
         originalImage = new GreenfootImage(newImage);
         originalWidth = originalImage.getWidth();
         originalHeight = originalImage.getHeight();
@@ -156,6 +168,7 @@ public abstract class PixelActor extends Actor {
      * it will rotate around the defined center of rotation.
      */
     private void createCenteredImage() {
+        if (originalImage == null) return;
         int width = Math.max(centerOfRotationX, originalWidth - centerOfRotationX) * 2;
         int height = Math.max(centerOfRotationY, originalHeight - centerOfRotationY) * 2;
         centeredImage = new GreenfootImage(width, height);
@@ -172,6 +185,7 @@ public abstract class PixelActor extends Actor {
      * of the centered image.
      */
     private void createExpandedImage() {
+        if (originalImage == null) return;
         maxDimension = (int) Math.ceil(Math.hypot(centeredWidth, centeredHeight) / 2) * 2;
         expandedImage = new GreenfootImage(maxDimension, maxDimension);
         int localX = (int) Math.floor((maxDimension - centeredWidth) / 2);
@@ -183,6 +197,7 @@ public abstract class PixelActor extends Actor {
      * Rotate the image.
      */
     private void rotateImage() {
+        if (originalImage == null) return;
         double angle = Math.toRadians(rotation);
         double sinAngle = Math.sin(angle);
         double cosAngle = Math.cos(angle);
@@ -201,7 +216,7 @@ public abstract class PixelActor extends Actor {
     /**
      * Update all intermediate images.
      */
-    public void updateImage() {
+    private void updateImage() {
         createCenteredImage();
         createExpandedImage();
         rotateImage();
@@ -256,7 +271,10 @@ public abstract class PixelActor extends Actor {
      */
     public void setMirrorX(boolean mirror) {
         if (mirrorX == mirror) return;
-        originalImage.mirrorHorizontally();
+        if (originalImage != null) {
+            originalImage.mirrorHorizontally();
+            updateImage();
+        }
         mirrorX = mirror;
     }
 
@@ -267,7 +285,10 @@ public abstract class PixelActor extends Actor {
      */
     public void setMirrorY(boolean mirror) {
         if (mirrorY == mirror) return;
-        originalImage.mirrorVertically();
+        if (originalImage != null) {
+            originalImage.mirrorVertically();
+            updateImage();
+        }
         mirrorX = mirror;
     }
 
