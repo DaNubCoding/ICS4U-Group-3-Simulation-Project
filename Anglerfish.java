@@ -10,8 +10,15 @@ import java.util.Collections;
  * @version April 2024
  */
 public class Anglerfish extends Fish {
-    private static final GreenfootImage bodyImage = new GreenfootImage("anglerfish.png");
+    // Amount of XP this Fish type is worth without any features
+    public static final int BASE_XP_VALUE = 100;
 
+    // Base image of this Fish type without any features
+    public static final GreenfootImage bodyImage = new GreenfootImage("anglerfish.png");
+
+    // Image offsets for all types of features
+    // Each IntPair defines the x and y offsets of the top left corner of each
+    // feature's image from the top left corner of the body image
     private static final Map<FishFeature, IntPair> FEATURE_POINTS;
     static {
         Map<FishFeature, IntPair> m = new EnumMap(FishFeature.class);
@@ -44,5 +51,10 @@ public class Anglerfish extends Fish {
     @Override
     public Map<FishFeature, IntPair> getFeaturePoints() {
         return FEATURE_POINTS;
+    }
+
+    @Override
+    public int getBaseValue() {
+        return BASE_XP_VALUE;
     }
 }

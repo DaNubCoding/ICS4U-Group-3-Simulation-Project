@@ -7,8 +7,19 @@ import java.util.Map;
 /**
  * An undersea actor and target of Fishers.
  * <p>
- * Each fish possesses a list of features, which may change as it evolves. A
- * fish's features are drawn onto its image on top of its body.
+ * Each fish possesses a list of features, which may change as it evolves, each
+ * adding a defined amount of XP value to a fish. A fish's features are drawn
+ * onto its image on top of its body.
+ * <p>
+ * A subclass of Fish must define:
+ * <ul>
+ * <li>A base XP value</li>
+ * <li>A base body image</li>
+ * <li>A map of all FishFeatures to their image offsets relative to the body image</li>
+ * </ul>
+ * The recommended way of doing so is defining them as static variables, then
+ * returning them in their corresponding implementations of this class's
+ * abstract methods.
  *
  * @author Martin Baldwin
  * @version April 2024
@@ -68,6 +79,26 @@ public abstract class Fish extends PixelActor {
     }
 
     /**
+     * Gets the total XP value of this Fish, including all features.
+     *
+     * @return the amount of XP value this Fish is worth
+     */
+    public int getValue() {
+        int sum = getBaseValue();
+        for (FishFeature feature : features) {
+            sum += feature.getValue();
+        }
+        return sum;
+    }
+
+    /**
+     * Gets the base XP value of this Fish (without any features).
+     *
+     * @return the amount of XP this Fish without features is worth
+     */
+    public abstract int getBaseValue();
+
+    /**
      * Sets this Fish's image to a GreenfootImage with this Fish's body and
      * features drawn on it.
      * <p>
@@ -75,15 +106,15 @@ public abstract class Fish extends PixelActor {
      * features will be drawn on top of the body at their appropriate locations.
      */
     private void updateImage() {
+        GreenfootImage bodyImage = getBodyImage();
+        // If there are no features, the existing body image is sufficient
         if (features.isEmpty()) {
-            // No features: existing body image is sufficient
-            setImage(getBodyImage());
+            setImage(bodyImage);
             return;
         }
 
+        // Create an image of appropriate size to fit this fish with all of its features
         Map<FishFeature, IntPair> featurePoints = getFeaturePoints();
-        GreenfootImage bodyImage = getBodyImage();
-        // Create an image of appropriate size
         // Keep track of the extreme locations of any feature relative to the body
         int left = 0;
         int right = bodyImage.getWidth();
