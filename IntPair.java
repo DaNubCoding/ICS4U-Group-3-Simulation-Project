@@ -5,8 +5,8 @@
  * @version April 2024
  */
 public class IntPair {
-    private final int x;
-    private final int y;
+    public final int x;
+    public final int y;
 
     /**
      * Creates a new Pair object describing the specified values.
@@ -17,23 +17,5 @@ public class IntPair {
     public IntPair(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    /**
-     * Gets the x value of this Pair object.
-     *
-     * @return the x value of this pair
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Gets the y value of this Pair object.
-     *
-     * @return the y value of this pair
-     */
-    public int getY() {
-        return y;
     }
 }

@@ -87,7 +87,7 @@ public abstract class Fish extends PixelActor {
         for (FishFeature feature : features) {
             // Get the leftmost and rightmost pixel locations of this feature relative to the body
             IntPair point = featurePoints.get(feature);
-            int featLeft = point.getX();
+            int featLeft = point.x;
             int featRight = featLeft + feature.getImage().getWidth();
             if (featLeft < left) {
                 left = featLeft;
@@ -95,7 +95,7 @@ public abstract class Fish extends PixelActor {
                 right = featRight;
             }
             // Get the topmost and bottommost pixel locations of this feature relative to the body
-            int featTop = point.getY();
+            int featTop = point.y;
             int featBottom = featTop + feature.getImage().getHeight();
             if (featTop < top) {
                 top = featTop;
@@ -109,7 +109,7 @@ public abstract class Fish extends PixelActor {
         image.drawImage(bodyImage, -left, -top);
         for (FishFeature feature : features) {
             IntPair point = featurePoints.get(feature);
-            image.drawImage(feature.getImage(), point.getX() - left, point.getY() - top);
+            image.drawImage(feature.getImage(), point.x - left, point.y - top);
         }
         setImage(image);
         setCenterOfRotation(bodyImage.getWidth() / 2 - left, bodyImage.getHeight() / 2 - top);
