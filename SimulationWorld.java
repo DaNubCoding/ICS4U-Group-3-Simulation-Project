@@ -9,6 +9,8 @@ import greenfoot.*;
 public class SimulationWorld extends PixelWorld {
     private static final GreenfootImage background = new GreenfootImage("background.png");
     private static final GreenfootImage foreground = new GreenfootImage("foreground.png");
+    public static final int seafloorY = 140;
+    public static final int seaSurfaceY = 37;
 
     public SimulationWorld() {
         super(250, 160);
@@ -17,8 +19,6 @@ public class SimulationWorld extends PixelWorld {
         Fisher fisher2 = new Fisher(2);
         addObject(fisher1, 50, 36);
         addObject(fisher2, 200, 36);
-        addObject(new FishingLine(fisher1), 0, 0);
-        addObject(new FishingLine(fisher2), 0, 0);
 
         addObject(new Anglerfish(), 32, 80);
         addObject(new Anglerfish(FishFeature.BIG_EYE), 72, 130);

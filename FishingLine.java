@@ -1,39 +1,50 @@
 import greenfoot.*;
 
 /**
- * The fishers' fishing lines, only the line part.
+ * The fishing lines attached to fishing rods, only the line part.
  *
  * @author Andrew Wang
  * @version April 2024
  */
 public class FishingLine extends PixelActor {
-    private Fisher master;
+    private FishingRod fishingRod;
+    private Hook hook;
     private double startX;
     private double startY;
     private double endX;
     private double endY;
-    private int xOffsetFromBoat;
-    private int yOffsetFromBoat;
+    private int xOffsetFromRod;
+    private int yOffsetFromRod;
 
     /**
      * Initialize the fishing line with a master fisher.
      *
      * @param master The fisher the fishing line belongs to
      */
-    public FishingLine(Fisher master) {
+    public FishingLine(FishingRod fishingRod, Hook hook) {
         super();
-        this.master = master;
+        this.fishingRod = fishingRod;
+        this.hook = hook;
         // Temporary until the position the line spawns from is finalized
-        if (master.getSide() == 1) {
-            xOffsetFromBoat = 42 - master.getCenterOfRotationX();
-            yOffsetFromBoat = 8 - master.getCenterOfRotationY();
+        if (!fishingRod.getMirrorX()) {
+            // Left fisher
+            xOffsetFromRod = 9;
+            yOffsetFromRod = -9;
         } else {
-            xOffsetFromBoat = -4 - master.getCenterOfRotationX();
-            yOffsetFromBoat = 8 - master.getCenterOfRotationY();
+            // Right fisher
+            xOffsetFromRod = 9;
+            yOffsetFromRod = -9;
         }
         // Temporary until fishing rod casting is added
-        endX = master.getX() + xOffsetFromBoat;
-        endY = master.getY() + 100;
+        endX = fishingRod.getX() + xOffsetFromRod;
+        endY = fishingRod.getY() + 100;
+    }
+
+    /**
+     * Act when added to world, so that it shows up in the correct location.
+     */
+    @Override
+    public void addedToWorld(World world) {
         act();
     }
 
@@ -48,8 +59,10 @@ public class FishingLine extends PixelActor {
     }
 
     public void act() {
-        double[] realOffset = master.getRelativeOffset(xOffsetFromBoat, yOffsetFromBoat);
-        startX = master.getX() + realOffset[0];
-        startY = master.getY() + realOffset[1];
+        double[] realOffset = fishingRod.getRelativeOffset(xOffsetFromRod, yOffsetFromRod);
+        startX = fishingRod.getX() + realOffset[0];
+        startY = fishingRod.getY() + realOffset[1];
+        endX = hook.getX();
+        endY = hook.getY();
     }
 }

@@ -23,9 +23,11 @@ public class Fisher extends PixelActor {
 
     private Timer moveTimer;
 
+    private FishingRod fishingRod;
+
     public Fisher(int side) {
         super("boat" + side + ".png");
-        setCenterOfRotation(20, 22);
+        setCenterOfRotation(19, 22);
         this.side = side;
 
         driftTimer = new Timer(0);
@@ -33,6 +35,8 @@ public class Fisher extends PixelActor {
 
         moveTimer = new Timer(0);
         initNextDrive();
+
+        fishingRod = new FishingRod(this);
     }
 
     /**
@@ -51,9 +55,11 @@ public class Fisher extends PixelActor {
         if (side == 1) {
             leftBound = 30;
             rightBound = getWorld().getWorldWidth() / 2 - 40;
+            world.addObject(fishingRod, getX(), getY());
         } else {
             leftBound = getWorld().getWorldWidth() / 2 + 40;
             rightBound = getWorld().getWorldWidth() - 30;
+            world.addObject(fishingRod, getX(), getY());
         }
     }
 
