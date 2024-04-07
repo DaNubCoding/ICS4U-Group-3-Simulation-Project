@@ -131,10 +131,10 @@ public class Fisher extends PixelActor {
     private void checkBounds() {
         if (getDoubleX() < leftBound) {
             setLocation(leftBound, getDoubleY());
-            anchorX -= 4;
+            anchorX += 5;
         } else if (getDoubleX() > rightBound) {
             setLocation(rightBound, getDoubleY());
-            anchorX += 4;
+            anchorX -= 5;
         }
     }
 }
