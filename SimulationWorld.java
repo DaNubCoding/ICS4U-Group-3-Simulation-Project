@@ -10,10 +10,6 @@ public class SimulationWorld extends PixelWorld {
     private static final GreenfootImage background = new GreenfootImage("background.png");
     private static final GreenfootImage foreground = new GreenfootImage("foreground.png");
 
-    static {
-        foreground.setTransparency(100);
-    }
-
     public SimulationWorld() {
         super(250, 160);
 
@@ -25,7 +21,7 @@ public class SimulationWorld extends PixelWorld {
         addObject(new FishingLine(fisher2), 0, 0);
 
         addObject(new Anglerfish(), 32, 80);
-        addObject(new Anglerfish(FishFeature.BIG_EYE), 72, 80);
+        addObject(new Anglerfish(FishFeature.BIG_EYE), 72, 130);
 
         render();
     }
