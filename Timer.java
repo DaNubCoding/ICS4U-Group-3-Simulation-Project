@@ -35,9 +35,9 @@ public class Timer {
     }
 
     // The frame at which the timer begins
-    public int startFrame;
+    private int startFrame;
     // The total number of frames before the timer ends
-    public int totalFrames;
+    private int totalFrames;
 
     /**
      * Initialize the Timer with a set number of frames before it ends.
