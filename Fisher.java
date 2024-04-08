@@ -92,11 +92,11 @@ public class Fisher extends PixelActor {
 
         if (side == 1) {
             leftBound = 30;
-            rightBound = getWorld().getWorldWidth() / 2 - 40;
+            rightBound = getWorld().getWidth() / 2 - 40;
             world.addObject(fishingRod, getX(), getY());
         } else {
-            leftBound = getWorld().getWorldWidth() / 2 + 40;
-            rightBound = getWorld().getWorldWidth() - 30;
+            leftBound = getWorld().getWidth() / 2 + 40;
+            rightBound = getWorld().getWidth() - 30;
             world.addObject(fishingRod, getX(), getY());
         }
     }

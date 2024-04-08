@@ -54,25 +54,35 @@ public abstract class PixelWorld extends World {
      */
     public void updateImage() {
         GreenfootImage scaled = new GreenfootImage(canvas);
-        scaled.scale(getWidth(), getHeight());
+        scaled.scale(worldWidth * PIXEL_SCALE, worldHeight * PIXEL_SCALE);
         getBackground().drawImage(scaled, 0, 0);
     }
 
     /**
-     * Get the width of the downscaled world.
+     * Gets the width of the downscaled world.
+     * <p>
+     * This is not the width of the final world that is displayed to the user.
+     * To calculate that value, multiply the value returned by this method by
+     * PixelWorld.PIXEL_SCALE.
      *
-     * @return The width of the world
+     * @return the width of the world, before scaling
      */
-    public int getWorldWidth() {
+    @Override
+    public int getWidth() {
         return worldWidth;
     }
 
     /**
-     * Get the height of the downscaled world.
+     * Gets the height of the downscaled world.
+     * <p>
+     * This is not the height of the final world that is displayed to the user.
+     * To calculate that value, multiply the value returned by this method by
+     * PixelWorld.PIXEL_SCALE.
      *
-     * @return The height of the world
+     * @return the height of the world, before scaling
      */
-    public int getWorldHeight() {
+    @Override
+    public int getHeight() {
         return worldHeight;
     }
 }
