@@ -13,8 +13,6 @@ public class FishingLine extends PixelActor {
     private double startY;
     private double endX;
     private double endY;
-    private int xOffsetFromRod;
-    private int yOffsetFromRod;
 
     /**
      * Initialize the fishing line with a master fisher.
@@ -25,18 +23,9 @@ public class FishingLine extends PixelActor {
         super();
         this.fishingRod = fishingRod;
         this.hook = hook;
-        // Temporary until the position the line spawns from is finalized
-        if (!fishingRod.getMirrorX()) {
-            // Left fisher
-            xOffsetFromRod = 9;
-            yOffsetFromRod = -9;
-        } else {
-            // Right fisher
-            xOffsetFromRod = 9;
-            yOffsetFromRod = -9;
-        }
         // Temporary until fishing rod casting is added
-        endX = fishingRod.getX() + xOffsetFromRod;
+        double[] rodTip = fishingRod.getTipOffset();
+        endX = fishingRod.getX() + rodTip[0];
         endY = fishingRod.getY() + 100;
     }
 
@@ -59,9 +48,10 @@ public class FishingLine extends PixelActor {
     }
 
     public void act() {
-        double[] realOffset = fishingRod.getRelativeOffset(xOffsetFromRod, yOffsetFromRod);
-        startX = fishingRod.getX() + realOffset[0];
-        startY = fishingRod.getY() + realOffset[1];
+        // Start from the tip of the rod and end at the hook
+        double[] rodTip = fishingRod.getTipOffset();
+        startX = fishingRod.getX() + rodTip[0];
+        startY = fishingRod.getY() + rodTip[1];
         endX = hook.getX();
         endY = hook.getY();
     }

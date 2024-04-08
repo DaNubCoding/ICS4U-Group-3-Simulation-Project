@@ -19,7 +19,10 @@ public class Hook extends PixelActor {
 
     public void act() {
         if (reachedMaxDepth) {
-            setLocation(getDoubleX(), getDoubleY() - fishingRod.getReelInSpeed());
+            double[] rodTip = fishingRod.getTipOffset();
+            setHeading(fishingRod.getX() + rodTip[0], fishingRod.getY() + rodTip[1]);
+            move(fishingRod.getReelInSpeed());
+            // Remove hook and fishing line when it gets pulled above the surface
             if (getY() < SimulationWorld.seaSurfaceY - 10) {
                 fishingRod.reelIn();
             }

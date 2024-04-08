@@ -272,13 +272,25 @@ public abstract class PixelActor extends Actor {
     }
 
     /**
-     * Set the direction the PixelActor is heading.
+     * Set the direction of movement in degrees.
      * <p>This will change the direction the PixelActor moves toward.</p>
      *
      * @param heading The heading angle in degrees
      */
     public void setHeading(double heading) {
         this.heading = heading;
+    }
+
+    /**
+     * Set the direction of movement to be heading towards a target.
+     *
+     * @param targetX The x coordinate of the target
+     * @param targetY The y coordinate of the target
+     */
+    public void setHeading(double targetX, double targetY) {
+        double dx = targetX - x;
+        double dy = targetY - y;
+        setHeading(Math.toDegrees(Math.atan2(dy, dx)));
     }
 
     /**

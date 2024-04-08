@@ -10,8 +10,12 @@ public class FishingRod extends PixelActor {
     private Fisher fisher;
     private FishingLine fishingLine;
     private Hook hook;
+    // Position relative to center of rotation of the boat
     private int relativePosX;
     private int relativePosY;
+    // Offset of the tip of the rod from the center of rotation
+    private int tipOffsetX;
+    private int tipOffsetY;
     private Timer castTimer;
     private int maxDepth;
     private double reelInSpeed;
@@ -25,12 +29,16 @@ public class FishingRod extends PixelActor {
             setCenterOfRotation(0, 9);
             relativePosX = 14;
             relativePosY = -6;
+            tipOffsetX = 9;
+            tipOffsetY = -9;
         } else {
             // Right fisher
             setCenterOfRotation(9, 9);
             setMirrorX(true);
             relativePosX = -15;
             relativePosY = -5;
+            tipOffsetX = 9;
+            tipOffsetY = -9;
         }
 
         maxDepth = SimulationWorld.seafloorY - SimulationWorld.seaSurfaceY - 50;
@@ -91,9 +99,18 @@ public class FishingRod extends PixelActor {
     }
 
     /**
+     * Get the offset of the tip of the rod from the center of rotation.
+     *
+     * @return The x and y offset of the tip as a two-element array
+     */
+    public double[] getTipOffset() {
+        return getRelativeOffset(tipOffsetX, tipOffsetY);
+    }
+
+    /**
      * Get the maximum depth beneath the surface of the water this
      * fishing rod can reach.
-     * 
+     *
      * @return The maximum depth
      */
     public int getMaxDepth() {
@@ -102,7 +119,7 @@ public class FishingRod extends PixelActor {
 
     /**
      * Get the speed at which the fishing rod reels in fish.
-     * 
+     *
      * @return The speed at which the fish is reeled in
      */
     public double getReelInSpeed() {
