@@ -169,4 +169,29 @@ public abstract class Fish extends PixelActor {
      *         each mapped to an pair of ints describing the feature's image offset
      */
     public abstract Map<FishFeature, IntPair> getFeaturePoints();
+
+    /**
+     * Gets the coordinates of the point in the world where this Fish may be
+     * caught from.
+     *
+     * @return a DoublePair describing this Fish's catch point in world space
+     */
+    public DoublePair getCatchPoint() {
+        // Find where the catch point lies relative to this fish's current image
+        // since features may change the image's dimensions
+        GreenfootImage bodyImage = getBodyImage();
+        IntPair catchOffset = getCatchOffset();
+        int catchX = getCenterOfRotationX() - bodyImage.getWidth() / 2 + catchOffset.x;
+        int catchY = getCenterOfRotationY() - bodyImage.getHeight() / 2 + catchOffset.y;
+        // Transform the catch point into world space
+        return getImageOffsetGlobalPosition(catchX, catchY);
+    }
+
+    /**
+     * Gets the offset of the point where this Fish may be caught from, relative
+     * to its body image.
+     *
+     * @return an IntPair describing this Fish's catch point relative to its body image
+     */
+    public abstract IntPair getCatchOffset();
 }
