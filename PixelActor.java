@@ -512,12 +512,12 @@ public abstract class PixelActor extends Actor {
      *
      * @param offsetX The x offset of the point
      * @param offsetY The y offset of the point
-     * @return A two element array of the new x and y offsets
+     * @return A DoublePair of the new x and y offsets
      */
-    public double[] getRelativeOffset(int offsetX, int offsetY) {
+    public DoublePair getRelativeOffset(int offsetX, int offsetY) {
         if (mirrorX) offsetX *= -1;
         if (mirrorY) offsetY *= -1;
-        double[] newOffset = Util.rotateVector(offsetX, offsetY, rotation);
+        DoublePair newOffset = Util.rotateVector(offsetX, offsetY, rotation);
         return newOffset;
     }
 

@@ -23,10 +23,6 @@ public class FishingLine extends PixelActor {
         super();
         this.fishingRod = fishingRod;
         this.hook = hook;
-        // Temporary until fishing rod casting is added
-        double[] rodTip = fishingRod.getTipOffset();
-        endX = fishingRod.getX() + rodTip[0];
-        endY = fishingRod.getY() + 100;
     }
 
     /**
@@ -49,9 +45,9 @@ public class FishingLine extends PixelActor {
 
     public void act() {
         // Start from the tip of the rod and end at the hook
-        double[] rodTip = fishingRod.getTipOffset();
-        startX = fishingRod.getX() + rodTip[0];
-        startY = fishingRod.getY() + rodTip[1];
+        DoublePair rodTip = fishingRod.getTipOffset();
+        startX = fishingRod.getX() + rodTip.x;
+        startY = fishingRod.getY() + rodTip.y;
         endX = hook.getX();
         endY = hook.getY();
     }

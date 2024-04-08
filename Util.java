@@ -78,12 +78,12 @@ public class Util {
      * @param x The x component of the vector
      * @param y The y component of the vector
      * @param angle The angle to rotate the vector by
-     * @return A two element array of the components of the rotated vector
+     * @return A DoublePair of the x and y components of the rotated vector
      */
-    public static double[] rotateVector(double x, double y, double angle) {
+    public static DoublePair rotateVector(double x, double y, double angle) {
         double radians = Math.toRadians(angle);
         double newX = x * Math.cos(radians) - y * Math.sin(radians);
         double newY = x * Math.sin(radians) + y * Math.cos(radians);
-        return new double[] {newX, newY};
+        return new DoublePair(newX, newY);
     }
 }
