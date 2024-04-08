@@ -13,6 +13,32 @@ public abstract class PixelWorld extends World {
      */
     public static final int PIXEL_SCALE = 4;
 
+    /**
+     * The width of character images found in ./images/characters/.
+     * Text rendering assumes all characters have this width.
+     */
+    public static final int CHARACTER_WIDTH = 5;
+
+    /**
+     * The height of character images found in ./images/characters/.
+     * Text rendering assumes all characters have this height.
+     */
+    public static final int CHARACTER_HEIGHT = 7;
+
+    /**
+     * The number of pixels to leave between characters in text.
+     */
+    public static final int CHARACTER_SPACING = 2;
+
+    // Array where each image is the character representing the value of its index
+    private static final GreenfootImage[] digitImages;
+    static {
+        digitImages = new GreenfootImage[10];
+        for (int i = 0; i <= 9; i++) {
+            digitImages[i] = new GreenfootImage("characters/" + i + ".png");
+        }
+    }
+
     private final int worldWidth;
     private final int worldHeight;
     private final GreenfootImage canvas;
@@ -84,5 +110,24 @@ public abstract class PixelWorld extends World {
     @Override
     public int getHeight() {
         return worldHeight;
+    }
+
+    /**
+     * Creates an image with a readable representation of an integer value.
+     *
+     * @param value the integer to render to an image
+     * @return a new GreenfootImage containing a representation of the given value
+     */
+    public static GreenfootImage createIntImage(int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("PixelWorld.renderInt does not handle negative values");
+        }
+        String digits = String.valueOf(value);
+        // Draw each digit with its corresponding character image one after the other on the x-axis
+        GreenfootImage result = new GreenfootImage((CHARACTER_WIDTH + CHARACTER_SPACING) * digits.length() - CHARACTER_SPACING, CHARACTER_HEIGHT);
+        for (int i = 0, x = 0; i < digits.length(); i++, x += CHARACTER_WIDTH + CHARACTER_SPACING) {
+            result.drawImage(digitImages[digits.charAt(i) - '0'], x, 0);
+        }
+        return result;
     }
 }

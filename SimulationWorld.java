@@ -45,6 +45,11 @@ public class SimulationWorld extends PixelWorld {
             actor.render(canvas);
         }
         canvas.drawImage(foreground, 0, 0);
+
+        // Test: draw the current act count in the top right corner of the world
+        GreenfootImage actCountImage = createIntImage(Timer.getCurrentAct());
+        canvas.drawImage(actCountImage, getWidth() - actCountImage.getWidth() - 4, 4);
+
         // Display new canvas image
         updateImage();
     }
