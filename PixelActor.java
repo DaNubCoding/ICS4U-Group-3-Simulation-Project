@@ -15,6 +15,9 @@ import greenfoot.*;
  * @version April 2024
  */
 public abstract class PixelActor extends Actor {
+    // Fill all images used to transform all actors with translucent backgrounds and show their positions with a point
+    private static final boolean DEBUG_SHOW_IMAGE_BOUNDS = false;
+
     // The original upright image
     private GreenfootImage originalImage;
     private int originalWidth;
@@ -92,6 +95,10 @@ public abstract class PixelActor extends Actor {
     public void render(GreenfootImage canvas) {
         if (originalImage == null || !visible) return;
         canvas.drawImage(transformedImage, (int) (x - transformedWidth / 2), (int) (y - transformedHeight / 2));
+        if (DEBUG_SHOW_IMAGE_BOUNDS) {
+            canvas.setColor(Color.RED);
+            canvas.fillRect(getX(), getY(), 1, 1);
+        }
     }
 
     /**
@@ -125,20 +132,6 @@ public abstract class PixelActor extends Actor {
     }
 
     /**
-     * Set the original image of the PixelActor to an image file.
-     *
-     * @param path The path to the image file
-     */
-    @Override
-    public void setImage(String path) {
-        originalImage = new GreenfootImage(path);
-        originalWidth = originalImage.getWidth();
-        originalHeight = originalImage.getHeight();
-        setCenterOfRotation(originalWidth / 2, originalHeight / 2);
-        updateImage();
-    }
-
-    /**
      * Set the original image of the PixelActor to a copy of a GreenfootImage.
      *
      * @param newImage The GreenfootImage to set as the new image
@@ -149,11 +142,28 @@ public abstract class PixelActor extends Actor {
             originalImage = null;
             return;
         }
-        originalImage = new GreenfootImage(newImage);
-        originalWidth = originalImage.getWidth();
-        originalHeight = originalImage.getHeight();
+        originalWidth = newImage.getWidth();
+        originalHeight = newImage.getHeight();
+        if (DEBUG_SHOW_IMAGE_BOUNDS) {
+            originalImage = new GreenfootImage(originalWidth, originalHeight);
+            originalImage.setColor(new Color(255, 0, 255, 64));
+            originalImage.fill();
+            originalImage.drawImage(newImage, 0, 0);
+        } else {
+            originalImage = new GreenfootImage(newImage);
+        }
         setCenterOfRotation(originalWidth / 2, originalHeight / 2);
         updateImage();
+    }
+
+    /**
+     * Set the original image of the PixelActor to an image file.
+     *
+     * @param path The path to the image file
+     */
+    @Override
+    public void setImage(String path) {
+        setImage(new GreenfootImage(path));
     }
 
     /**
@@ -198,6 +208,10 @@ public abstract class PixelActor extends Actor {
         centeredImage = new GreenfootImage(width, height);
         int localX = width / 2 - centerOfRotationX;
         int localY = height / 2 - centerOfRotationY;
+        if (DEBUG_SHOW_IMAGE_BOUNDS) {
+            centeredImage.setColor(new Color(255, 0, 0, 64));
+            centeredImage.fill();
+        }
         centeredImage.drawImage(originalImage, localX, localY);
         centeredWidth = centeredImage.getWidth();
         centeredHeight = centeredImage.getHeight();
@@ -214,6 +228,10 @@ public abstract class PixelActor extends Actor {
         expandedImage = new GreenfootImage(maxDimension, maxDimension);
         int localX = (int) Math.floor((maxDimension - centeredWidth) / 2);
         int localY = (int) Math.floor((maxDimension - centeredHeight) / 2);
+        if (DEBUG_SHOW_IMAGE_BOUNDS) {
+            expandedImage.setColor(new Color(0, 255, 0, 64));
+            expandedImage.fill();
+        }
         expandedImage.drawImage(centeredImage, localX, localY);
     }
 
