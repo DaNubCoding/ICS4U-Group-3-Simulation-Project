@@ -11,10 +11,10 @@ import java.util.Collections;
  */
 public class Anglerfish extends Fish {
     // Amount of XP this Fish type is worth without any features
-    public static final int BASE_XP_VALUE = 100;
+    private static final int BASE_XP_VALUE = 100;
 
     // Base image of this Fish type without any features
-    public static final GreenfootImage bodyImage = new GreenfootImage("anglerfish.png");
+    private static final GreenfootImage bodyImage = new GreenfootImage("anglerfish.png");
 
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
