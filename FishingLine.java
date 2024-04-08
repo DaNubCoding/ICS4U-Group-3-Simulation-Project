@@ -45,9 +45,9 @@ public class FishingLine extends PixelActor {
 
     public void act() {
         // Start from the tip of the rod and end at the hook
-        DoublePair rodTip = fishingRod.getTipOffset();
-        startX = fishingRod.getX() + rodTip.x;
-        startY = fishingRod.getY() + rodTip.y;
+        DoublePair rodTip = fishingRod.getTipPosition();
+        startX = rodTip.x;
+        startY = rodTip.y;
         endX = hook.getX();
         endY = hook.getY();
     }

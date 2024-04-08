@@ -7,6 +7,27 @@ import greenfoot.*;
  * @version April 2024
  */
 public class Fisher extends PixelActor {
+    /**
+     * Different tiers of boats that the Fishers may own, defining where fishing
+     * rods should be attached to them.
+     *
+     * @author Martin Baldwin
+     * @version April 2024
+     */
+    public enum BoatTier {
+        ONE(new IntPair(33, 16));
+
+        private final IntPair rodOffset;
+
+        private BoatTier(IntPair rodOffset) {
+            this.rodOffset = rodOffset;
+        }
+
+        public IntPair getRodOffset() {
+            return rodOffset;
+        }
+    }
+
     // 1 or 2
     private int side;
     // An invisible point the boat will return to even when drifting slightly
@@ -17,6 +38,8 @@ public class Fisher extends PixelActor {
     private double targetY;
     private int leftBound;
     private int rightBound;
+
+    private BoatTier boatTier;
 
     private Timer driftTimer;
     private double driftMagnitude;
@@ -29,6 +52,10 @@ public class Fisher extends PixelActor {
         super("boat" + side + ".png");
         setCenterOfRotation(19, 22);
         this.side = side;
+        if (side == 2) {
+            setMirrorX(true);
+        }
+        boatTier = BoatTier.ONE;
 
         driftTimer = new Timer(0);
         initNextDrift();
@@ -46,6 +73,17 @@ public class Fisher extends PixelActor {
      */
     public int getSide() {
         return side;
+    }
+
+    /**
+     * Get the position where this fisher's rod should be placed, relative to
+     * the world.
+     *
+     * @return a DoublePair of x and y coordinates for this fisher's rod location
+     */
+    public DoublePair getRodPosition() {
+        IntPair rodOffset = boatTier.getRodOffset();
+        return getImageOffsetGlobalPosition(rodOffset.x, rodOffset.y);
     }
 
     public void addedToWorld(World world) {

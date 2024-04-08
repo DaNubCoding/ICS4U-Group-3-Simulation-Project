@@ -11,6 +11,7 @@ import greenfoot.*;
  * </ul>
  *
  * @author Andrew Wang
+ * @author Martin Baldwin
  * @version April 2024
  */
 public abstract class PixelActor extends Actor {
@@ -309,9 +310,10 @@ public abstract class PixelActor extends Actor {
         if (mirrorX == mirror) return;
         if (originalImage != null) {
             originalImage.mirrorHorizontally();
-            updateImage();
         }
+        centerOfRotationX = originalWidth - 1 - centerOfRotationX;
         mirrorX = mirror;
+        updateImage();
     }
 
     /**
@@ -323,9 +325,10 @@ public abstract class PixelActor extends Actor {
         if (mirrorY == mirror) return;
         if (originalImage != null) {
             originalImage.mirrorVertically();
-            updateImage();
         }
-        mirrorX = mirror;
+        centerOfRotationY = originalHeight - 1 - centerOfRotationY;
+        mirrorY = mirror;
+        updateImage();
     }
 
     /**
@@ -507,18 +510,18 @@ public abstract class PixelActor extends Actor {
     }
 
     /**
-     * Get the location of a point relative to the center of rotation
-     * AFTER the transformations of the image.
+     * Get the world coordinates of a point relative to the top left corner of
+     * this PixelActor's image AFTER the transformations of the image.
      *
-     * @param offsetX The x offset of the point
-     * @param offsetY The y offset of the point
-     * @return A DoublePair of the new x and y offsets
+     * @param offsetX The x offset of the point, relative to the original image
+     * @param offsetY The y offset of the point, relative to the original image
+     * @return A DoublePair of the global x and y coordinates of the transformed relative point
      */
-    public DoublePair getRelativeOffset(int offsetX, int offsetY) {
-        if (mirrorX) offsetX *= -1;
-        if (mirrorY) offsetY *= -1;
-        DoublePair newOffset = Util.rotateVector(offsetX, offsetY, rotation);
-        return newOffset;
+    public DoublePair getImageOffsetGlobalPosition(int offsetX, int offsetY) {
+        if (mirrorX) offsetX = originalWidth - 1 - offsetX;
+        if (mirrorY) offsetY = originalHeight - 1 - offsetY;
+        DoublePair rotatedOffset = Util.rotateVector(offsetX - centerOfRotationX, offsetY - centerOfRotationY, rotation);
+        return new DoublePair(rotatedOffset.x + x, rotatedOffset.y + y);
     }
 
     /**

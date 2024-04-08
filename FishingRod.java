@@ -4,18 +4,14 @@ import greenfoot.*;
  * The fishing rod, the thing that is upgraded.
  *
  * @author Andrew Wang
+ * @author Martin Baldwin
  * @version April 2024
  */
 public class FishingRod extends PixelActor {
     private Fisher fisher;
     private FishingLine fishingLine;
     private Hook hook;
-    // Position relative to center of rotation of the boat
-    private int relativePosX;
-    private int relativePosY;
-    // Offset of the tip of the rod from the center of rotation
-    private int tipOffsetX;
-    private int tipOffsetY;
+
     private Timer castTimer;
     private int maxDepth;
     private double reelInSpeed;
@@ -24,24 +20,12 @@ public class FishingRod extends PixelActor {
         super("fishing_rod.png");
         this.fisher = fisher;
 
-        if (fisher.getSide() == 1) {
-            // Left fisher
-            setCenterOfRotation(0, 9);
-            relativePosX = 14;
-            relativePosY = -6;
-            tipOffsetX = 9;
-            tipOffsetY = -9;
-        } else {
-            // Right fisher
-            setCenterOfRotation(9, 9);
+        setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
+        if (fisher.getSide() == 2) {
             setMirrorX(true);
-            relativePosX = -15;
-            relativePosY = -5;
-            tipOffsetX = 9;
-            tipOffsetY = -9;
         }
 
-        maxDepth = SimulationWorld.seafloorY - SimulationWorld.seaSurfaceY - 50;
+        maxDepth = SimulationWorld.SEA_FLOOR_Y - SimulationWorld.SEA_SURFACE_Y - 50;
         reelInSpeed = 1.0;
         castTimer = new Timer(720);
     }
@@ -55,8 +39,8 @@ public class FishingRod extends PixelActor {
     }
 
     public void act() {
-        DoublePair newPos = fisher.getRelativeOffset(relativePosX, relativePosY);
-        setLocation(fisher.getDoubleX() + newPos.x, fisher.getDoubleY() + newPos.y);
+        DoublePair newPos = fisher.getRodPosition();
+        setLocation(newPos.x, newPos.y);
         setRotation(fisher.getRotation());
 
         if (castTimer.ended()) {
@@ -72,15 +56,8 @@ public class FishingRod extends PixelActor {
         hook = new Hook(this);
         fishingLine = new FishingLine(this, hook);
 
-        // Find the location of the tip of the fishing rod
-        // and spawn the hook there
-        DoublePair hookPos;
-        if (fisher.getSide() == 1) {
-            hookPos = fishingLine.getRelativeOffset(10, -10);
-        } else {
-            hookPos = fishingLine.getRelativeOffset(-10, -10);
-        }
-        hookPos = new DoublePair(hookPos.x + getDoubleX(), hookPos.y + getDoubleY());
+        // Spawn the hook at the tip of the fishing rod
+        DoublePair hookPos = getTipPosition();
 
         PixelWorld world = getWorld();
         world.addObject(hook, (int) hookPos.x, (int) hookPos.y);
@@ -98,12 +75,12 @@ public class FishingRod extends PixelActor {
     }
 
     /**
-     * Get the offset of the tip of the rod from the center of rotation.
+     * Get the coordinates of the tip of the rod relative to the world.
      *
-     * @return The x and y offset of the tip as a two-element array
+     * @return The global x and y coordinates of the tip as a pair of doubles
      */
-    public DoublePair getTipOffset() {
-        return getRelativeOffset(tipOffsetX, tipOffsetY);
+    public DoublePair getTipPosition() {
+        return getImageOffsetGlobalPosition(getOriginalImage().getWidth() - 1, 0);
     }
 
     /**
