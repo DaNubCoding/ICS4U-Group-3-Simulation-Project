@@ -55,7 +55,7 @@ public abstract class PixelWorld extends World {
     public void updateImage() {
         GreenfootImage scaled = new GreenfootImage(canvas);
         scaled.scale(worldWidth * PIXEL_SCALE, worldHeight * PIXEL_SCALE);
-        getBackground().drawImage(scaled, 0, 0);
+        setBackground(scaled);
     }
 
     /**
