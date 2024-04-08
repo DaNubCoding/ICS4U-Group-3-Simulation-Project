@@ -1,8 +1,8 @@
 import greenfoot.*;
 import java.util.Set;
 import java.util.EnumSet;
-import java.util.Arrays;
 import java.util.Map;
+import java.util.Collections;
 
 /**
  * An undersea actor and target of Fishers.
@@ -13,10 +13,11 @@ import java.util.Map;
  * <p>
  * A subclass of Fish must define:
  * <ul>
- * <li>A base XP value</li>
- * <li>A base body image</li>
- * <li>A map of all FishFeatures to their image offsets relative to the body image</li>
+ * <li>A base XP value
+ * <li>A base body image
+ * <li>A map of all FishFeatures to their image offsets relative to the body image
  * </ul>
+ * <p>
  * The recommended way of doing so is defining them as static variables, then
  * returning them in their corresponding implementations of this class's
  * abstract methods.
@@ -44,7 +45,7 @@ public abstract class Fish extends PixelActor {
             throw new IllegalArgumentException("Number of FishFeature attachment points on FishBody does not match the number of existing FishFeature types");
         }
         this.features = EnumSet.noneOf(FishFeature.class);
-        this.features.addAll(Arrays.asList(features));
+        Collections.addAll(this.features, features);
         updateImage();
     }
 

@@ -21,7 +21,7 @@ public class Anglerfish extends Fish {
     // feature's image from the top left corner of the body image
     private static final Map<FishFeature, IntPair> FEATURE_POINTS;
     static {
-        Map<FishFeature, IntPair> m = new EnumMap(FishFeature.class);
+        Map<FishFeature, IntPair> m = new EnumMap<>(FishFeature.class);
         m.put(FishFeature.BIG_EYE, new IntPair(19, 8));
         FEATURE_POINTS = Collections.unmodifiableMap(m);
     }
