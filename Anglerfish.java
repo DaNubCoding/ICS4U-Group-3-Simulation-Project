@@ -15,6 +15,8 @@ public class Anglerfish extends Fish {
 
     // Base image of this Fish type without any features
     private static final GreenfootImage bodyImage = new GreenfootImage("anglerfish.png");
+    // Point relative to body image where this Fish type may be caught from
+    private static final IntPair CATCH_OFFSET = new IntPair(27, 18);
 
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
@@ -46,6 +48,11 @@ public class Anglerfish extends Fish {
     @Override
     public GreenfootImage getBodyImage() {
         return bodyImage;
+    }
+
+    @Override
+    public IntPair getCatchOffset() {
+        return CATCH_OFFSET;
     }
 
     @Override
