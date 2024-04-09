@@ -3,6 +3,7 @@ import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * An undersea actor and target of Fishers.
@@ -28,6 +29,7 @@ import java.util.Collections;
 public abstract class Fish extends PixelActor {
     // All features present on this fish
     private Set<FishFeature> features;
+    private Hook bittenHook;
 
     /**
      * Creates a new Fish with the given features.
@@ -194,4 +196,69 @@ public abstract class Fish extends PixelActor {
      * @return an IntPair describing this Fish's catch point relative to its body image
      */
     public abstract IntPair getCatchOffset();
+
+    /**
+     * Gets the range in which a hook will be detected by the fish.
+     * <p>Within this range, respondToHook() will be called.</p>
+     */
+    public abstract int getHookDetectionRange();
+
+    /**
+     * Call this in act(). Tests for hooks within the defined range.
+     */
+    public final void lookForHook() {
+        List<Hook> hooks = getWorld().getObjects(Hook.class);
+        for (Hook hook : hooks) {
+            DoublePair catchPoint = getCatchPoint();
+            DoublePair fishBitePoint = hook.getBitePoint();
+            double distance = Math.hypot(catchPoint.x - fishBitePoint.x, catchPoint.y - fishBitePoint.y);
+            if (distance < getHookDetectionRange()) {
+                respondToHook(hook);
+            }
+        }
+    }
+
+    /**
+     * Called when a hook gets within defined range the fish's mouth.
+     * <p>Usually, simply calls biteIfMatchingTier(). May be overridden to
+     * implement seek or flee behavior.</p>
+     * 
+     * @param hook The hook that has been detected
+     */
+    public void respondToHook(Hook hook) {
+        biteIfMatchingTier(hook);
+    }
+
+    /**
+     * Bite the hook if the tiers match.
+     * 
+     * @param hook The hook that has been detected
+     */
+    protected final void biteIfMatchingTier(Hook hook) {
+        // Unimplemented condition until rod tiers and fish tiers are implemented
+        if (true) {
+            bittenHook = hook;
+            hook.reelIn();
+        }
+    }
+
+    /**
+     * Call this in act(). If hooked, moves the Fish to the location of the hook 
+     * in order to be reeled in.
+     */
+    protected final void attachToHook() {
+        // If it has not bitten a hook yet, don't run the method
+        if (bittenHook == null) return;
+
+        // Move fish onto hook
+        DoublePair newPos = bittenHook.getBitePoint();
+        setLocation(newPos.x, newPos.y);
+        setRotation(-90);
+
+        // Remove once hook is gone (reached boat)
+        if (bittenHook.getWorld() == null) {
+            bittenHook = null;
+            getWorld().removeObject(this);
+        }
+    }
 }

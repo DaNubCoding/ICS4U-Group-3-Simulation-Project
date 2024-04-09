@@ -12,6 +12,7 @@ import java.util.Collections;
 public class Anglerfish extends Fish {
     // Amount of XP this Fish type is worth without any features
     private static final int BASE_XP_VALUE = 100;
+    private static final int HOOK_DETECTION_RANGE = 9;
 
     // Base image of this Fish type without any features
     private static final GreenfootImage bodyImage = new GreenfootImage("anglerfish.png");
@@ -43,6 +44,9 @@ public class Anglerfish extends Fish {
                 addFeature(FishFeature.BIG_EYE);
             }
         }
+
+        lookForHook();
+        attachToHook();
     }
 
     @Override
@@ -63,5 +67,10 @@ public class Anglerfish extends Fish {
     @Override
     public int getBaseValue() {
         return BASE_XP_VALUE;
+    }
+
+    @Override
+    public int getHookDetectionRange() {
+        return HOOK_DETECTION_RANGE;
     }
 }
