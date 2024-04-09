@@ -24,6 +24,7 @@ import java.util.List;
  * abstract methods.
  *
  * @author Martin Baldwin
+ * @author Andrew Wang
  * @version April 2024
  */
 public abstract class Fish extends PixelActor {
