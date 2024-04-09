@@ -12,6 +12,9 @@ public class SimulationWorld extends PixelWorld {
     public static final int SEA_FLOOR_Y = 140;
     public static final int SEA_SURFACE_Y = 37;
 
+    // Test text object: draw the current act count in the top right corner of the world
+    private Text actText;
+
     public SimulationWorld() {
         super(250, 160);
 
@@ -22,6 +25,15 @@ public class SimulationWorld extends PixelWorld {
 
         addObject(new Anglerfish(), 32, 80);
         addObject(new Anglerfish(FishFeature.BIG_EYE), 72, 130);
+
+        // TODO: remove this
+        actText = new Text(Timer.getCurrentAct(), Text.AlignX.RIGHT, Text.AlignY.TOP) {
+            @Override
+            public void act() {
+                setContent(Timer.getCurrentAct());
+            }
+        };
+        addObject(actText, getWidth() - 4, 4);
 
         render();
     }
@@ -45,10 +57,6 @@ public class SimulationWorld extends PixelWorld {
             actor.render(canvas);
         }
         canvas.drawImage(foreground, 0, 0);
-
-        // Test: draw the current act count in the top right corner of the world
-        GreenfootImage actCountImage = createIntImage(Timer.getCurrentAct());
-        canvas.drawImage(actCountImage, getWidth() - actCountImage.getWidth() - 4, 4);
 
         // Display new canvas image
         updateImage();
