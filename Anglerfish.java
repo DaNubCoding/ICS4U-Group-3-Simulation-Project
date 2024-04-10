@@ -18,9 +18,6 @@ public class Anglerfish extends Fish {
     private static final GreenfootImage bodyImage = new GreenfootImage("anglerfish.png");
     // Point relative to body image where this Fish type may be caught from
     private static final IntPair CATCH_OFFSET = new IntPair(27, 18);
-    // The range within which the presence of a hook would be detected and handled
-    // usually means the range at which the fish would be fished up
-    private static final int HOOK_DETECTION_RANGE = 9;
     // The average swimming speed of the Fish
     private static final double SWIM_SPEED = 0.1;
     // The minimum and maximum depth the fish can go to relative to the background image
@@ -70,11 +67,6 @@ public class Anglerfish extends Fish {
     @Override
     public int getBaseValue() {
         return BASE_XP_VALUE;
-    }
-
-    @Override
-    public int getHookDetectionRange() {
-        return HOOK_DETECTION_RANGE;
     }
 
     @Override

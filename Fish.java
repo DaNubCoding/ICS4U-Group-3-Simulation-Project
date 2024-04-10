@@ -202,12 +202,6 @@ public abstract class Fish extends PixelActor {
     public abstract IntPair getCatchOffset();
 
     /**
-     * Gets the range in which a hook will be detected by the fish.
-     * <p>Within this range, respondToHook() will be called.</p>
-     */
-    public abstract int getHookDetectionRange();
-
-    /**
      * Call this in act(). Tests for hooks within the defined range.
      */
     public final void lookForHook() {
@@ -216,7 +210,7 @@ public abstract class Fish extends PixelActor {
             DoublePair catchPoint = getCatchPoint();
             DoublePair fishBitePoint = hook.getBitePoint();
             double distance = Math.hypot(catchPoint.x - fishBitePoint.x, catchPoint.y - fishBitePoint.y);
-            if (distance < getHookDetectionRange()) {
+            if (distance < 8) {
                 respondToHook(hook);
             }
         }
