@@ -24,7 +24,7 @@ public class SimulationWorld extends PixelWorld {
         addObject(fisher2, 200, 36);
 
         addObject(new Anglerfish(), 16, 80);
-        addObject(new Anglerfish(FishFeature.BIG_EYE), 72, 80);
+        addObject(new Anglerfish(FishFeature.BIG_EYE), 72, 100);
 
         // TODO: remove this
         actText = new Text(Timer.getCurrentAct(), Text.AlignX.RIGHT, Text.AlignY.TOP) {

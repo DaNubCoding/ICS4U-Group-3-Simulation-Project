@@ -86,4 +86,18 @@ public class Util {
         double newY = x * Math.sin(radians) + y * Math.cos(radians);
         return new DoublePair(newX, newY);
     }
+
+    /**
+     * Interpolate from an angle to another angle multiplied by a factor.
+     * <p>Will handle any angle in degrees, negative or >360.</p>
+     * 
+     * @param currentAngle The angle to start from
+     * @param endAngle The angle to move towards
+     * @param factor The factor to multiply the difference by, in order
+     *               to interpolate gradually
+     */
+    public static double interpolateAngle(double currentAngle, double endAngle, double factor) {
+        double difference = Math.floorMod((int) (endAngle - currentAngle + 180), 360) - 180;
+        return currentAngle + difference * factor;
+    }
 }

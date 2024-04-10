@@ -31,6 +31,7 @@ public abstract class Fish extends PixelActor {
     // All features present on this fish
     private Set<FishFeature> features;
     private Hook bittenHook;
+    protected Timer rotationTimer;
 
     /**
      * Creates a new Fish with the given features.
@@ -50,6 +51,8 @@ public abstract class Fish extends PixelActor {
         this.features = EnumSet.noneOf(FishFeature.class);
         Collections.addAll(this.features, features);
         updateImage();
+
+        rotationTimer = new Timer(getNextRotationInterval());
     }
 
     /**
@@ -222,8 +225,8 @@ public abstract class Fish extends PixelActor {
     /**
      * Called when a hook gets within defined range the fish's mouth.
      * <p>Usually, simply calls biteIfMatchingTier(). May be overridden to
-     * implement seek or flee behavior.</p>
-     * 
+     * implement other behavior when detecting a hook.</p>
+     *
      * @param hook The hook that has been detected
      */
     public void respondToHook(Hook hook) {
@@ -232,7 +235,7 @@ public abstract class Fish extends PixelActor {
 
     /**
      * Bite the hook if the tiers match.
-     * 
+     *
      * @param hook The hook that has been detected
      */
     protected final void biteIfMatchingTier(Hook hook) {
@@ -244,7 +247,7 @@ public abstract class Fish extends PixelActor {
     }
 
     /**
-     * Call this in act(). If hooked, moves the Fish to the location of the hook 
+     * Call this in act(). If hooked, moves the Fish to the location of the hook
      * in order to be reeled in.
      */
     protected final void attachToHook() {
@@ -254,7 +257,7 @@ public abstract class Fish extends PixelActor {
         // Move fish onto hook
         DoublePair newPos = bittenHook.getBitePoint();
         setLocation(newPos.x, newPos.y);
-        setRotation(-90);
+        setRotation(90 * (getMirrorX() ? 1 : -1));
 
         // Remove once hook is gone (reached boat)
         if (bittenHook.getWorld() == null) {
@@ -262,4 +265,96 @@ public abstract class Fish extends PixelActor {
             getWorld().removeObject(this);
         }
     }
+
+    /**
+     * Call this in act(). Makes the fish swim.
+     * <p>May be overridden to implement special swim patterns.</p>
+     */
+    protected void swim() {
+        // Don't try to swim if it has already bitten a hook
+        if (bittenHook != null) return;
+
+        move(getSwimSpeed());
+        if (rotationTimer.ended()) {
+            setHeading(getHeading() + Util.randInt(-20, 20));
+            rotationTimer.restart(getNextRotationInterval());
+        }
+
+        checkBounds();
+
+        // Heading with respect to mirrorX
+        double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
+        setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
+    }
+
+    /**
+     * Obtain a number of frames within ±20% of the average number of
+     * frames before the next rotation.
+     * <p>This is used to set the time of the rotationTimer.</p>
+     */
+    private int getNextRotationInterval() {
+        int avg = getAverageRotationInterval();
+        return Util.randInt((int) (avg * 0.8), (int) (avg * 1.2));
+    }
+
+    /**
+     * Restrict the fish to be within the defined depths and the world.
+     * <p>Between the left and right edge of the world and the minimum
+     * and maximum depths.</p>
+     */
+    protected void checkBounds() {
+        if (getY() < getMinDepth()) {
+            // Try to get back to its depth range by slowly turning downwards
+            setHeading(Util.interpolateAngle(getHeading(), 90, 0.0025));
+        } else if (getY() > getMaxDepth()) {
+            // Try to get back to its depth range by slowly turning upwards
+            setHeading(Util.interpolateAngle(getHeading(), -90, 0.0025));
+        } else {
+            // Try to return to going straight by slowly turning to be horizontal
+            int forward = getMirrorX() ? 180 : 0;
+            setHeading(Util.interpolateAngle(getHeading(), forward, 0.0025));
+        }
+
+        if (getX() < 0) {
+            // Flip angle across y-axis
+            setHeading(180 - getHeading());
+            setMirrorX(false);
+            setRotation(getHeading());
+        } else if (getX() > getWorld().getWidth()) {
+            // Flip angle across y-axis
+            setHeading(180 - getHeading());
+            setMirrorX(true);
+            // + 180 because mirroring
+            setRotation(getHeading() + 180);
+        }
+    }
+
+    /**
+     * Get the average speed at which the fish swims.
+     *
+     * @return The swimming speed of the fish
+     */
+    public abstract double getSwimSpeed();
+
+    /**
+     * Get the shallowest depth the fish can swim to.
+     *
+     * @return The min depth below the surface
+     */
+    public abstract int getMinDepth();
+
+    /**
+     * Get the deepest depth the fish can swim to.
+     *
+     * @return The max depth below the surface
+     */
+    public abstract int getMaxDepth();
+
+    /**
+     * Get the average number of frames before the fish rotates to a
+     * new direction.
+     *
+     * @return The average number of frames before next rotation
+     */
+    public abstract int getAverageRotationInterval();
 }
