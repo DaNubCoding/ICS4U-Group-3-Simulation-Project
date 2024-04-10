@@ -27,7 +27,8 @@ public class Anglerfish extends Fish {
     private static final int MIN_DEPTH = 90;
     private static final int MAX_DEPTH = SimulationWorld.SEA_FLOOR_Y - 5;
     // The average number of frames before the fish rotates to a new direction
-    private static final int AVERAGE_ROTATION_INTERVAL = 300;
+    private static final int AVERAGE_TURN_INTERVAL = 300;
+    private static final int MAX_TURN_DEGREES = 20;
 
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
@@ -92,7 +93,12 @@ public class Anglerfish extends Fish {
     }
 
     @Override
-    public int getAverageRotationInterval() {
-        return AVERAGE_ROTATION_INTERVAL;
+    public int getAverageTurnInterval() {
+        return AVERAGE_TURN_INTERVAL;
+    }
+
+    @Override
+    public int getMaxTurnDegrees() {
+        return MAX_TURN_DEGREES;
     }
 }

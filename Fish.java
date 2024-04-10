@@ -52,7 +52,7 @@ public abstract class Fish extends PixelActor {
         Collections.addAll(this.features, features);
         updateImage();
 
-        rotationTimer = new Timer(getNextRotationInterval());
+        rotationTimer = new Timer(getNextTurnInterval());
     }
 
     /**
@@ -276,8 +276,8 @@ public abstract class Fish extends PixelActor {
 
         move(getSwimSpeed());
         if (rotationTimer.ended()) {
-            setHeading(getHeading() + Util.randInt(-20, 20));
-            rotationTimer.restart(getNextRotationInterval());
+            setHeading(getHeading() + Util.randInt(-getMaxTurnDegrees(), getMaxTurnDegrees()));
+            rotationTimer.restart(getNextTurnInterval());
         }
 
         checkBounds();
@@ -292,8 +292,8 @@ public abstract class Fish extends PixelActor {
      * frames before the next rotation.
      * <p>This is used to set the time of the rotationTimer.</p>
      */
-    private int getNextRotationInterval() {
-        int avg = getAverageRotationInterval();
+    private int getNextTurnInterval() {
+        int avg = getAverageTurnInterval();
         return Util.randInt((int) (avg * 0.8), (int) (avg * 1.2));
     }
 
@@ -351,10 +351,17 @@ public abstract class Fish extends PixelActor {
     public abstract int getMaxDepth();
 
     /**
-     * Get the average number of frames before the fish rotates to a
+     * Get the average number of frames before the fish turns to a
      * new direction.
      *
      * @return The average number of frames before next rotation
      */
-    public abstract int getAverageRotationInterval();
+    public abstract int getAverageTurnInterval();
+
+    /**
+     * Get the maximum degrees up or down the fish can tilt.
+     *
+     * @return The maximum degrees the fish can tilt
+     */
+    public abstract int getMaxTurnDegrees();
 }
