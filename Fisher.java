@@ -8,23 +8,33 @@ import greenfoot.*;
  */
 public class Fisher extends PixelActor {
     /**
-     * Different tiers of boats that the Fishers may own, defining where fishing
-     * rods should be attached to them.
+     * Different tiers of boats that the Fishers may own,
+     * with certain attributes specific to each tier.
      *
      * @author Martin Baldwin
+     * @author Andrew Wang
      * @version April 2024
      */
     public enum BoatTier {
-        ONE(new IntPair(33, 16));
+        WOODEN("wooden_boat_", new IntPair(33, 16), 1.3, new IntPair(19, 22)),
+        STEEL("steel_boat_", new IntPair(40, 22), 0.5, new IntPair(23, 29));
 
-        private final IntPair rodOffset;
+        public final String imagePrefix;
+        public final IntPair rodOffset;
+        public final double driftMagnitudeFactor;
+        public final IntPair centerOfRotation;
 
-        private BoatTier(IntPair rodOffset) {
+        /**
+         * @param imagePrefix The file name prefix of the boat's image
+         * @param rodOffset The offset of the rod relative to the boat's image
+         * @param driftMagnitudeFactor The factor to multiply any drift-related movement by
+         * @param centerOfRotation The center of rotation of the boat relative to the boat's image
+         */
+        private BoatTier(String imagePrefix, IntPair rodOffset, double driftMagnitudeFactor, IntPair centerOfRotation) {
+            this.imagePrefix = imagePrefix;
             this.rodOffset = rodOffset;
-        }
-
-        public IntPair getRodOffset() {
-            return rodOffset;
+            this.driftMagnitudeFactor = driftMagnitudeFactor;
+            this.centerOfRotation = centerOfRotation;
         }
     }
 
@@ -49,13 +59,15 @@ public class Fisher extends PixelActor {
     private FishingRod fishingRod;
 
     public Fisher(int side) {
-        super("boat" + side + ".png");
-        setCenterOfRotation(19, 22);
+        super(BoatTier.WOODEN.imagePrefix + side + ".png");
+        boatTier = BoatTier.WOODEN;
+
+        IntPair center = boatTier.centerOfRotation;
+        setCenterOfRotation(center.x, center.y);
         this.side = side;
         if (side == 2) {
             setMirrorX(true);
         }
-        boatTier = BoatTier.ONE;
 
         driftTimer = new Timer(0);
         initNextDrift();
@@ -82,7 +94,7 @@ public class Fisher extends PixelActor {
      * @return a DoublePair of x and y coordinates for this fisher's rod location
      */
     public DoublePair getRodPosition() {
-        IntPair rodOffset = boatTier.getRodOffset();
+        IntPair rodOffset = boatTier.rodOffset;
         return getImageOffsetGlobalPosition(rodOffset.x, rodOffset.y);
     }
 
@@ -106,6 +118,10 @@ public class Fisher extends PixelActor {
         drive();
         move();
         checkBounds();
+        
+        if (Util.randInt(0, 3000) == 0) {
+            increaseBoatTier();
+        }
     }
 
     /**
@@ -113,11 +129,12 @@ public class Fisher extends PixelActor {
      * make it look more realistic.
      */
     private void drift() {
-        setRotation(Math.sin(driftTimer.progress() * Math.PI * 2) * driftMagnitude + 360);
+        double magnitude = driftMagnitude * boatTier.driftMagnitudeFactor;
+        setRotation(Math.sin(driftTimer.progress() * Math.PI * 2) * magnitude + 360);
 
         // Drift in a elliptical pattern, matching the rotation
-        double driftOffsetX = Math.cos(driftTimer.progress() * Math.PI * 2) * driftMagnitude * 0.8;
-        double driftOffsetY = Math.sin(driftTimer.progress() * Math.PI * 2) * driftMagnitude * 0.4;
+        double driftOffsetX = Math.cos(driftTimer.progress() * Math.PI * 2) * magnitude * 0.8;
+        double driftOffsetY = Math.sin(driftTimer.progress() * Math.PI * 2) * magnitude * 0.4;
 
         // Find the target location
         targetX = anchorX + driftOffsetX;
@@ -134,7 +151,7 @@ public class Fisher extends PixelActor {
      */
     private void initNextDrift() {
         driftTimer.restart(Util.randInt(160, 420));
-        driftMagnitude = Util.randDouble(1, 6);
+        driftMagnitude = Util.randDouble(2, 6);
     }
 
     /**
@@ -173,6 +190,30 @@ public class Fisher extends PixelActor {
         } else if (getDoubleX() > rightBound) {
             setLocation(rightBound, getDoubleY());
             anchorX -= 5;
+        }
+    }
+
+    /**
+     * Set the baot's tier to a new tier, update image accordingly.
+     * 
+     * @param boatTier The tier of the boat as a boatTier enum element
+     */
+    private void setBoatTier(BoatTier boatTier) {
+        this.boatTier = boatTier;
+        setImage(boatTier.imagePrefix + side + ".png");
+        IntPair center = boatTier.centerOfRotation;
+        setCenterOfRotation(center.x, center.y);
+    }
+
+    /**
+     * Increase the tier of the boat.
+     */
+    public void increaseBoatTier() {
+        switch (boatTier) {
+            case WOODEN:
+                setBoatTier(BoatTier.STEEL);
+            case STEEL:
+                // We await the luxury boat!
         }
     }
 }
