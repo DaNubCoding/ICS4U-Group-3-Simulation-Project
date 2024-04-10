@@ -17,7 +17,7 @@ public class Fisher extends PixelActor {
      */
     public enum BoatTier {
         WOODEN("wooden_boat_", new IntPair(33, 16), 1.3, new IntPair(19, 22)),
-        STEEL("steel_boat_", new IntPair(40, 22), 0.5, new IntPair(23, 29));
+        STEEL("steel_boat_", new IntPair(38, 11), 0.5, new IntPair(20, 17));
 
         public final String imagePrefix;
         public final IntPair rodOffset;
@@ -119,6 +119,7 @@ public class Fisher extends PixelActor {
         move();
         checkBounds();
         
+        // Temporary test
         if (Util.randInt(0, 3000) == 0) {
             increaseBoatTier();
         }
