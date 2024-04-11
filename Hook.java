@@ -19,10 +19,10 @@ public class Hook extends PixelActor {
         WORM("hook_worm", new IntPair(1, 0)),
         BASIC("hook_basic", new IntPair(1, 1)),
         ADVANCED("hook_advanced", new IntPair(1, 1));
-        
+
         public final String fileName;
         public final IntPair centerOfRotation;
-        
+
         /**
          * @param fileName The name of the image file of the hook
          * @param centerOfRotation The center of rotation of the image of the hook
@@ -32,7 +32,7 @@ public class Hook extends PixelActor {
             this.centerOfRotation = centerOfRotation;
         }
     }
-    
+
     private FishingRod fishingRod;
     private HookTier hookTier;
     // Change this to true to start the reel-in process
@@ -43,11 +43,12 @@ public class Hook extends PixelActor {
     public Hook(FishingRod fishingRod) {
         super(fishingRod.getRodTier().hook.fileName + ".png");
         this.fishingRod = fishingRod;
-        
+
         hookTier = fishingRod.getRodTier().hook;
         IntPair center = hookTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
-        
+        setMirrorX(!fishingRod.getMirrorX());
+
         reelingIn = false;
     }
 
