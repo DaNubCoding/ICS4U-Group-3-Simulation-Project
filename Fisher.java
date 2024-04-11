@@ -16,9 +16,9 @@ public class Fisher extends PixelActor {
      * @version April 2024
      */
     public enum BoatTier {
-        WOODEN("wooden_boat_", new IntPair(30, 16), 1.3, new IntPair(19, 22)),
-        STEEL("steel_boat_", new IntPair(32, 11), 0.5, new IntPair(20, 17)),
-        YACHT("yacht_", new IntPair(38, 17), 0.1, new IntPair(21, 25));
+        WOODEN("boat_wooden_", new IntPair(30, 16), 1.3, new IntPair(19, 22)),
+        STEEL("boat_steel_", new IntPair(32, 11), 0.5, new IntPair(20, 17)),
+        YACHT("boat_yacht_", new IntPair(38, 17), 0.1, new IntPair(21, 25));
 
         public final String imagePrefix;
         public final IntPair rodOffset;

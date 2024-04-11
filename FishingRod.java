@@ -16,9 +16,9 @@ public class FishingRod extends PixelActor {
      * @version April 2024
      */
     public enum RodTier {
-        WOODEN("wooden_rod_", 800, 0.4, 88),
-        BASIC("basic_rod_", 600, 0.8, 112),
-        ADVANCED("advanced_rod_", 400, 1.2, 138);
+        WOODEN("rod_wooden_", 800, 0.4, 88),
+        BASIC("rod_basic_", 600, 0.8, 112),
+        ADVANCED("rod_advanced_", 400, 1.2, 138);
 
         public String imagePrefix;
         public int castFrequency;
