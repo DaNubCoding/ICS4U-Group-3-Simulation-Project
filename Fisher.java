@@ -16,9 +16,9 @@ public class Fisher extends PixelActor {
      * @version April 2024
      */
     public enum BoatTier {
-        WOODEN("wooden_boat_", new IntPair(33, 16), 1.3, new IntPair(19, 22)),
-        STEEL("steel_boat_", new IntPair(38, 11), 0.5, new IntPair(20, 17)),
-        YACHT("yacht_", new IntPair(39, 17), 0.1, new IntPair(21, 25));
+        WOODEN("wooden_boat_", new IntPair(30, 16), 1.3, new IntPair(19, 22)),
+        STEEL("steel_boat_", new IntPair(32, 11), 0.5, new IntPair(20, 17)),
+        YACHT("yacht_", new IntPair(38, 17), 0.1, new IntPair(21, 25));
 
         public final String imagePrefix;
         public final IntPair rodOffset;
@@ -119,10 +119,11 @@ public class Fisher extends PixelActor {
         drive();
         move();
         checkBounds();
-        
+
         // Temporary test
         if (Util.randInt(0, 3000) == 0) {
             increaseBoatTier();
+            fishingRod.increaseRodTier();
         }
     }
 
@@ -197,7 +198,7 @@ public class Fisher extends PixelActor {
 
     /**
      * Set the baot's tier to a new tier, update image accordingly.
-     * 
+     *
      * @param boatTier The tier of the boat as a boatTier enum element
      */
     private void setBoatTier(BoatTier boatTier) {

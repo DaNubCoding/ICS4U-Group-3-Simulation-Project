@@ -152,9 +152,15 @@ public abstract class PixelActor extends Actor {
         } else {
             originalImage = new GreenfootImage(newImage);
         }
-        if (getMirrorX()) originalImage.mirrorHorizontally();
-        if (getMirrorY()) originalImage.mirrorVertically();
         setCenterOfRotation(originalWidth / 2, originalHeight / 2);
+        if (getMirrorX()) {
+            originalImage.mirrorHorizontally();
+            centerOfRotationX = originalWidth - 1 - centerOfRotationX;
+        }
+        if (getMirrorY()) {
+            originalImage.mirrorVertically();
+            centerOfRotationY = originalHeight - 1 - centerOfRotationY;
+        }
         updateImage();
     }
 
@@ -178,6 +184,8 @@ public abstract class PixelActor extends Actor {
     public void setCenterOfRotation(int x, int y) {
         centerOfRotationX = x;
         centerOfRotationY = y;
+        if (getMirrorX()) centerOfRotationX = originalWidth - 1 - centerOfRotationX;
+        if (getMirrorY()) centerOfRotationY = originalHeight - 1 - centerOfRotationY;
         updateImage();
     }
 

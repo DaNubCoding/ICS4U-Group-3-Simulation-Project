@@ -8,26 +8,55 @@ import greenfoot.*;
  * @version April 2024
  */
 public class FishingRod extends PixelActor {
+    /**
+     * Different tiers of fishing rods that the Fishers may own,
+     * with certain attributes specific to each tier.
+     *
+     * @author Andrew Wang
+     * @version April 2024
+     */
+    public enum RodTier {
+        WOODEN("wooden_rod_", 800, 0.4, 88),
+        BASIC("basic_rod_", 600, 0.8, 112),
+        ADVANCED("advanced_rod_", 400, 1.2, 138);
+
+        public String imagePrefix;
+        public int castFrequency;
+        public double reelInSpeed;
+        public int maxDepth;
+
+        /**
+         * @param imagePrefix The file name prefix of the fishing rod's image
+         * @param castFrequency The average frequency at which the fishing rod will cast the hook
+         * @param reelInSpeed The speed at which the hook is reeled in
+         * @param maxDepth The maximum y-coordinate the hook will reach before being reeled in
+         */
+        private RodTier(String imagePrefix, int castFrequency, double reelInSpeed, int maxDepth) {
+            this.imagePrefix = imagePrefix;
+            this.castFrequency = castFrequency;
+            this.reelInSpeed = reelInSpeed;
+            this.maxDepth = maxDepth;
+        }
+    }
+
     private Fisher fisher;
     private FishingLine fishingLine;
     private Hook hook;
+    private RodTier rodTier;
 
     private Timer castTimer;
-    private int maxDepth;
-    private double reelInSpeed;
 
     public FishingRod(Fisher fisher) {
-        super("fishing_rod.png");
+        super(RodTier.WOODEN.imagePrefix + fisher.getSide() + ".png");
         this.fisher = fisher;
+        rodTier = RodTier.WOODEN;
 
         setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
         if (fisher.getSide() == 2) {
             setMirrorX(true);
         }
 
-        maxDepth = SimulationWorld.SEA_FLOOR_Y - SimulationWorld.SEA_SURFACE_Y - 50;
-        reelInSpeed = 1.0;
-        castTimer = new Timer(720);
+        castTimer = new Timer((int) (rodTier.castFrequency * Util.randDouble(0.8, 1.2)));
     }
 
     /**
@@ -43,9 +72,10 @@ public class FishingRod extends PixelActor {
         setLocation(newPos.x, newPos.y);
         setRotation(fisher.getRotation());
 
-        if (castTimer.ended()) {
+        // Check if the previous hook has been pulled back
+        if (castTimer.ended() && hook == null) {
             cast();
-            castTimer.restart();
+            castTimer.restart(rodTier.castFrequency);
         }
     }
 
@@ -72,6 +102,8 @@ public class FishingRod extends PixelActor {
         PixelWorld world = getWorld();
         world.removeObject(fishingLine);
         world.removeObject(hook);
+        fishingLine = null;
+        hook = null;
     }
 
     /**
@@ -90,7 +122,7 @@ public class FishingRod extends PixelActor {
      * @return The maximum depth
      */
     public int getMaxDepth() {
-        return maxDepth;
+        return rodTier.maxDepth;
     }
 
     /**
@@ -99,6 +131,31 @@ public class FishingRod extends PixelActor {
      * @return The speed at which the fish is reeled in
      */
     public double getReelInSpeed() {
-        return reelInSpeed;
+        return rodTier.reelInSpeed;
+    }
+
+    /**
+     * Set the rod's tier to a new tier, update image accordingly.
+     *
+     * @param rodTier The tier of the rod as a RodTier enum element
+     */
+    private void setRodTier(RodTier rodTier) {
+        this.rodTier = rodTier;
+        setImage(rodTier.imagePrefix + fisher.getSide() + ".png");
+        setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
+    }
+
+    /**
+     * Increase the tier of the rod.
+     */
+    public void increaseRodTier() {
+        switch (rodTier) {
+            case WOODEN:
+                setRodTier(RodTier.BASIC);
+                break;
+            case BASIC:
+                setRodTier(RodTier.ADVANCED);
+                break;
+        }
     }
 }

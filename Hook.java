@@ -37,7 +37,7 @@ public class Hook extends PixelActor {
         }
 
         // Reel in if reached max depth
-        if (getY() > SimulationWorld.SEA_SURFACE_Y + fishingRod.getMaxDepth()) {
+        if (getY() > fishingRod.getMaxDepth()) {
             reelIn();
         }
     }
@@ -52,7 +52,7 @@ public class Hook extends PixelActor {
     /**
      * Get the point at which fish will get hooked.
      * <p>When distance to fish is calculated, it uses this point and the fish's catch point.</p>
-     * 
+     *
      * @return A DoublePair representing the global position of the bite point
      */
     public DoublePair getBitePoint() {
