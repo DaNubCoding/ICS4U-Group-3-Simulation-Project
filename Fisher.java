@@ -17,7 +17,8 @@ public class Fisher extends PixelActor {
      */
     public enum BoatTier {
         WOODEN("wooden_boat_", new IntPair(33, 16), 1.3, new IntPair(19, 22)),
-        STEEL("steel_boat_", new IntPair(38, 11), 0.5, new IntPair(20, 17));
+        STEEL("steel_boat_", new IntPair(38, 11), 0.5, new IntPair(20, 17)),
+        YACHT("yacht_", new IntPair(39, 17), 0.5, new IntPair(21, 25));
 
         public final String imagePrefix;
         public final IntPair rodOffset;
@@ -213,8 +214,10 @@ public class Fisher extends PixelActor {
         switch (boatTier) {
             case WOODEN:
                 setBoatTier(BoatTier.STEEL);
+                break;
             case STEEL:
-                // We await the luxury boat!
+                setBoatTier(BoatTier.YACHT);
+                break;
         }
     }
 }
