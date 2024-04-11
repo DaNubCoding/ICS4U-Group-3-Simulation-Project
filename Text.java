@@ -52,7 +52,7 @@ public class Text extends PixelActor {
      * <li>{@code CENTER}: The actor position is found at the horizontal center. Text extends equally left and right from there.
      * </ul>
      */
-    public enum AlignX {
+    public enum AnchorX {
         LEFT, RIGHT, CENTER;
     }
 
@@ -67,25 +67,25 @@ public class Text extends PixelActor {
      * <li>{@code CENTER}: The actor position is found at the horizontal center. Text extends equally upwards and downwards from there.
      * </ul>
      */
-    public enum AlignY {
+    public enum AnchorY {
         TOP, BOTTOM, CENTER;
     }
 
-    private final AlignX alignX;
-    private final AlignY alignY;
+    private final AnchorX anchorX;
+    private final AnchorY anchorY;
 
     /**
      * Creates a displayable text object from the given string with the
      * specified alignment.
      *
      * @param content the String to render to this text object
-     * @param alignX a {@link AlignX} value describing horizontal alignment
-     * @param alignY a {@link AlignY} value describing vertical alignment
+     * @param anchorX a {@link AnchorX} value describing horizontal alignment
+     * @param anchorY a {@link AnchorY} value describing vertical alignment
      */
-    public Text(String content, AlignX alignX, AlignY alignY) {
+    public Text(String content, AnchorX anchorX, AnchorY anchorY) {
         super(createStringImage(content));
-        this.alignX = alignX;
-        this.alignY = alignY;
+        this.anchorX = anchorX;
+        this.anchorY = anchorY;
         updatePosition();
     }
 
@@ -93,14 +93,14 @@ public class Text extends PixelActor {
      * Creates a displayable text object from the given integer with the
      * specified alignment.
      * <p>
-     * This is identical to passing {@link String#valueOf(value)} as the content to {@link #Text(String, AlignX, AlignY)}.
+     * This is identical to passing {@link String#valueOf(value)} as the content to {@link #Text(String, AnchorX, AnchorY)}.
      *
      * @param value the integer to render to this text object, using a base 10 representation
-     * @param alignX a {@link AlignX} value describing horizontal alignment
-     * @param alignY a {@link AlignY} value describing vertical alignment
+     * @param anchorX a {@link AnchorX} value describing horizontal alignment
+     * @param anchorY a {@link AnchorY} value describing vertical alignment
      */
-    public Text(int value, AlignX alignX, AlignY alignY) {
-        this(String.valueOf(value), alignX, alignY);
+    public Text(int value, AnchorX anchorX, AnchorY anchorY) {
+        this(String.valueOf(value), anchorX, anchorY);
     }
 
     /**
@@ -126,12 +126,12 @@ public class Text extends PixelActor {
 
     /**
      * Updates this text object's center of rotation so it is properly aligned
-     * in accordance with its AlignX and AlignY parameters.
+     * in accordance with its AnchorX and AnchorY parameters.
      */
     private void updatePosition() {
         int x = 0;
         int y = 0;
-        switch (alignX) {
+        switch (anchorX) {
         case RIGHT:
             x = getOriginalImage().getWidth() - 1;
             break;
@@ -139,7 +139,7 @@ public class Text extends PixelActor {
             x = getOriginalImage().getWidth() / 2;
             break;
         }
-        switch (alignY) {
+        switch (anchorY) {
         case BOTTOM:
             y = getOriginalImage().getHeight() - 1;
             break;
