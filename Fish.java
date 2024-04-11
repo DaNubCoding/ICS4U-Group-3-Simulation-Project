@@ -12,22 +12,16 @@ import java.util.List;
  * adding a defined amount of XP value to a fish. A fish's features are drawn
  * onto its image on top of its body.
  * <p>
- * A subclass of Fish must define:
- * <ul>
- * <li>A base XP value
- * <li>A base body image
- * <li>A map of all FishFeatures to their image offsets relative to the body image
- * </ul>
- * <p>
- * The recommended way of doing so is defining them as static variables, then
- * returning them in their corresponding implementations of this class's
- * abstract methods.
+ * A subclass of Fish must create a {@link FishSettings} object defining all of
+ * its subclass-specific settings, and pass it to this class's constructor.
  *
  * @author Martin Baldwin
  * @author Andrew Wang
  * @version April 2024
  */
 public abstract class Fish extends PixelActor {
+    // Fish subclass-specific settings
+    private final FishSettings settings;
     // All features present on this fish
     private Set<FishFeature> features;
     private Hook bittenHook;
@@ -42,17 +36,17 @@ public abstract class Fish extends PixelActor {
      *
      * @param features any FishFeatures to add to this Fish
      */
-    public Fish(FishFeature... features) {
+    public Fish(FishSettings settings, FishFeature... features) {
         super();
-        // Sanity check to ensure every subclass has properly defined feature point maps
-        if (getFeaturePoints().size() != FishFeature.class.getEnumConstants().length) {
-            throw new IllegalArgumentException("Number of FishFeature attachment points on FishBody does not match the number of existing FishFeature types");
-        }
+        // Store fish subclass-specific settings
+        this.settings = settings;
+
+        // Add features
         this.features = EnumSet.noneOf(FishFeature.class);
         Collections.addAll(this.features, features);
         updateImage();
 
-        rotationTimer = new Timer(getNextTurnInterval());
+        rotationTimer = new Timer(settings.getAverageTurnInterval());
     }
 
     /**
@@ -91,19 +85,12 @@ public abstract class Fish extends PixelActor {
      * @return the amount of XP value this Fish is worth
      */
     public int getValue() {
-        int sum = getBaseValue();
+        int sum = settings.getBaseValue();
         for (FishFeature feature : features) {
             sum += feature.getValue();
         }
         return sum;
     }
-
-    /**
-     * Gets the base XP value of this Fish (without any features).
-     *
-     * @return the amount of XP this Fish without features is worth
-     */
-    public abstract int getBaseValue();
 
     /**
      * Sets this Fish's image to a GreenfootImage with this Fish's body and
@@ -113,7 +100,7 @@ public abstract class Fish extends PixelActor {
      * features will be drawn on top of the body at their appropriate locations.
      */
     private void updateImage() {
-        GreenfootImage bodyImage = getBodyImage();
+        GreenfootImage bodyImage = settings.getBodyImage();
         // If there are no features, the existing body image is sufficient
         if (features.isEmpty()) {
             setImage(bodyImage);
@@ -121,7 +108,7 @@ public abstract class Fish extends PixelActor {
         }
 
         // Create an image of appropriate size to fit this fish with all of its features
-        Map<FishFeature, IntPair> featurePoints = getFeaturePoints();
+        Map<FishFeature, IntPair> featurePoints = settings.getFeaturePoints();
         // Keep track of the extreme locations of any feature relative to the body
         int left = 0;
         int right = bodyImage.getWidth();
@@ -159,24 +146,6 @@ public abstract class Fish extends PixelActor {
     }
 
     /**
-     * Gets the image to be drawn as this Fish's body.
-     * <p>
-     * All FishFeatures are drawn on top of this image.
-     *
-     * @return the GreenfootImage representing this Fish's body
-     */
-    public abstract GreenfootImage getBodyImage();
-
-    /**
-     * Gets a map of all FishFeature types to their image offsets relative to
-     * this Fish's body image.
-     *
-     * @return a Map object containing all values of FishFeature in its keys,
-     *         each mapped to an pair of ints describing the feature's image offset
-     */
-    public abstract Map<FishFeature, IntPair> getFeaturePoints();
-
-    /**
      * Gets the coordinates of the point in the world where this Fish may be
      * caught from.
      *
@@ -185,21 +154,13 @@ public abstract class Fish extends PixelActor {
     public DoublePair getCatchPoint() {
         // Find where the catch point lies relative to this fish's current image
         // since features may change the image's dimensions
-        GreenfootImage bodyImage = getBodyImage();
-        IntPair catchOffset = getCatchOffset();
+        GreenfootImage bodyImage = settings.getBodyImage();
+        IntPair catchOffset = settings.getCatchOffset();
         int catchX = getCenterOfRotationX() - bodyImage.getWidth() / 2 + catchOffset.x;
         int catchY = getCenterOfRotationY() - bodyImage.getHeight() / 2 + catchOffset.y;
         // Transform the catch point into world space
         return getImageOffsetGlobalPosition(catchX, catchY);
     }
-
-    /**
-     * Gets the offset of the point where this Fish may be caught from, relative
-     * to its body image.
-     *
-     * @return an IntPair describing this Fish's catch point relative to its body image
-     */
-    public abstract IntPair getCatchOffset();
 
     /**
      * Call this in act(). Tests for hooks within the defined range.
@@ -268,10 +229,11 @@ public abstract class Fish extends PixelActor {
         // Don't try to swim if it has already bitten a hook
         if (bittenHook != null) return;
 
-        move(getSwimSpeed());
+        move(settings.getSwimSpeed());
         if (rotationTimer.ended()) {
-            setHeading(getHeading() + Util.randInt(-getMaxTurnDegrees(), getMaxTurnDegrees()));
-            rotationTimer.restart(getNextTurnInterval());
+            int maxAngle = settings.getMaxTurnDegrees();
+            setHeading(getHeading() + Util.randInt(-maxAngle, maxAngle));
+            rotationTimer.restart(settings.getAverageTurnInterval());
         }
 
         checkBounds();
@@ -287,7 +249,7 @@ public abstract class Fish extends PixelActor {
      * <p>This is used to set the time of the rotationTimer.</p>
      */
     private int getNextTurnInterval() {
-        int avg = getAverageTurnInterval();
+        int avg = settings.getAverageTurnInterval();
         return Util.randInt((int) (avg * 0.8), (int) (avg * 1.2));
     }
 
@@ -297,10 +259,10 @@ public abstract class Fish extends PixelActor {
      * and maximum depths.</p>
      */
     protected void checkBounds() {
-        if (getY() < getMinDepth()) {
+        if (getY() < settings.getMinDepth()) {
             // Try to get back to its depth range by slowly turning downwards
             setHeading(Util.interpolateAngle(getHeading(), 90, 0.0025));
-        } else if (getY() > getMaxDepth()) {
+        } else if (getY() > settings.getMaxDepth()) {
             // Try to get back to its depth range by slowly turning upwards
             setHeading(Util.interpolateAngle(getHeading(), -90, 0.0025));
         } else {
@@ -322,40 +284,4 @@ public abstract class Fish extends PixelActor {
             setRotation(getHeading() + 180);
         }
     }
-
-    /**
-     * Get the average speed at which the fish swims.
-     *
-     * @return The swimming speed of the fish
-     */
-    public abstract double getSwimSpeed();
-
-    /**
-     * Get the shallowest depth the fish can swim to.
-     *
-     * @return The min depth below the surface
-     */
-    public abstract int getMinDepth();
-
-    /**
-     * Get the deepest depth the fish can swim to.
-     *
-     * @return The max depth below the surface
-     */
-    public abstract int getMaxDepth();
-
-    /**
-     * Get the average number of frames before the fish turns to a
-     * new direction.
-     *
-     * @return The average number of frames before next rotation
-     */
-    public abstract int getAverageTurnInterval();
-
-    /**
-     * Get the maximum degrees up or down the fish can tilt.
-     *
-     * @return The maximum degrees the fish can tilt
-     */
-    public abstract int getMaxTurnDegrees();
 }
