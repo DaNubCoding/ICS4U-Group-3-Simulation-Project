@@ -49,13 +49,12 @@ public class SimulationWorld extends PixelWorld {
     private void render() {
         GreenfootImage canvas = getCanvas();
         // Draw the background
-        canvas.setColor(Color.WHITE);
-        canvas.fill();
         canvas.drawImage(background, 0, 0);
         // Draw actors
         for (PixelActor actor : getObjects(PixelActor.class)) {
             actor.render(canvas);
         }
+        // Draw water gradient on top of underwater actors
         canvas.drawImage(foreground, 0, 0);
 
         // Display new canvas image
