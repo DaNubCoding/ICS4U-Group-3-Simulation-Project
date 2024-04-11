@@ -152,6 +152,8 @@ public abstract class PixelActor extends Actor {
         } else {
             originalImage = new GreenfootImage(newImage);
         }
+        if (getMirrorX()) originalImage.mirrorHorizontally();
+        if (getMirrorY()) originalImage.mirrorVertically();
         setCenterOfRotation(originalWidth / 2, originalHeight / 2);
         updateImage();
     }
