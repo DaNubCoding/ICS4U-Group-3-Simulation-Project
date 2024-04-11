@@ -221,4 +221,22 @@ public class Fisher extends PixelActor {
                 break;
         }
     }
+
+    /**
+     * Get the current boat tier of this fisher.
+     *
+     * @return this fisher's current BoatTier value
+     */
+    public BoatTier getBoatTier() {
+        return boatTier;
+    }
+
+    /**
+     * Get the fishing rod actor for this fisher.
+     *
+     * @return this fisher's FishingRod object
+     */
+    public FishingRod getFishingRod() {
+        return fishingRod;
+    }
 }

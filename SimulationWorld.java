@@ -12,14 +12,17 @@ public class SimulationWorld extends PixelWorld {
     public static final int SEA_FLOOR_Y = 140;
     public static final int SEA_SURFACE_Y = 37;
 
+    private Fisher fisher1;
+    private Fisher fisher2;
+
     // Test text object: draw the current act count in the top right corner of the world
     private Text actText;
 
     public SimulationWorld() {
         super(250, 160);
 
-        Fisher fisher1 = new Fisher(1);
-        Fisher fisher2 = new Fisher(2);
+        fisher1 = new Fisher(1);
+        fisher2 = new Fisher(2);
         addObject(fisher1, 50, 36);
         addObject(fisher2, 200, 36);
 
@@ -41,6 +44,11 @@ public class SimulationWorld extends PixelWorld {
     public void act() {
         render();
         Timer.incrementAct();
+
+        // Temporary test
+        if (Greenfoot.isKeyDown("e")) {
+            Greenfoot.setWorld(new SummaryWorld(this));
+        }
     }
 
     /**
@@ -59,5 +67,22 @@ public class SimulationWorld extends PixelWorld {
 
         // Display new canvas image
         updateImage();
+    }
+
+    /**
+     * Gets the fisher actor on the given side.
+     *
+     * @param side either 1 or 2, corresponding to the left and right fishers, respectively
+     * @return the fisher actor in this world with the matching side value
+     */
+    public Fisher getFisher(int side) {
+        switch (side) {
+        case 1:
+            return fisher1;
+        case 2:
+            return fisher2;
+        default:
+            throw new IllegalArgumentException("Player side value must be 1 or 2");
+        }
     }
 }
