@@ -9,13 +9,22 @@ import greenfoot.*;
  */
 public class Egg extends PixelActor {
     /**
-     * The possible sizes of an egg.
+     * The possible sizes of an egg, with certain data specific to each size.
      * 
      * @author Andrew Wang
      * @version April 2024
      */
     public static enum EggSize {
-        SMALL, MEDIUM, LARGE, GIGANTIC
+        SMALL(300),
+        MEDIUM(600),
+        LARGE(900),
+        GIGANTIC(1200);
+
+        public final int hatchingTime;
+
+        private EggSize(int hatchingTime) {
+            this.hatchingTime = hatchingTime;
+        }
     }
 
     /**
@@ -49,7 +58,7 @@ public class Egg extends PixelActor {
         setCenterOfRotation(width / 2, height / 2);
         setHeading(Util.randInt(360));
         speed = Util.randDouble(0.4, 0.8);
-        spawnTimer = new Timer(400 + Util.randInt(-50, 50));
+        spawnTimer = new Timer((int) (size.hatchingTime * Util.randDouble(0.8, 1.2)));
     }
 
     public void act() {
