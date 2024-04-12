@@ -217,6 +217,8 @@ public abstract class Fish extends PixelActor {
         if (true) {
             bittenHook = hook;
             hook.reelIn();
+            IntPair catchOffset = settings.getCatchOffset();
+            setCenterOfRotation(catchOffset.x, catchOffset.y);
         }
     }
 
@@ -231,7 +233,7 @@ public abstract class Fish extends PixelActor {
         // Move fish onto hook
         DoublePair newPos = bittenHook.getBitePoint();
         setLocation(newPos.x, newPos.y);
-        setRotation(90 * (getMirrorX() ? 1 : -1));
+        setRotation((bittenHook.getRotation() + 90) * (getMirrorX() ? 1 : -1));
 
         // Remove once hook is gone (reached boat)
         if (bittenHook.getWorld() == null) {
