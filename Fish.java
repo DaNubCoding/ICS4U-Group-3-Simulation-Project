@@ -26,6 +26,7 @@ public abstract class Fish extends PixelActor {
     private Set<FishFeature> features;
     private Hook bittenHook;
     protected Timer rotationTimer;
+    protected Timer bubbleTimer;
     private Timer eggSpawnTimer;
     // Evolutionary points
     private int evoPoints;
@@ -55,6 +56,7 @@ public abstract class Fish extends PixelActor {
 
         rotationTimer = new Timer(settings.getAverageTurnInterval());
         eggSpawnTimer = new Timer((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
+        bubbleTimer = new Timer(Util.randInt(240, 480));
     }
 
     /**
@@ -307,6 +309,20 @@ public abstract class Fish extends PixelActor {
             // + 180 because mirroring
             setRotation(getHeading() + 180);
             setLocation(getWorld().getWidth(), getDoubleY());
+        }
+    }
+
+    /**
+     * Spawn bubbles at the Fish's mouth location (catchPoint).
+     */
+    protected void spawnBubbles() {
+        if (bubbleTimer.ended()) {
+            DoublePair catchPoint = getCatchPoint();
+            int numOfBubbles = Util.randInt(1, 4);
+            for (int i = 0; i < numOfBubbles; i++) {
+                getWorld().addObject(new Bubble(), (int) catchPoint.x, (int) catchPoint.y);
+            }
+            bubbleTimer.restart(Util.randInt(180, 480));
         }
     }
 

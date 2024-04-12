@@ -47,6 +47,7 @@ public class Anglerfish extends Fish {
     @Override
     public void act() {
         swim();
+        spawnBubbles();
 
         lookForHook();
         attachToHook();
