@@ -240,6 +240,15 @@ public abstract class Fish extends PixelActor {
         }
     }
 
+    @Override
+    public void act() {
+        swim();
+        spawnBubbles();
+
+        lookForHook();
+        attachToHook();
+    }
+
     /**
      * Call this in act(). Makes the fish swim.
      * <p>May be overridden to implement special swim patterns.</p>
