@@ -26,6 +26,7 @@ public abstract class Fish extends PixelActor {
     private Set<FishFeature> features;
     private Hook bittenHook;
     protected Timer rotationTimer;
+    private Timer eggSpawnTimer;
 
     /**
      * Creates a new Fish with the given features.
@@ -47,6 +48,7 @@ public abstract class Fish extends PixelActor {
         updateImage();
 
         rotationTimer = new Timer(settings.getAverageTurnInterval());
+        eggSpawnTimer = new Timer((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
     }
 
     /**
@@ -243,8 +245,9 @@ public abstract class Fish extends PixelActor {
         setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
 
         // TODO: TEMPORARY
-        if (Util.randInt(1000) == 0) {
+        if (eggSpawnTimer.ended()) {
             spawnEgg();
+            eggSpawnTimer.restart((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
         }
     }
 

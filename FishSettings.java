@@ -33,6 +33,8 @@ public class FishSettings {
     private Egg.EggSize eggSize = null;
     // The color of the egg that the fish will spawn
     private Egg.EggColor eggColor = null;
+    // The frequency at which the Fish spawns eggs
+    private Integer eggSpawnFrequency = null;
 
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
@@ -60,6 +62,7 @@ public class FishSettings {
         assertNonNull(maxTurnDegrees, "max turn degrees");
         assertNonNull(eggSize, "egg size");
         assertNonNull(eggColor, "egg color");
+        assertNonNull(eggSpawnFrequency, "egg spawn frequency");
         assertNonNull(featurePoints, "feature point map");
     }
 
@@ -151,6 +154,15 @@ public class FishSettings {
      */
     public void setEggColor(Egg.EggColor color) {
         eggColor = color;
+    }
+
+    /**
+     * Set the spawn frequency of eggs.
+     * 
+     * @param spawnFrequency The frequency at which the Fish spawns eggs
+     */
+    public void setEggSpawnFrequency(int spawnFrequency) {
+        eggSpawnFrequency = spawnFrequency;
     }
 
     /**
@@ -255,6 +267,15 @@ public class FishSettings {
      */
     public Egg.EggColor getEggColor() {
         return eggColor;
+    }
+
+    /**
+     * Get the spawn frequency of eggs.
+     * 
+     * @return The frequency at which the Fish spawns eggs
+     */
+    public int getEggSpawnFrequency() {
+        return eggSpawnFrequency;
     }
 
     /**
