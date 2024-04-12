@@ -25,6 +25,9 @@ public class Anglerfish extends Fish {
         fishSettings.setMaxDepth(SimulationWorld.SEA_FLOOR_Y - 5);
         fishSettings.setAverageTurnInterval(300);
         fishSettings.setMaxTurnDegrees(20);
+        // Egg settings
+        fishSettings.setEggSize(Egg.EggSize.GIGANTIC);
+        fishSettings.setEggColor(Egg.EggColor.GREEN);
         // Feature locations
         Map<FishFeature, IntPair> featurePoints = new EnumMap<>(FishFeature.class);
         featurePoints.put(FishFeature.BIG_EYE, new IntPair(19, 8));

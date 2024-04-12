@@ -29,6 +29,10 @@ public class FishSettings {
     private Integer averageTurnInterval = null;
     // The maximum degrees the fish can tilt
     private Integer maxTurnDegrees = null;
+    // The size of the egg that the fish will spawn
+    private Egg.EggSize eggSize = null;
+    // The color of the egg that the fish will spawn
+    private Egg.EggColor eggColor = null;
 
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
@@ -54,6 +58,8 @@ public class FishSettings {
         assertNonNull(maxDepth, "max depth");
         assertNonNull(averageTurnInterval, "average turn interval");
         assertNonNull(maxTurnDegrees, "max turn degrees");
+        assertNonNull(eggSize, "egg size");
+        assertNonNull(eggColor, "egg color");
         assertNonNull(featurePoints, "feature point map");
     }
 
@@ -127,6 +133,24 @@ public class FishSettings {
      */
     public void setMaxTurnDegrees(int degrees) {
         maxTurnDegrees = degrees;
+    }
+
+    /**
+     * Sets the size of the egg that is spawned by the fish.
+     * 
+     * @param size The size of the egg spawned by the fish
+     */
+    public void setEggSize(Egg.EggSize size) {
+        eggSize = size;
+    }
+
+    /**
+     * Sets the color of the egg that is spawned by the fish.
+     * 
+     * @param size The color of the egg spawned by the fish
+     */
+    public void setEggColor(Egg.EggColor color) {
+        eggColor = color;
     }
 
     /**
@@ -213,6 +237,24 @@ public class FishSettings {
      */
     public int getMaxTurnDegrees() {
         return maxTurnDegrees;
+    }
+
+    /**
+     * Gets the size of the egg that is spawned by the fish.
+     * 
+     * @return The size of the egg spawned by the fish
+     */
+    public Egg.EggSize getEggSize() {
+        return eggSize;
+    }
+
+    /**
+     * Gets the color of the egg that is spawned by the fish.
+     * 
+     * @return The color of the egg spawned by the fish
+     */
+    public Egg.EggColor getEggColor() {
+        return eggColor;
     }
 
     /**

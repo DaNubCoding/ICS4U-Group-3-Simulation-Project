@@ -241,6 +241,11 @@ public abstract class Fish extends PixelActor {
         // Heading with respect to mirrorX
         double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
         setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
+
+        // TODO: TEMPORARY
+        if (Util.randInt(1000) == 0) {
+            spawnEgg();
+        }
     }
 
     /**
@@ -282,6 +287,17 @@ public abstract class Fish extends PixelActor {
             setMirrorX(true);
             // + 180 because mirroring
             setRotation(getHeading() + 180);
+        }
+    }
+
+    /**
+     * Spawn a random number of eggs at the location of the fish.
+     */
+    private void spawnEgg() {
+        int numOfEggs = Util.randInt(1, 3);
+        for (int i = 0; i < numOfEggs; i++) {
+            Egg egg = new Egg(settings.getEggSize(), settings.getEggColor());
+            getWorld().addObject(egg, getX(), getY());
         }
     }
 }
