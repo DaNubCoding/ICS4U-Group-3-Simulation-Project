@@ -115,7 +115,7 @@ public class FishingRod extends PixelActor {
      * @return The global x and y coordinates of the tip as a pair of doubles
      */
     public DoublePair getTipPosition() {
-        return getImageOffsetGlobalPosition(getOriginalImage().getWidth() - 1, 0);
+        return getImageOffsetGlobalPosition(getOriginalImage().getWidth() - 2, 1);
     }
 
     /**
