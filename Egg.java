@@ -54,6 +54,7 @@ public class Egg extends PixelActor {
     private EggSize size;
     private EggColor color;
     private double speed;
+    private double sinkSpeed;
     private Timer spawnTimer;
 
     /**
@@ -74,6 +75,7 @@ public class Egg extends PixelActor {
         setCenterOfRotation(width / 2, height / 2);
         setHeading(Util.randInt(360));
         speed = Util.randDouble(0.4, 0.8);
+        sinkSpeed = Util.randDouble(0.2, 0.4);
         spawnTimer = new Timer((int) (size.hatchTime * Util.randDouble(0.8, 1.2)));
     }
 
@@ -81,7 +83,7 @@ public class Egg extends PixelActor {
         speed *= 0.98;
         move(speed);
 
-        setLocation(getDoubleX(), getDoubleY() + 0.3);
+        setLocation(getDoubleX(), getDoubleY() + sinkSpeed);
 
         // Move it into the seafloor a bit
         int maxY = SimulationWorld.SEA_FLOOR_Y + getOriginalHeight() / 2;
