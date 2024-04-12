@@ -40,6 +40,19 @@ public class FishingRod extends PixelActor {
             this.reelInSpeed = reelInSpeed;
             this.maxDepth = maxDepth;
         }
+
+        /**
+         * Get the RodTier one level above the current one.
+         * 
+         * @return The next RodTier
+         */
+        public RodTier nextTier() {
+            try {
+                return RodTier.values()[ordinal() + 1];
+            } catch (IndexOutOfBoundsException err) {
+                return this;
+            }
+        }
     }
 
     private Fisher fisher;
@@ -160,9 +173,7 @@ public class FishingRod extends PixelActor {
     /**
      * Increase the tier of the rod.
      */
-    public void increaseRodTier() {
-        try {
-            setRodTier(RodTier.values()[rodTier.ordinal() + 1]);
-        } catch (IndexOutOfBoundsException err) {}
+    public void incrementRodTier() {
+        setRodTier(rodTier.nextTier());
     }
 }

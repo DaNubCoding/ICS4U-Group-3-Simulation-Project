@@ -37,6 +37,19 @@ public class Fisher extends PixelActor {
             this.driftMagnitudeFactor = driftMagnitudeFactor;
             this.centerOfRotation = centerOfRotation;
         }
+
+        /**
+         * Get the BoatTier one level above the current one.
+         * 
+         * @return The next BoatTier
+         */
+        public BoatTier nextTier() {
+            try {
+                return BoatTier.values()[ordinal() + 1];
+            } catch (IndexOutOfBoundsException err) {
+                return this;
+            }
+        }
     }
 
     // 1 or 2
@@ -122,8 +135,8 @@ public class Fisher extends PixelActor {
 
         // Temporary test
         if (Util.randInt(0, 3000) == 0) {
-            increaseBoatTier();
-            fishingRod.increaseRodTier();
+            incrementBoatTier();
+            fishingRod.incrementRodTier();
         }
     }
 
@@ -211,10 +224,8 @@ public class Fisher extends PixelActor {
     /**
      * Increase the tier of the boat.
      */
-    public void increaseBoatTier() {
-        try {
-            setBoatTier(BoatTier.values()[boatTier.ordinal() + 1]);
-        } catch (IndexOutOfBoundsException err) {}
+    public void incrementBoatTier() {
+        setBoatTier(boatTier.nextTier());
     }
 
     /**
