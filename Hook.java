@@ -16,20 +16,22 @@ public class Hook extends PixelActor {
      * @version April 2024
      */
     public static enum HookTier {
-        WORM("hook_worm", new IntPair(1, 0)),
-        BASIC("hook_basic", new IntPair(1, 1)),
-        ADVANCED("hook_advanced", new IntPair(1, 1));
+        WORM("hook_worm", new IntPair(1, 0), new IntPair(0, 3)),
+        BASIC("hook_basic", new IntPair(1, 1), new IntPair(2, 4)),
+        ADVANCED("hook_advanced", new IntPair(1, 1), new IntPair(5, 11));
 
         public final String fileName;
         public final IntPair centerOfRotation;
+        public final IntPair fishBitePoint;
 
         /**
          * @param fileName The name of the image file of the hook
          * @param centerOfRotation The center of rotation of the image of the hook
          */
-        private HookTier(String fileName, IntPair centerOfRotation) {
+        private HookTier(String fileName, IntPair centerOfRotation, IntPair fishBitePoint) {
             this.fileName = fileName;
             this.centerOfRotation = centerOfRotation;
+            this.fishBitePoint = fishBitePoint;
         }
     }
 
@@ -37,8 +39,6 @@ public class Hook extends PixelActor {
     private HookTier hookTier;
     // Change this to true to start the reel-in process
     private boolean reelingIn;
-    // TODO: Will be dependent on the hook tier
-    public final IntPair fishBitePoint = new IntPair(1, 8);
 
     public Hook(FishingRod fishingRod) {
         super(fishingRod.getRodTier().hook.fileName + ".png");
@@ -87,6 +87,7 @@ public class Hook extends PixelActor {
      * @return A DoublePair representing the global position of the bite point
      */
     public DoublePair getBitePoint() {
+        IntPair fishBitePoint = hookTier.fishBitePoint;
         return getImageOffsetGlobalPosition(fishBitePoint.x, fishBitePoint.y);
     }
 }
