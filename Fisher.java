@@ -60,12 +60,12 @@ public class Fisher extends PixelActor {
     private FishingRod fishingRod;
 
     public Fisher(int side) {
-        super(BoatTier.WOODEN.imagePrefix + side + ".png");
-        boatTier = BoatTier.WOODEN;
+        super();
+        this.side = side;
+        setBoatTier(BoatTier.WOODEN);
 
         IntPair center = boatTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
-        this.side = side;
         if (side == 2) {
             setMirrorX(true);
         }
@@ -212,14 +212,9 @@ public class Fisher extends PixelActor {
      * Increase the tier of the boat.
      */
     public void increaseBoatTier() {
-        switch (boatTier) {
-            case WOODEN:
-                setBoatTier(BoatTier.STEEL);
-                break;
-            case STEEL:
-                setBoatTier(BoatTier.YACHT);
-                break;
-        }
+        try {
+            setBoatTier(BoatTier.values()[boatTier.ordinal() + 1]);
+        } catch (IndexOutOfBoundsException err) {}
     }
 
     /**

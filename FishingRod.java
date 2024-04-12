@@ -50,9 +50,9 @@ public class FishingRod extends PixelActor {
     private Timer castTimer;
 
     public FishingRod(Fisher fisher) {
-        super(RodTier.WOODEN.imagePrefix + fisher.getSide() + ".png");
+        super();
         this.fisher = fisher;
-        rodTier = RodTier.WOODEN;
+        setRodTier(RodTier.WOODEN);
 
         setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
         if (fisher.getSide() == 2) {
@@ -161,13 +161,8 @@ public class FishingRod extends PixelActor {
      * Increase the tier of the rod.
      */
     public void increaseRodTier() {
-        switch (rodTier) {
-            case WOODEN:
-                setRodTier(RodTier.BASIC);
-                break;
-            case BASIC:
-                setRodTier(RodTier.ADVANCED);
-                break;
-        }
+        try {
+            rodTier = RodTier.values()[rodTier.ordinal() + 1];
+        } catch (IndexOutOfBoundsException err) {}
     }
 }
