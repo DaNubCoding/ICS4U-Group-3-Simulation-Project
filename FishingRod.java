@@ -162,7 +162,7 @@ public class FishingRod extends PixelActor {
      */
     public void increaseRodTier() {
         try {
-            rodTier = RodTier.values()[rodTier.ordinal() + 1];
+            setRodTier(RodTier.values()[rodTier.ordinal() + 1]);
         } catch (IndexOutOfBoundsException err) {}
     }
 }
