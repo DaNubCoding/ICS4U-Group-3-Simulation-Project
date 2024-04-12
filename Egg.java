@@ -20,10 +20,23 @@ public class Egg extends PixelActor {
         LARGE(900),
         GIGANTIC(1200);
 
-        public final int hatchingTime;
+        public final int hatchTime;
 
         private EggSize(int hatchingTime) {
-            this.hatchingTime = hatchingTime;
+            this.hatchTime = hatchingTime;
+        }
+
+        /**
+         * Get the egg size one level bigger than the current.
+         * 
+         * @return The egg size after this one
+         */
+        public EggSize nextSize() {
+            try {
+                return EggSize.values()[ordinal() + 1];
+            } catch (IndexOutOfBoundsException err) {
+                return this;
+            }
         }
     }
 
@@ -37,19 +50,22 @@ public class Egg extends PixelActor {
         PINK, GREEN, BLUE, BLACK
     }
 
+    private Fish parent;
     private EggSize size;
     private EggColor color;
     private double speed;
     private Timer spawnTimer;
 
     /**
-     * Initialize an egg with a size and a color from the enums.
+     * Initialize an egg with a parent, a size and a color from the enums.
      * 
+     * @param parent The parent Fish of the egg
      * @param size The size of the egg
      * @param color The color of the egg
      */
-    public Egg(EggSize size, EggColor color) {
-        super("egg_" + size.name().toLowerCase() + "_" + color.name().toLowerCase() + ".png");
+    public Egg(Fish parent, Egg.EggSize size, Egg.EggColor color) {
+        super(constructImageString(size, color));
+        this.parent = parent;
         this.size = size;
         this.color = color;
 
@@ -58,7 +74,7 @@ public class Egg extends PixelActor {
         setCenterOfRotation(width / 2, height / 2);
         setHeading(Util.randInt(360));
         speed = Util.randDouble(0.4, 0.8);
-        spawnTimer = new Timer((int) (size.hatchingTime * Util.randDouble(0.8, 1.2)));
+        spawnTimer = new Timer((int) (size.hatchTime * Util.randDouble(0.8, 1.2)));
     }
 
     public void act() {
@@ -67,12 +83,41 @@ public class Egg extends PixelActor {
 
         setLocation(getDoubleX(), getDoubleY() + 0.3);
 
-        if (getDoubleY() > SimulationWorld.SEA_FLOOR_Y) {
-            setLocation(getDoubleX(), SimulationWorld.SEA_FLOOR_Y);
+        // Move it into the seafloor a bit
+        int maxY = SimulationWorld.SEA_FLOOR_Y + getOriginalHeight() / 2;
+        if (getDoubleY() > maxY) {
+            setLocation(getDoubleX(), maxY);
+        }
+        if (getX() < 0) {
+            setLocation(0, getDoubleY());
+        } else if (getX() > getWorld().getWidth()) {
+            setLocation(getWorld().getWidth(), getDoubleY());
         }
 
         if (spawnTimer.ended()) {
-            getWorld().removeObject(this);
+            hatch();
         }
+    }
+    /**
+     * Generate the correct egg file name of a given size and color.
+     * 
+     * @param size The size of the egg image
+     * @param color The color of the egg image
+     * @return The file name
+     */
+    private static String constructImageString(Egg.EggSize size, Egg.EggColor color) {
+        String sizeStr = size.name().toLowerCase();
+        String colorStr = color.name().toLowerCase();
+        return "egg_" + sizeStr + "_" + colorStr + ".png";
+    }
+
+    /**
+     * Hatch the egg (spawns a new Fish).
+     * <p>Calls parent.createOffspring().</p>
+     */
+    private void hatch() {
+        PixelWorld world = getWorld();
+        world.addObject(parent.createOffspring(), getX(), getY());
+        world.removeObject(this);
     }
 }

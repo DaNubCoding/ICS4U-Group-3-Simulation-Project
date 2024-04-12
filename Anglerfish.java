@@ -26,9 +26,11 @@ public class Anglerfish extends Fish {
         fishSettings.setAverageTurnInterval(300);
         fishSettings.setMaxTurnDegrees(20);
         // Evolution settings
-        fishSettings.setEggSize(Egg.EggSize.GIGANTIC);
+        fishSettings.setEggSize(Egg.EggSize.SMALL); // TODO: REVERT BACK TO GIGANTIC
         fishSettings.setEggColor(Egg.EggColor.GREEN);
         fishSettings.setEggSpawnFrequency(1000);
+        fishSettings.setEvoPointGain(25);
+        fishSettings.setEvolutionChance(0.5);
         // Feature locations
         Map<FishFeature, IntPair> featurePoints = new EnumMap<>(FishFeature.class);
         featurePoints.put(FishFeature.BIG_EYE, new IntPair(19, 8));
@@ -38,8 +40,8 @@ public class Anglerfish extends Fish {
         fishSettings.validate();
     }
 
-    public Anglerfish(FishFeature... features) {
-        super(fishSettings, features);
+    public Anglerfish(int evoPoints, FishFeature... features) {
+        super(fishSettings, evoPoints, features);
     }
 
     @Override
@@ -48,5 +50,14 @@ public class Anglerfish extends Fish {
 
         lookForHook();
         attachToHook();
+    }
+
+    @Override
+    public Fish createOffspring() {
+        if (Util.randInt(1) == 0) {
+            return new Anglerfish(getEvoPoints());
+        } else {
+            return new Anglerfish(getEvoPoints(), FishFeature.BIG_EYE);
+        }
     }
 }

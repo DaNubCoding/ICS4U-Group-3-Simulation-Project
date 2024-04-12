@@ -27,20 +27,26 @@ public abstract class Fish extends PixelActor {
     private Hook bittenHook;
     protected Timer rotationTimer;
     private Timer eggSpawnTimer;
+    // Evolutionary points
+    private int evoPoints;
 
     /**
-     * Creates a new Fish with the given features.
+     * Create a new Fish with the given settings and features, as well as a
+     * starting number of evolutionary points.
      * <p>
      * Pass any number of arguments of type FishFeature to this constructor
      * (including zero) or a FishFeature array and all of the features will be
      * added to the new Fish.
-     *
-     * @param features any FishFeatures to add to this Fish
+     * 
+     * @param settings The settings of the Fish
+     * @param evoPoints The number of evolutionary points to start with
+     * @param features Any FishFeatures to add to this Fish
      */
-    public Fish(FishSettings settings, FishFeature... features) {
+    public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
         super();
         // Store fish subclass-specific settings
         this.settings = settings;
+        this.evoPoints = evoPoints;
 
         // Add features
         this.features = EnumSet.noneOf(FishFeature.class);
@@ -92,6 +98,15 @@ public abstract class Fish extends PixelActor {
             sum += feature.getValue();
         }
         return sum;
+    }
+
+    /**
+     * Get the settings of the fish.
+     * 
+     * @return The FishSettings object
+     */
+    public FishSettings getSettings() {
+        return settings;
     }
 
     /**
@@ -284,12 +299,14 @@ public abstract class Fish extends PixelActor {
             setHeading(180 - getHeading());
             setMirrorX(false);
             setRotation(getHeading());
+            setLocation(0, getDoubleY());
         } else if (getX() > getWorld().getWidth()) {
             // Flip angle across y-axis
             setHeading(180 - getHeading());
             setMirrorX(true);
             // + 180 because mirroring
             setRotation(getHeading() + 180);
+            setLocation(getWorld().getWidth(), getDoubleY());
         }
     }
 
@@ -297,10 +314,39 @@ public abstract class Fish extends PixelActor {
      * Spawn a random number of eggs at the location of the fish.
      */
     private void spawnEgg() {
+        int gain = settings.getEvoPointGain();
+        evoPoints += Util.randInt((int) (gain * Util.randDouble(0.8, 1.2)));
+
         int numOfEggs = Util.randInt(1, 3);
         for (int i = 0; i < numOfEggs; i++) {
-            Egg egg = new Egg(settings.getEggSize(), settings.getEggColor());
+            // Determine whether the fish should evolve based on evolution chance
+            Egg.EggSize size;
+            boolean canEvolve = evoPoints >= 100;
+            boolean willEvolve = Util.randDouble(0, 1) < settings.getEvolutionChance();
+            if (canEvolve && willEvolve) {
+                size = settings.getEggSize().nextSize();
+            } else {
+                size = settings.getEggSize();
+            }
+
+            Egg egg = new Egg(this, size, settings.getEggColor());
             getWorld().addObject(egg, getX(), getY());
         }
     }
+
+    /**
+     * Get the number of evolutionary points this Fish has.
+     * 
+     * @return The number of evolutionary points
+     */
+    public int getEvoPoints() {
+        return evoPoints;
+    }
+
+    /**
+     * Override this with logic for spawning a new Fish of this type.
+     * 
+     * @return The new Fish object
+     */
+    public abstract Fish createOffspring();
 }

@@ -35,6 +35,10 @@ public class FishSettings {
     private Egg.EggColor eggColor = null;
     // The frequency at which the Fish spawns eggs
     private Integer eggSpawnFrequency = null;
+    // The average number of evo-points gained per generation
+    private Integer evoPointGain = null;
+    // The percentage chance of evolving after the threshold is reached
+    private Double evolutionChance = null;
 
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
@@ -63,6 +67,8 @@ public class FishSettings {
         assertNonNull(eggSize, "egg size");
         assertNonNull(eggColor, "egg color");
         assertNonNull(eggSpawnFrequency, "egg spawn frequency");
+        assertNonNull(evoPointGain, "evo-point gain");
+        assertNonNull(evolutionChance, "evolution chance");
         assertNonNull(featurePoints, "feature point map");
     }
 
@@ -163,6 +169,24 @@ public class FishSettings {
      */
     public void setEggSpawnFrequency(int spawnFrequency) {
         eggSpawnFrequency = spawnFrequency;
+    }
+
+    /**
+     * Set the number of evo-points gained by an egg is spawned.
+     * 
+     * @param gain The number of evo-points gained
+     */
+    public void setEvoPointGain(int gain) {
+        evoPointGain = gain;
+    }
+
+    /**
+     * Set the percentage chance of evolving after a the evolution threshold.
+     * 
+     * @param chance The percentage chance of evolving
+     */
+    public void setEvolutionChance(double chance) {
+        evolutionChance = chance;
     }
 
     /**
@@ -276,6 +300,24 @@ public class FishSettings {
      */
     public int getEggSpawnFrequency() {
         return eggSpawnFrequency;
+    }
+
+    /**
+     * Get the number of evo-points gained by an egg is spawned.
+     * 
+     * @return The number of evo-points gained
+     */
+    public int getEvoPointGain() {
+        return evoPointGain;
+    }
+
+    /**
+     * Get the percentage chance of evolving after a the evolution threshold.
+     * 
+     * @return The percentage chance of evolving
+     */
+    public double getEvolutionChance() {
+        return evolutionChance;
     }
 
     /**
