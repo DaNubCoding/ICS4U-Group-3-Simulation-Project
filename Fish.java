@@ -316,14 +316,14 @@ public abstract class Fish extends PixelActor {
     protected void checkBounds() {
         if (getY() < settings.getMinDepth()) {
             // Try to get back to its depth range by slowly turning downwards
-            setHeading(Util.interpolateAngle(getHeading(), 90, 0.0025));
+            setHeading(Util.interpolateAngle(getHeading(), 90, 0.0075));
         } else if (getY() > settings.getMaxDepth()) {
             // Try to get back to its depth range by slowly turning upwards
-            setHeading(Util.interpolateAngle(getHeading(), -90, 0.0025));
+            setHeading(Util.interpolateAngle(getHeading(), -90, 0.0075));
         } else {
             // Try to return to going straight by slowly turning to be horizontal
             int forward = getMirrorX() ? 180 : 0;
-            setHeading(Util.interpolateAngle(getHeading(), forward, 0.0025));
+            setHeading(Util.interpolateAngle(getHeading(), forward, 0.005));
         }
 
         if (getX() < 0) {
