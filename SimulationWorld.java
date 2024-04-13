@@ -21,6 +21,8 @@ public class SimulationWorld extends PixelWorld {
     public SimulationWorld() {
         super(250, 160);
 
+        setRenderOrder(Egg.class, Fish.class, Bubble.class, FishingRod.class, Fisher.class, FishingLine.class, Hook.class, Text.class);
+
         fisher1 = new Fisher(1);
         fisher2 = new Fisher(2);
         addObject(fisher1, 50, 36);
@@ -59,9 +61,7 @@ public class SimulationWorld extends PixelWorld {
         // Draw the background
         canvas.drawImage(background, 0, 0);
         // Draw actors
-        for (PixelActor actor : getObjects(PixelActor.class)) {
-            actor.render(canvas);
-        }
+        renderPixelActors();
         // Draw water gradient on top of underwater actors
         canvas.drawImage(foreground, 0, 0);
 
