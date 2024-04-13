@@ -144,7 +144,7 @@ public abstract class PixelActor extends Actor {
         originalHeight = newImage.getHeight();
         if (DEBUG_SHOW_IMAGE_BOUNDS) {
             originalImage = new GreenfootImage(originalWidth, originalHeight);
-            originalImage.setColor(new Color(255, 0, 255, 64));
+            originalImage.setColor(new Color(255, 0, 0, 64));
             originalImage.fill();
             originalImage.drawImage(newImage, 0, 0);
         } else {
@@ -217,7 +217,7 @@ public abstract class PixelActor extends Actor {
         int localX = (int) Math.floor((maxDimension - originalWidth) / 2);
         int localY = (int) Math.floor((maxDimension - originalHeight) / 2);
         if (DEBUG_SHOW_IMAGE_BOUNDS) {
-            expandedImage.setColor(new Color(0, 255, 0, 64));
+            expandedImage.setColor(new Color(255, 255, 0, 64));
             expandedImage.fill();
         }
         expandedImage.drawImage(originalImage, localX, localY);
@@ -241,6 +241,10 @@ public abstract class PixelActor extends Actor {
         transformedImage = new GreenfootImage((int) transformedWidth, (int) transformedHeight);
         int localX = (int) Math.floor((transformedWidth - maxDimension) / 2);
         int localY = (int) Math.floor((transformedHeight - maxDimension) / 2);
+        if (DEBUG_SHOW_IMAGE_BOUNDS) {
+            transformedImage.setColor(new Color(0, 255, 0, 64));
+            transformedImage.fill();
+        }
         transformedImage.drawImage(rotatedImage, localX, localY);
     }
 
