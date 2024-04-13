@@ -21,7 +21,7 @@ public class SimulationWorld extends PixelWorld {
     public SimulationWorld() {
         super(250, 160);
 
-        setRenderOrder(Egg.class, Fish.class, Bubble.class, FishingRod.class, Fisher.class, FishingLine.class, Hook.class, Text.class);
+        setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, Text.class);
 
         fisher1 = new Fisher(1);
         fisher2 = new Fisher(2);
