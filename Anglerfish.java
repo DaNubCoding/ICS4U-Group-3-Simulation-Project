@@ -1,7 +1,4 @@
 import greenfoot.*;
-import java.util.Map;
-import java.util.EnumMap;
-import java.util.Collections;
 
 /**
  * A large deep sea fish.
@@ -32,9 +29,7 @@ public class Anglerfish extends Fish {
         fishSettings.setEvoPointGain(25);
         fishSettings.setEvolutionChance(0.5);
         // Feature locations
-        Map<FishFeature, IntPair> featurePoints = new EnumMap<>(FishFeature.class);
-        featurePoints.put(FishFeature.BIG_EYE, new IntPair(19, 8));
-        fishSettings.setFeaturePoints(Collections.unmodifiableMap(featurePoints));
+        fishSettings.putFeaturePoint(FishFeature.BIG_EYE, new IntPair(19, 8));
 
         // Sanity check to ensure all settings have been defined
         fishSettings.validate();

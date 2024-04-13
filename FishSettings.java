@@ -1,5 +1,7 @@
 import greenfoot.*;
 import java.util.Map;
+import java.util.EnumMap;
+import java.util.Collections;
 
 /**
  * A class to contain all Fish subclass-specific settings.
@@ -14,6 +16,26 @@ import java.util.Map;
  * @version April 2024
  */
 public class FishSettings {
+    /**
+     * Thrown from {@link #validate} when a FishSettings object contains an
+     * invalid setting.
+     */
+    public static class InvalidSettingException extends RuntimeException {
+        public InvalidSettingException() {}
+
+        public InvalidSettingException(String message) {
+            super(message);
+        }
+
+        public InvalidSettingException(Throwable cause) {
+            super(cause);
+        }
+
+        public InvalidSettingException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
     // Amount of XP this Fish type is worth without any features
     private Integer baseValue = null;
     // Base image of this Fish type without any features
@@ -43,17 +65,17 @@ public class FishSettings {
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
     // feature's image from the top left corner of the body image
-    private Map<FishFeature, IntPair> featurePoints = null;
+    private Map<FishFeature, IntPair> featurePoints = new EnumMap<>(FishFeature.class);
 
     private static void assertNonNull(Object obj, String name) {
         if (obj == null) {
-            throw new NullPointerException("FishSettings " + name + " was never initialized");
+            throw new InvalidSettingException("FishSettings " + name + " was never initialized");
         }
     }
 
     /**
-     * Throw a {@link NullPointerException} if any of this FishSettings object's
-     * settings are {@code null}.
+     * Throw a {@link InvalidSettingException} if any of this FishSettings object's
+     * settings are invalid.
      */
     public void validate() {
         assertNonNull(baseValue, "base value");
@@ -69,7 +91,11 @@ public class FishSettings {
         assertNonNull(eggSpawnFrequency, "egg spawn frequency");
         assertNonNull(evoPointGain, "evo-point gain");
         assertNonNull(evolutionChance, "evolution chance");
-        assertNonNull(featurePoints, "feature point map");
+        // Ensure feature point map contains every existing FishFeature
+        if (featurePoints.size() != FishFeature.class.getEnumConstants().length) {
+            throw new InvalidSettingException("FishSettings does not have feature points for all existing FishFeature types (got " + featurePoints.size() + ", expected " + FishFeature.class.getEnumConstants().length + ")");
+        }
+        featurePoints = Collections.unmodifiableMap(featurePoints);
     }
 
     /**
@@ -146,7 +172,7 @@ public class FishSettings {
 
     /**
      * Sets the size of the egg that is spawned by the fish.
-     * 
+     *
      * @param size The size of the egg spawned by the fish
      */
     public void setEggSize(Egg.EggSize size) {
@@ -155,7 +181,7 @@ public class FishSettings {
 
     /**
      * Sets the color of the egg that is spawned by the fish.
-     * 
+     *
      * @param size The color of the egg spawned by the fish
      */
     public void setEggColor(Egg.EggColor color) {
@@ -164,7 +190,7 @@ public class FishSettings {
 
     /**
      * Set the spawn frequency of eggs.
-     * 
+     *
      * @param spawnFrequency The frequency at which the Fish spawns eggs
      */
     public void setEggSpawnFrequency(int spawnFrequency) {
@@ -173,7 +199,7 @@ public class FishSettings {
 
     /**
      * Set the number of evo-points gained by an egg is spawned.
-     * 
+     *
      * @param gain The number of evo-points gained
      */
     public void setEvoPointGain(int gain) {
@@ -182,7 +208,7 @@ public class FishSettings {
 
     /**
      * Set the percentage chance of evolving after a the evolution threshold.
-     * 
+     *
      * @param chance The percentage chance of evolving
      */
     public void setEvolutionChance(double chance) {
@@ -190,17 +216,13 @@ public class FishSettings {
     }
 
     /**
-     * Sets the feature point map.
+     * Sets the image offset point for the specified FishFeature.
      *
-     * @param featurePoints a map of FishFeature to IntPair defining x and y offsets of each feature's image from the body image
-     * @throws IllegalArgumentException if the given map does not contain mappings for all values of FishFeature
+     * @param feature the FishFeature for which the offset point is being defined
+     * @param point an IntPair defining the x and y offset of the feature's image from the body image
      */
-    public void setFeaturePoints(Map<FishFeature, IntPair> featurePoints) {
-        // Ensure feature point map contains every existing FishFeature
-        if (featurePoints.size() != FishFeature.class.getEnumConstants().length) {
-            throw new IllegalArgumentException("Number of points defined in FishSettings feature point map does not match the number of existing FishFeature types");
-        }
-        this.featurePoints = featurePoints;
+    public void putFeaturePoint(FishFeature feature, IntPair point) {
+        featurePoints.put(feature, point);
     }
 
     /**
@@ -277,7 +299,7 @@ public class FishSettings {
 
     /**
      * Gets the size of the egg that is spawned by the fish.
-     * 
+     *
      * @return The size of the egg spawned by the fish
      */
     public Egg.EggSize getEggSize() {
@@ -286,7 +308,7 @@ public class FishSettings {
 
     /**
      * Gets the color of the egg that is spawned by the fish.
-     * 
+     *
      * @return The color of the egg spawned by the fish
      */
     public Egg.EggColor getEggColor() {
@@ -295,7 +317,7 @@ public class FishSettings {
 
     /**
      * Get the spawn frequency of eggs.
-     * 
+     *
      * @return The frequency at which the Fish spawns eggs
      */
     public int getEggSpawnFrequency() {
@@ -304,7 +326,7 @@ public class FishSettings {
 
     /**
      * Get the number of evo-points gained by an egg is spawned.
-     * 
+     *
      * @return The number of evo-points gained
      */
     public int getEvoPointGain() {
@@ -313,7 +335,7 @@ public class FishSettings {
 
     /**
      * Get the percentage chance of evolving after a the evolution threshold.
-     * 
+     *
      * @return The percentage chance of evolving
      */
     public double getEvolutionChance() {
