@@ -15,6 +15,7 @@ public class Anglerfish extends Fish {
         // Base settings
         fishSettings.setBaseValue(100);
         fishSettings.setBodyImage(new GreenfootImage("anglerfish.png"));
+        fishSettings.setAllowedFeatures(FishFeature.BIG_EYE);
         fishSettings.setCatchOffset(new IntPair(27, 18));
         // Movement settings
         fishSettings.setSwimSpeed(0.1);

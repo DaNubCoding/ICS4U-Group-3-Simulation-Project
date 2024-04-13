@@ -41,6 +41,7 @@ public abstract class Fish extends PixelActor {
      * @param settings The settings of the Fish
      * @param evoPoints The number of evolutionary points to start with
      * @param features Any FishFeatures to add to this Fish
+     * @throws IllegalArgumentException if any of the given features are not allowed on this Fish type
      */
     public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
         super();
@@ -50,7 +51,9 @@ public abstract class Fish extends PixelActor {
 
         // Add features
         this.features = EnumSet.noneOf(FishFeature.class);
-        Collections.addAll(this.features, features);
+        for (FishFeature feature : features) {
+            addFeature(feature, false);
+        }
         updateImage();
 
         rotationTimer = new Timer(settings.getAverageTurnInterval());
@@ -64,8 +67,24 @@ public abstract class Fish extends PixelActor {
      * @param feature the FishFeature to add
      */
     public void addFeature(FishFeature feature) {
+        addFeature(feature, true);
+    }
+
+    /**
+     * Adds a FishFeature to this Fish, optionally updating its image.
+     *
+     * @param feature the FishFeature to add
+     * @param updateImage whether or not this Fish's image should be updated
+     * @throws IllegalArgumentException if the given feature is not allowed on this Fish type
+     */
+    public void addFeature(FishFeature feature, boolean updateImage) {
+        if (!settings.isFeatureAllowed(feature)) {
+            throw new IllegalArgumentException("FishFeature " + feature + " is not allowed on this Fish type");
+        }
         features.add(feature);
-        updateImage();
+        if (updateImage) {
+            updateImage();
+        }
     }
 
     /**

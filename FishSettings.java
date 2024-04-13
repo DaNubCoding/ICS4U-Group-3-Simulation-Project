@@ -1,6 +1,8 @@
 import greenfoot.*;
 import java.util.Map;
 import java.util.EnumMap;
+import java.util.Set;
+import java.util.EnumSet;
 import java.util.Collections;
 
 /**
@@ -62,6 +64,9 @@ public class FishSettings {
     // The percentage chance of evolving after the threshold is reached
     private Double evolutionChance = null;
 
+    // All features that can be added to the Fish
+    private Set<FishFeature> allowedFeatures = null;
+
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
     // feature's image from the top left corner of the body image
@@ -91,9 +96,12 @@ public class FishSettings {
         assertNonNull(eggSpawnFrequency, "egg spawn frequency");
         assertNonNull(evoPointGain, "evo-point gain");
         assertNonNull(evolutionChance, "evolution chance");
-        // Ensure feature point map contains every existing FishFeature
-        if (featurePoints.size() != FishFeature.class.getEnumConstants().length) {
-            throw new InvalidSettingException("FishSettings does not have feature points for all existing FishFeature types (got " + featurePoints.size() + ", expected " + FishFeature.class.getEnumConstants().length + ")");
+        assertNonNull(allowedFeatures, "allowed features");
+        // Ensure feature point map contains every applicable FishFeature
+        for (FishFeature feature : allowedFeatures) {
+            if (!featurePoints.containsKey(feature)) {
+                throw new InvalidSettingException("FishSettings does not have a feature point defined for the allowed FishFeature " + feature);
+            }
         }
         featurePoints = Collections.unmodifiableMap(featurePoints);
     }
@@ -213,6 +221,20 @@ public class FishSettings {
      */
     public void setEvolutionChance(double chance) {
         evolutionChance = chance;
+    }
+
+    /**
+     * Sets the allowed FishFeatures.
+     * <p>
+     * To disallow all features, either pass no arguments or {@code null}.
+     *
+     * @param features all FishFeatures that apply to this Fish type, or {@code null} for none
+     */
+    public void setAllowedFeatures(FishFeature... features) {
+        allowedFeatures = EnumSet.noneOf(FishFeature.class);
+        if (features != null) {
+            Collections.addAll(allowedFeatures, features);
+        }
     }
 
     /**
@@ -340,6 +362,25 @@ public class FishSettings {
      */
     public double getEvolutionChance() {
         return evolutionChance;
+    }
+
+    /**
+     * Returns a set of all allowed FishFeatures.
+     *
+     * @return a new set containing all FishFeatures that can be added to this Fish type
+     */
+    public Set<FishFeature> getAllowedFeatures() {
+        return EnumSet.copyOf(allowedFeatures);
+    }
+
+    /**
+     * Tests if the given FishFeature is allowed.
+     *
+     * @param feature the FishFeature to test
+     * @return true if the feature is allowed, false otherwise
+     */
+    public boolean isFeatureAllowed(FishFeature feature) {
+        return allowedFeatures.contains(feature);
     }
 
     /**
