@@ -185,6 +185,7 @@ public abstract class Fish extends PixelActor {
     public final void lookForHook() {
         List<Hook> hooks = getWorld().getObjects(Hook.class);
         for (Hook hook : hooks) {
+            if (hook.isOccupied()) continue;
             DoublePair catchPoint = getCatchPoint();
             DoublePair fishBitePoint = hook.getBitePoint();
             double distance = Math.hypot(catchPoint.x - fishBitePoint.x, catchPoint.y - fishBitePoint.y);
@@ -214,6 +215,7 @@ public abstract class Fish extends PixelActor {
         // Unimplemented condition until rod tiers and fish tiers are implemented
         if (true) {
             bittenHook = hook;
+            hook.occupy();
             hook.reelIn();
             IntPair catchOffset = settings.getCatchOffset();
             setCenterOfRotation(catchOffset.x, catchOffset.y);

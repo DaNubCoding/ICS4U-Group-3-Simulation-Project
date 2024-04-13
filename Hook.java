@@ -39,6 +39,7 @@ public class Hook extends PixelActor {
     private HookTier hookTier;
     // Change this to true to start the reel-in process
     private boolean reelingIn;
+    private boolean occupied;
 
     public Hook(FishingRod fishingRod) {
         super(fishingRod.getRodTier().hook.fileName + ".png");
@@ -50,6 +51,7 @@ public class Hook extends PixelActor {
         setMirrorX(!fishingRod.getMirrorX());
 
         reelingIn = false;
+        occupied = false;
     }
 
     public void act() {
@@ -89,5 +91,22 @@ public class Hook extends PixelActor {
     public DoublePair getBitePoint() {
         IntPair fishBitePoint = hookTier.fishBitePoint;
         return getImageOffsetGlobalPosition(fishBitePoint.x, fishBitePoint.y);
+    }
+
+    /**
+     * Get whether the hook is already occupied by a fish and cannot hook
+     * another one.
+     *
+     * @return True if already hooking a fish, false otherwise
+     */
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    /**
+     * Called by fish to make the hook occupied.
+     */
+    public void occupy() {
+        occupied = true;
     }
 }
