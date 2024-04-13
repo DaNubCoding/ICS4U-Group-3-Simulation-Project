@@ -14,9 +14,9 @@ public class Anglerfish extends Fish {
         fishSettings = new FishSettings();
         // Base settings
         fishSettings.setBaseValue(100);
-        fishSettings.setBodyImage(new GreenfootImage("anglerfish.png"));
+        fishSettings.setBodyImage("anglerfish.png");
+        fishSettings.setCatchOffset(27, 18);
         fishSettings.setAllowedFeatures(FishFeature.BIG_EYE);
-        fishSettings.setCatchOffset(new IntPair(27, 18));
         // Movement settings
         fishSettings.setSwimSpeed(0.1);
         fishSettings.setMinDepth(90);
@@ -29,8 +29,8 @@ public class Anglerfish extends Fish {
         fishSettings.setEggSpawnFrequency(1000);
         fishSettings.setEvoPointGain(25);
         fishSettings.setEvolutionChance(0.5);
-        // Feature locations
-        fishSettings.putFeaturePoint(FishFeature.BIG_EYE, new IntPair(19, 8));
+        // Feature image offsets
+        fishSettings.setFeaturePoint(FishFeature.BIG_EYE, 19, 8);
 
         // Sanity check to ensure all settings have been defined
         fishSettings.validate();

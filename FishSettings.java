@@ -125,12 +125,22 @@ public class FishSettings {
     }
 
     /**
-     * Sets the catch offset.
+     * Sets the base body image from the given path.
      *
-     * @param offset the point relative to body image where this Fish type may be caught from
+     * @param imagePath the path of the image file containing the base image of this Fish type without any features
      */
-    public void setCatchOffset(IntPair offset) {
-        catchOffset = offset;
+    public void setBodyImage(String imagePath) {
+        setBodyImage(new GreenfootImage(imagePath));
+    }
+
+    /**
+     * Sets the catch offset, the point where this Fish type may be caught from.
+     *
+     * @param x the horizontal offset relative to body image
+     * @param y the vertical offset relative to body image
+     */
+    public void setCatchOffset(int x, int y) {
+        catchOffset = new IntPair(x, y);
     }
 
     /**
@@ -241,10 +251,11 @@ public class FishSettings {
      * Sets the image offset point for the specified FishFeature.
      *
      * @param feature the FishFeature for which the offset point is being defined
-     * @param point an IntPair defining the x and y offset of the feature's image from the body image
+     * @param x the horizontal offset of the feature's image from the body image
+     * @param y the vertical offset of the feature's image from the body image
      */
-    public void putFeaturePoint(FishFeature feature, IntPair point) {
-        featurePoints.put(feature, point);
+    public void setFeaturePoint(FishFeature feature, int x, int y) {
+        featurePoints.put(feature, new IntPair(x, y));
     }
 
     /**
