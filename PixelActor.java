@@ -150,7 +150,8 @@ public abstract class PixelActor extends Actor {
         } else {
             originalImage = new GreenfootImage(newImage);
         }
-        setCenterOfRotation(originalWidth / 2, originalHeight / 2);
+        centerOfRotationX = originalWidth / 2;
+        centerOfRotationY = originalHeight / 2;
         if (getMirrorX()) {
             originalImage.mirrorHorizontally();
             centerOfRotationX = originalWidth - 1 - centerOfRotationX;
@@ -159,7 +160,8 @@ public abstract class PixelActor extends Actor {
             originalImage.mirrorVertically();
             centerOfRotationY = originalHeight - 1 - centerOfRotationY;
         }
-        updateImage();
+        createExpandedImage();
+        createRotatedImage();
     }
 
     /**
@@ -184,7 +186,7 @@ public abstract class PixelActor extends Actor {
         centerOfRotationY = y;
         if (getMirrorX()) centerOfRotationX = originalWidth - 1 - centerOfRotationX;
         if (getMirrorY()) centerOfRotationY = originalHeight - 1 - centerOfRotationY;
-        updateImage();
+        createRotatedImage();
     }
 
     /**
@@ -233,8 +235,8 @@ public abstract class PixelActor extends Actor {
         double sinAngle = Math.sin(angle);
         double cosAngle = Math.cos(angle);
         // Round to nearest even number to prevent jittering
-        transformedWidth = (int) Math.round((Math.abs(originalWidth * cosAngle) + Math.abs(originalHeight * sinAngle)) / 2) * 2;
-        transformedHeight = (int) Math.round((Math.abs(originalWidth * sinAngle) + Math.abs(originalHeight * cosAngle)) / 2) * 2;
+        transformedWidth = (int) Math.ceil((Math.abs(originalWidth * cosAngle) + Math.abs(originalHeight * sinAngle)) / 2) * 2;
+        transformedHeight = (int) Math.ceil((Math.abs(originalWidth * sinAngle) + Math.abs(originalHeight * cosAngle)) / 2) * 2;
 
         GreenfootImage rotatedImage = new GreenfootImage(expandedImage);
         rotatedImage.rotate((int) rotation);
@@ -246,14 +248,6 @@ public abstract class PixelActor extends Actor {
             transformedImage.fill();
         }
         transformedImage.drawImage(rotatedImage, localX, localY);
-    }
-
-    /**
-     * Update all intermediate images.
-     */
-    private void updateImage() {
-        createExpandedImage();
-        createRotatedImage();
     }
 
     /**
@@ -322,7 +316,8 @@ public abstract class PixelActor extends Actor {
         }
         centerOfRotationX = originalWidth - 1 - centerOfRotationX;
         mirrorX = mirror;
-        updateImage();
+        createExpandedImage();
+        createRotatedImage();
     }
 
     /**
@@ -337,7 +332,8 @@ public abstract class PixelActor extends Actor {
         }
         centerOfRotationY = originalHeight - 1 - centerOfRotationY;
         mirrorY = mirror;
-        updateImage();
+        createExpandedImage();
+        createRotatedImage();
     }
 
     /**
