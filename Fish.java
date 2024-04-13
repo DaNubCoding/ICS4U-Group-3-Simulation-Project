@@ -1,7 +1,6 @@
 import greenfoot.*;
 import java.util.Set;
 import java.util.EnumSet;
-import java.util.Map;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public abstract class Fish extends PixelActor {
      * Pass any number of arguments of type FishFeature to this constructor
      * (including zero) or a FishFeature array and all of the features will be
      * added to the new Fish.
-     * 
+     *
      * @param settings The settings of the Fish
      * @param evoPoints The number of evolutionary points to start with
      * @param features Any FishFeatures to add to this Fish
@@ -104,7 +103,7 @@ public abstract class Fish extends PixelActor {
 
     /**
      * Get the settings of the fish.
-     * 
+     *
      * @return The FishSettings object
      */
     public FishSettings getSettings() {
@@ -127,7 +126,6 @@ public abstract class Fish extends PixelActor {
         }
 
         // Create an image of appropriate size to fit this fish with all of its features
-        Map<FishFeature, IntPair> featurePoints = settings.getFeaturePoints();
         // Keep track of the extreme locations of any feature relative to the body
         int left = 0;
         int right = bodyImage.getWidth();
@@ -135,7 +133,7 @@ public abstract class Fish extends PixelActor {
         int bottom = bodyImage.getHeight();
         for (FishFeature feature : features) {
             // Get the leftmost and rightmost pixel locations of this feature relative to the body
-            IntPair point = featurePoints.get(feature);
+            IntPair point = settings.getFeaturePoint(feature);
             int featLeft = point.x;
             int featRight = featLeft + feature.getImage().getWidth();
             if (featLeft < left) {
@@ -157,7 +155,7 @@ public abstract class Fish extends PixelActor {
         // Draw the fish
         image.drawImage(bodyImage, -left, -top);
         for (FishFeature feature : features) {
-            IntPair point = featurePoints.get(feature);
+            IntPair point = settings.getFeaturePoint(feature);
             image.drawImage(feature.getImage(), point.x - left, point.y - top);
         }
         setImage(image);
@@ -363,7 +361,7 @@ public abstract class Fish extends PixelActor {
 
     /**
      * Get the number of evolutionary points this Fish has.
-     * 
+     *
      * @return The number of evolutionary points
      */
     public int getEvoPoints() {
@@ -372,7 +370,7 @@ public abstract class Fish extends PixelActor {
 
     /**
      * Override this with logic for spawning a new Fish of this type.
-     * 
+     *
      * @return The new Fish object
      */
     public abstract Fish createOffspring();

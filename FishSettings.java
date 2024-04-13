@@ -343,11 +343,12 @@ public class FishSettings {
     }
 
     /**
-     * Gets the feature point map.
+     * Gets the image offset point associated with the given FishFeature.
      *
-     * @return a map of FishFeature to IntPair defining x and y offsets of each feature's image from the body image
+     * @param feature the FishFeature whose point is to be returned
+     * @return an IntPair defining the x and y offset of the feature's image from the body image
      */
-    public Map<FishFeature, IntPair> getFeaturePoints() {
-        return featurePoints;
+    public IntPair getFeaturePoint(FishFeature feature) {
+        return featurePoints.get(feature);
     }
 }
