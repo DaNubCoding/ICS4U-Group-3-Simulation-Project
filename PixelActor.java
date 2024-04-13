@@ -22,12 +22,8 @@ public abstract class PixelActor extends Actor {
     private GreenfootImage originalImage;
     private int originalWidth;
     private int originalHeight;
-    // The image with center of rotation in mind
-    private GreenfootImage centeredImage;
     private int centerOfRotationX;
     private int centerOfRotationY;
-    private int centeredWidth;
-    private int centeredHeight;
     // See createExpandedImage()
     private GreenfootImage expandedImage;
     // See createExpandedImage()
@@ -94,7 +90,9 @@ public abstract class PixelActor extends Actor {
      */
     public void render(GreenfootImage canvas) {
         if (originalImage == null || !visible) return;
-        canvas.drawImage(transformedImage, (int) (x - transformedWidth / 2), (int) (y - transformedHeight / 2));
+        DoublePair center = getImageOffsetGlobalPosition(originalWidth / 2, originalHeight / 2);
+        DoublePair imagePos = new DoublePair(center.x - transformedWidth / 2, center.y - transformedHeight / 2);
+        canvas.drawImage(transformedImage, (int) Math.ceil(imagePos.x), (int) Math.ceil(imagePos.y));
         if (DEBUG_SHOW_IMAGE_BOUNDS) {
             canvas.setColor(Color.RED);
             canvas.fillRect(getX(), getY(), 1, 1);
@@ -208,41 +206,21 @@ public abstract class PixelActor extends Actor {
     }
 
     /**
-     * Offsets the original image in such a way so that when being rotated,
-     * it will rotate around the defined center of rotation.
-     */
-    private void createCenteredImage() {
-        if (originalImage == null) return;
-        int width = Math.max(centerOfRotationX, originalWidth - centerOfRotationX) * 2;
-        int height = Math.max(centerOfRotationY, originalHeight - centerOfRotationY) * 2;
-        centeredImage = new GreenfootImage(width, height);
-        int localX = width / 2 - centerOfRotationX;
-        int localY = height / 2 - centerOfRotationY;
-        if (DEBUG_SHOW_IMAGE_BOUNDS) {
-            centeredImage.setColor(new Color(255, 0, 0, 64));
-            centeredImage.fill();
-        }
-        centeredImage.drawImage(originalImage, localX, localY);
-        centeredWidth = centeredImage.getWidth();
-        centeredHeight = centeredImage.getHeight();
-    }
-
-    /**
      * Generate the image that is a version of the centered image but with extra
      * margins, as to make it just large enough to contain any potential rotation
      * of the centered image.
      */
     private void createExpandedImage() {
         if (originalImage == null) return;
-        maxDimension = (int) Math.ceil(Math.hypot(centeredWidth, centeredHeight) / 2) * 2;
+        maxDimension = (int) Math.ceil(Math.hypot(originalWidth, originalHeight) / 2) * 2;
         expandedImage = new GreenfootImage(maxDimension, maxDimension);
-        int localX = (int) Math.floor((maxDimension - centeredWidth) / 2);
-        int localY = (int) Math.floor((maxDimension - centeredHeight) / 2);
+        int localX = (int) Math.floor((maxDimension - originalWidth) / 2);
+        int localY = (int) Math.floor((maxDimension - originalHeight) / 2);
         if (DEBUG_SHOW_IMAGE_BOUNDS) {
             expandedImage.setColor(new Color(0, 255, 0, 64));
             expandedImage.fill();
         }
-        expandedImage.drawImage(centeredImage, localX, localY);
+        expandedImage.drawImage(originalImage, localX, localY);
     }
 
     /**
@@ -255,8 +233,8 @@ public abstract class PixelActor extends Actor {
         double sinAngle = Math.sin(angle);
         double cosAngle = Math.cos(angle);
         // Round to nearest even number to prevent jittering
-        transformedWidth = (int) Math.ceil((Math.abs(centeredWidth * cosAngle) + Math.abs(centeredHeight * sinAngle)) / 2) * 2;
-        transformedHeight = (int) Math.ceil((Math.abs(centeredWidth * sinAngle) + Math.abs(centeredHeight * cosAngle)) / 2) * 2;
+        transformedWidth = (int) Math.round((Math.abs(originalWidth * cosAngle) + Math.abs(originalHeight * sinAngle)) / 2) * 2;
+        transformedHeight = (int) Math.round((Math.abs(originalWidth * sinAngle) + Math.abs(originalHeight * cosAngle)) / 2) * 2;
 
         GreenfootImage rotatedImage = new GreenfootImage(expandedImage);
         rotatedImage.rotate((int) rotation);
@@ -270,7 +248,6 @@ public abstract class PixelActor extends Actor {
      * Update all intermediate images.
      */
     private void updateImage() {
-        createCenteredImage();
         createExpandedImage();
         createRotatedImage();
     }
