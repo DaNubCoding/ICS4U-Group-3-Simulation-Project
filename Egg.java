@@ -1,16 +1,18 @@
 import greenfoot.*;
+import java.lang.reflect.Constructor;
 
 /**
  * The eggs spawns by fish, can be a variety of colors and sizes depending on
  * the fish that spawns it.
- * 
+ *
  * @author Andrew Wang
+ * @author Martin Baldwin
  * @version April 2024
  */
 public class Egg extends PixelActor {
     /**
      * The possible sizes of an egg, with certain data specific to each size.
-     * 
+     *
      * @author Andrew Wang
      * @version April 2024
      */
@@ -28,7 +30,7 @@ public class Egg extends PixelActor {
 
         /**
          * Get the egg size one level bigger than the current.
-         * 
+         *
          * @return The egg size after this one
          */
         public EggSize nextSize() {
@@ -42,7 +44,7 @@ public class Egg extends PixelActor {
 
     /**
      * The possible colors of an egg.
-     * 
+     *
      * @author Andrew Wang
      * @version April 2024
      */
@@ -50,25 +52,29 @@ public class Egg extends PixelActor {
         PINK, GREEN, BLUE, BLACK
     }
 
-    private Fish parent;
-    private EggSize size;
-    private EggColor color;
+    private final EggSize size;
+    private final EggColor color;
+    private final Class<? extends Fish> hatchClass;
+    private final int evoPoints;
     private double speed;
     private double sinkSpeed;
     private Timer spawnTimer;
 
     /**
-     * Initialize an egg with a parent, a size and a color from the enums.
-     * 
-     * @param parent The parent Fish of the egg
+     * Initialize an egg with a size and a color from the enums plus a hatching
+     * fish type and evolutionary points.
+     *
      * @param size The size of the egg
      * @param color The color of the egg
+     * @param hatchClass The subclass of Fish to hatch from this egg
+     * @param evoPoints The number of evolutionary points to hatch a fish with
      */
-    public Egg(Fish parent, Egg.EggSize size, Egg.EggColor color) {
+    public Egg(Egg.EggSize size, Egg.EggColor color, Class<? extends Fish> hatchClass, int evoPoints) {
         super(constructImageString(size, color));
-        this.parent = parent;
         this.size = size;
         this.color = color;
+        this.hatchClass = hatchClass;
+        this.evoPoints = evoPoints;
 
         int width = getOriginalWidth();
         int height = getOriginalHeight();
@@ -100,9 +106,10 @@ public class Egg extends PixelActor {
             hatch();
         }
     }
+
     /**
      * Generate the correct egg file name of a given size and color.
-     * 
+     *
      * @param size The size of the egg image
      * @param color The color of the egg image
      * @return The file name
@@ -115,11 +122,35 @@ public class Egg extends PixelActor {
 
     /**
      * Hatch the egg (spawns a new Fish).
-     * <p>Calls parent.createOffspring().</p>
      */
     private void hatch() {
         PixelWorld world = getWorld();
-        world.addObject(parent.createOffspring(), getX(), getY());
+        Fish child = constructChild();
+        // Add random allowed features to the child fish, according to their corresponding chances
+        for (FishFeature feature : child.getSettings().getAllowedFeatures()) {
+            if (Util.randDouble(0, 1) < feature.getChance()) {
+                child.addFeature(feature);
+            }
+        }
+        world.addObject(child, getX(), getY());
         world.removeObject(this);
+    }
+
+    /**
+     * Construct and return a new instance of this egg's hatching fish class
+     * with no features.
+     */
+    private Fish constructChild() {
+        Fish child;
+        try {
+            Constructor<? extends Fish> constructor = hatchClass.getDeclaredConstructor(Integer.TYPE, FishFeature[].class);
+            child = constructor.newInstance(evoPoints, null);
+        } catch (ReflectiveOperationException e) {
+            if (e.getCause() instanceof RuntimeException) {
+                throw (RuntimeException) e.getCause();
+            }
+            throw new UnsupportedOperationException("Egg was supplied with an invalid hatching fish class", e);
+        }
+        return child;
     }
 }

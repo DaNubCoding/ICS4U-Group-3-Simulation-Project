@@ -28,8 +28,8 @@ public class SimulationWorld extends PixelWorld {
         addObject(fisher1, 50, 36);
         addObject(fisher2, 200, 36);
 
-        addObject(new Anglerfish(0), 16, 80);
-        addObject(new Anglerfish(0, FishFeature.BIG_EYE), 72, 100);
+        addObject(new Bass(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        addObject(new Salmon(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Tuna(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
 
         // TODO: remove this

@@ -1,22 +1,35 @@
 import greenfoot.*;
 
 /**
- * All features that may exist on fish, each with its own image to be drawn onto
- * a fish's image and an XP value it adds to a fish when caught.
+ * All features that may exist on fish. Each feature has attributes for:
+ * <ul>
+ * <li>the feature's image to be drawn onto a fish's image
+ * <li>a probability of a fish gaining the feature
+ * <li>the amount of XP the feature adds to a fish when caught
+ * </ul>
+ * <p>
+ * Features in this enum should be defined in the desired order of rendering,
+ * with later-defined features being drawn on top of earlier-defined features.
+ * (The rendering order is a result of the Fish class using an {@link java.util.EnumSet} internally).
  *
  * @author Martin Baldwin
+ * @author Sandra Huang
  * @version April 2024
  */
 public enum FishFeature {
-    BIG_EYE("big_eye.png", 10), 
-    ANGLER_BOMB("feature_angler_bomb.png", 15), ANGLER_SOCK("feature_angler_sock.png", 15), 
-    HAT_BROWN("feature_hat_brown.png", 5), HAT_PARTY("feature_hat_party.png", 5);
+    BIG_EYE("big_eye.png", 0.1, 10),
+    ANGLER_BOMB("feature_angler_bomb.png", 0.1, 15),
+    ANGLER_SOCK("feature_angler_sock.png", 0.2, 15),
+    HAT_BROWN("feature_hat_brown.png", 0.1, 5),
+    HAT_PARTY("feature_hat_party.png", 0.1, 5);
 
     private final GreenfootImage image;
+    private final double chance;
     private final int value;
 
-    private FishFeature(String imagePath, int value) {
+    private FishFeature(String imagePath, double chance, int value) {
         image = new GreenfootImage(imagePath);
+        this.chance = chance;
         this.value = value;
     }
 
@@ -27,6 +40,15 @@ public enum FishFeature {
      */
     public GreenfootImage getImage() {
         return image;
+    }
+
+    /**
+     * Returns the probability of a Fish gaining this FishFeature.
+     *
+     * @return the probability of gaining this feature, as a double, 0.0 indicating 0% and 1.0 indicating 100%
+     */
+    public double getChance() {
+        return chance;
     }
 
     /**

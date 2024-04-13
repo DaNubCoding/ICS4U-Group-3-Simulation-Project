@@ -24,37 +24,24 @@ public class Anglerfish extends Fish {
         fishSettings.setAverageTurnInterval(300);
         fishSettings.setMaxTurnDegrees(20);
         // Evolution settings
-        fishSettings.setEggSize(Egg.EggSize.SMALL); // TODO: REVERT BACK TO GIGANTIC
+        fishSettings.setEggSize(Egg.EggSize.GIGANTIC);
         fishSettings.setEggColor(Egg.EggColor.GREEN);
         fishSettings.setEggSpawnFrequency(1000);
         fishSettings.setEvoPointGain(25);
         fishSettings.setEvolutionChance(0.5);
+        fishSettings.setEvolutions(null);
         // Feature image offsets
         fishSettings.setFeaturePoint(FishFeature.BIG_EYE, 19, 8);
         fishSettings.setFeaturePoint(FishFeature.HAT_PARTY, 15, 2);
         fishSettings.setFeaturePoint(FishFeature.HAT_BROWN, 13, 4);
         fishSettings.setFeaturePoint(FishFeature.ANGLER_SOCK, 22, 0);
         fishSettings.setFeaturePoint(FishFeature.ANGLER_BOMB, 22, 0);
-        
+
         // Sanity check to ensure all settings have been defined
         fishSettings.validate();
     }
 
     public Anglerfish(int evoPoints, FishFeature... features) {
         super(fishSettings, evoPoints, features);
-    }
-
-    @Override
-    public void act() {
-        super.act();
-    }
-
-    @Override
-    public Fish createOffspring() {
-        if (Util.randInt(1) == 0) {
-            return new Anglerfish(getEvoPoints());
-        } else {
-            return new Anglerfish(getEvoPoints(), FishFeature.BIG_EYE);
-        }
     }
 }

@@ -40,7 +40,7 @@ public abstract class Fish extends PixelActor {
      *
      * @param settings The settings of the Fish
      * @param evoPoints The number of evolutionary points to start with
-     * @param features Any FishFeatures to add to this Fish
+     * @param features Any FishFeatures to add to this Fish, or {@code null} for none
      * @throws IllegalArgumentException if any of the given features are not allowed on this Fish type
      */
     public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
@@ -51,8 +51,10 @@ public abstract class Fish extends PixelActor {
 
         // Add features
         this.features = EnumSet.noneOf(FishFeature.class);
-        for (FishFeature feature : features) {
-            addFeature(feature, false);
+        if (features != null) {
+            for (FishFeature feature : features) {
+                addFeature(feature, false);
+            }
         }
         updateImage();
 
@@ -367,15 +369,24 @@ public abstract class Fish extends PixelActor {
         for (int i = 0; i < numOfEggs; i++) {
             // Determine whether the fish should evolve based on evolution chance
             Egg.EggSize size;
+            Class<? extends Fish> hatchClass;
             boolean canEvolve = evoPoints >= 100;
             boolean willEvolve = Util.randDouble(0, 1) < settings.getEvolutionChance();
             if (canEvolve && willEvolve) {
+                // Increase egg size and hatch a random evolution of this fish type
                 size = settings.getEggSize().nextSize();
+                if (settings.getEvolutions().length > 0) {
+                    hatchClass = settings.getEvolutions()[Util.randInt(0, settings.getEvolutions().length - 1)];
+                } else {
+                    hatchClass = getClass();
+                }
             } else {
+                // Keep egg size and hatch the same fish type as this fish
                 size = settings.getEggSize();
+                hatchClass = getClass();
             }
 
-            Egg egg = new Egg(this, size, settings.getEggColor());
+            Egg egg = new Egg(size, settings.getEggColor(), hatchClass, evoPoints);
             getWorld().addObject(egg, getX(), getY());
         }
     }
@@ -388,11 +399,4 @@ public abstract class Fish extends PixelActor {
     public int getEvoPoints() {
         return evoPoints;
     }
-
-    /**
-     * Override this with logic for spawning a new Fish of this type.
-     *
-     * @return The new Fish object
-     */
-    public abstract Fish createOffspring();
 }

@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Collections;
+import java.util.Arrays;
 
 /**
  * A class to contain all Fish subclass-specific settings.
@@ -63,6 +64,8 @@ public class FishSettings {
     private Integer evoPointGain = null;
     // The percentage chance of evolving after the threshold is reached
     private Double evolutionChance = null;
+    // All subclasses of Fish that this Fish type may evolve into
+    private Class<? extends Fish>[] evolutions = null;
 
     // All features that can be added to the Fish
     private Set<FishFeature> allowedFeatures = null;
@@ -96,6 +99,7 @@ public class FishSettings {
         assertNonNull(eggSpawnFrequency, "egg spawn frequency");
         assertNonNull(evoPointGain, "evo-point gain");
         assertNonNull(evolutionChance, "evolution chance");
+        assertNonNull(evolutions, "evolutions");
         assertNonNull(allowedFeatures, "allowed features");
         // Ensure feature point map contains every applicable FishFeature
         for (FishFeature feature : allowedFeatures) {
@@ -231,6 +235,21 @@ public class FishSettings {
      */
     public void setEvolutionChance(double chance) {
         evolutionChance = chance;
+    }
+
+    /**
+     * Sets the possible evolutions.
+     * <p>
+     * To set no evolutions, either pass no arguments or {@code null}.
+     *
+     * @param classes all subclasses of Fish that this Fish type may evolve into, or {@code null} for none
+     */
+    public void setEvolutions(Class<? extends Fish>... classes) {
+        if (classes == null) {
+            evolutions = new Class[0];
+        } else {
+            evolutions = classes;
+        }
     }
 
     /**
@@ -373,6 +392,15 @@ public class FishSettings {
      */
     public double getEvolutionChance() {
         return evolutionChance;
+    }
+
+    /**
+     * Gets the possible evolutions.
+     *
+     * @return an array of all subclasses of Fish that this Fish type may evolve into
+     */
+    public Class<? extends Fish>[] getEvolutions() {
+        return Arrays.copyOf(evolutions, evolutions.length);
     }
 
     /**
