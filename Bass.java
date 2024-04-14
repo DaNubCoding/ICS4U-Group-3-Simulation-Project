@@ -9,15 +9,15 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Bass extends TierOneFish
 {
     // Collection of all settings that define this subclass of Fish
-    private static final FishSettings fishSettings;
+    private static final FishSettings settings;
 
     //sets this tier one fish's settings to basic settings, with specified body image and egg color
     static {
-        fishSettings = new FishSettings();
-        initialiseTierOneFishSettings(fishSettings, "bass.png", Egg.EggColor.GREEN, Anglerfish.class);
+        settings = new FishSettings();
+        initialiseTierOneFishSettings(settings, "bass.png", Egg.EggColor.GREEN, Anglerfish.class);
     }
 
     public Bass(int evoPoints, FishFeature... features) {
-        super(fishSettings, evoPoints, features);
+        super(settings, evoPoints, features);
     }
 }

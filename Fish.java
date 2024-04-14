@@ -34,9 +34,13 @@ public abstract class Fish extends PixelActor {
      * Create a new Fish with the given settings and features, as well as a
      * starting number of evolutionary points.
      * <p>
-     * Pass any number of arguments of type FishFeature to this constructor
-     * (including zero) or a FishFeature array and all of the features will be
-     * added to the new Fish.
+     * This constructor adds one random feature from each set of required
+     * features defined as per {@link FishSettings#addRequiredFeatureSet}, so
+     * there is no need to do so elsewhere.
+     * <p>
+     * Pass any number of additional features to this constructor (including
+     * zero) or a FishFeature array and all of those features will be added to
+     * the new Fish.
      *
      * @param settings The settings of the Fish
      * @param evoPoints The number of evolutionary points to start with
@@ -49,8 +53,14 @@ public abstract class Fish extends PixelActor {
         this.settings = settings;
         this.evoPoints = evoPoints;
 
-        // Add features
         this.features = EnumSet.noneOf(FishFeature.class);
+        // Add required features
+        for (Set<FishFeature> reqFeatureSet : settings.getRequiredFeatureSets()) {
+            // Pick a random feature from each set
+            FishFeature[] reqFeatures = reqFeatureSet.toArray(new FishFeature[reqFeatureSet.size()]);
+            addFeature(reqFeatures[Util.randInt(0, reqFeatures.length - 1)], false);
+        }
+        // Add specified features
         if (features != null) {
             for (FishFeature feature : features) {
                 addFeature(feature, false);

@@ -1,8 +1,10 @@
 import greenfoot.*;
-import java.util.Map;
-import java.util.EnumMap;
 import java.util.Set;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.EnumMap;
 import java.util.Collections;
 import java.util.Arrays;
 
@@ -70,6 +72,9 @@ public class FishSettings {
     // All features that can be added to the Fish
     private Set<FishFeature> allowedFeatures = null;
 
+    // The Fish must have at least one of the features in each set of this list
+    private List<Set<FishFeature>> requiredFeatureSets = new ArrayList<Set<FishFeature>>();
+
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
     // feature's image from the top left corner of the body image
@@ -101,6 +106,12 @@ public class FishSettings {
         assertNonNull(evolutionChance, "evolution chance");
         assertNonNull(evolutions, "evolutions");
         assertNonNull(allowedFeatures, "allowed features");
+        // Ensure required features are all allowed
+        for (Set<FishFeature> featureSet : requiredFeatureSets) {
+            if (!allowedFeatures.containsAll(featureSet)) {
+                throw new InvalidSettingException("FishSettings attempting to require FishFeatures that are not allowed");
+            }
+        }
         // Ensure feature point map contains every applicable FishFeature
         for (FishFeature feature : allowedFeatures) {
             if (!featurePoints.containsKey(feature)) {
@@ -267,6 +278,20 @@ public class FishSettings {
     }
 
     /**
+     * Adds a required feature set.
+     *
+     * @param features a group of FishFeatures that this Fish type must have one of upon hatching
+     */
+    public void addRequiredFeatureSet(FishFeature... features) {
+        if (features == null) {
+            return;
+        }
+        Set<FishFeature> set = EnumSet.noneOf(FishFeature.class);
+        Collections.addAll(set, features);
+        requiredFeatureSets.add(set);
+    }
+
+    /**
      * Sets the image offset point for the specified FishFeature.
      *
      * @param feature the FishFeature for which the offset point is being defined
@@ -420,6 +445,15 @@ public class FishSettings {
      */
     public boolean isFeatureAllowed(FishFeature feature) {
         return allowedFeatures.contains(feature);
+    }
+
+    /**
+     * Gets all required feature sets.
+     *
+     * @return sets of FishFeatures that this Fish type must have one of upon hatching, in a list
+     */
+    public List<Set<FishFeature>> getRequiredFeatureSets() {
+        return new ArrayList<Set<FishFeature>>(requiredFeatureSets);
     }
 
     /**

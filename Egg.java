@@ -1,5 +1,6 @@
 import greenfoot.*;
 import java.lang.reflect.Constructor;
+import java.util.Set;
 
 /**
  * The eggs spawns by fish, can be a variety of colors and sizes depending on
@@ -138,7 +139,7 @@ public class Egg extends PixelActor {
 
     /**
      * Construct and return a new instance of this egg's hatching fish class
-     * with no features.
+     * with no additional features.
      */
     private Fish constructChild() {
         Fish child;
