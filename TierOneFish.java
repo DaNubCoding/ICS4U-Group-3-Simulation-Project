@@ -27,8 +27,8 @@ public abstract class TierOneFish extends Fish
         settings.setAllowedFeatures(FishFeature.HAT_PARTY, FishFeature.HAT_BROWN, FishFeature.ANGLER_SOCK, FishFeature.ANGLER_BOMB);
         // Movement settings
         settings.setSwimSpeed(0.2);
-        settings.setMinDepth(10);
-        settings.setMaxDepth(SimulationWorld.SEA_FLOOR_Y - 5);
+        settings.setMinDepth(SimulationWorld.SEA_SURFACE_Y + 10);
+        settings.setMaxDepth(SimulationWorld.SEA_FLOOR_Y - 20);
         settings.setAverageTurnInterval(200);
         settings.setMaxTurnDegrees(15);
         // Evolution settings
