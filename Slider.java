@@ -13,7 +13,7 @@ public class Slider extends PixelActor {
      * @author Andrew Wang
      * @version April 2024
      */
-    private class Thumb extends PixelActor {
+    private static class Thumb extends PixelActor {
         private int leftBound;
         private int rightBound;
         private Color color;
@@ -206,7 +206,7 @@ public class Slider extends PixelActor {
 
     /**
      * Get the current value of the slider.
-     * 
+     *
      * @return The current value
      */
     public int getValue() {
