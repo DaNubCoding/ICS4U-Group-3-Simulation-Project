@@ -19,6 +19,9 @@ import java.util.List;
  * @version April 2024
  */
 public abstract class Fish extends PixelActor {
+    /** The distance from which a fish will bite a hook. */
+    public static final double HOOK_BITE_DISTANCE = 8.0;
+
     // Fish subclass-specific settings
     private final FishSettings settings;
     // All features present on this fish
@@ -29,6 +32,10 @@ public abstract class Fish extends PixelActor {
     private Timer eggSpawnTimer;
     // Evolutionary points
     private int evoPoints;
+
+    // Offset of body image currently in use to compensate for features
+    private int bodyOffsetX;
+    private int bodyOffsetY;
 
     /**
      * Create a new Fish with the given settings and features, as well as a
@@ -204,6 +211,9 @@ public abstract class Fish extends PixelActor {
         }
         setImage(image);
         setCenterOfRotation(bodyImage.getWidth() / 2 - left, bodyImage.getHeight() / 2 - top);
+        // Store body image offset for other point calculations
+        bodyOffsetX = -left;
+        bodyOffsetY = -top;
     }
 
     /**
@@ -215,25 +225,26 @@ public abstract class Fish extends PixelActor {
     public DoublePair getCatchPoint() {
         // Find where the catch point lies relative to this fish's current image
         // since features may change the image's dimensions
-        GreenfootImage bodyImage = settings.getBodyImage();
         IntPair catchOffset = settings.getCatchOffset();
-        int catchX = getCenterOfRotationX() - bodyImage.getWidth() / 2 + catchOffset.x;
-        int catchY = getCenterOfRotationY() - bodyImage.getHeight() / 2 + catchOffset.y;
         // Transform the catch point into world space
-        return getImageOffsetGlobalPosition(catchX, catchY);
+        return getImageOffsetGlobalPosition(bodyOffsetX + catchOffset.x, bodyOffsetY + catchOffset.y);
     }
 
     /**
      * Call this in act(). Tests for hooks within the defined range.
      */
     public final void lookForHook() {
+        // If already bitten a hook, do nothing
+        if (bittenHook != null) {
+            return;
+        }
         List<Hook> hooks = getWorld().getObjects(Hook.class);
         for (Hook hook : hooks) {
             if (hook.isOccupied()) continue;
             DoublePair catchPoint = getCatchPoint();
             DoublePair fishBitePoint = hook.getBitePoint();
             double distance = Math.hypot(catchPoint.x - fishBitePoint.x, catchPoint.y - fishBitePoint.y);
-            if (distance < 8) {
+            if (distance < HOOK_BITE_DISTANCE) {
                 respondToHook(hook);
             }
         }
@@ -261,8 +272,9 @@ public abstract class Fish extends PixelActor {
             bittenHook = hook;
             hook.occupy();
             hook.reelIn();
+            // Set center of rotation (location of actor position) to catch point, relative to full image
             IntPair catchOffset = settings.getCatchOffset();
-            setCenterOfRotation(catchOffset.x, catchOffset.y);
+            setCenterOfRotation(bodyOffsetX + catchOffset.x, bodyOffsetY + catchOffset.y);
         }
     }
 
