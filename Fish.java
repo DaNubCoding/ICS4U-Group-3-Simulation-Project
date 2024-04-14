@@ -328,7 +328,6 @@ public abstract class Fish extends PixelActor {
         double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
         setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
 
-        // TODO: TEMPORARY
         if (eggSpawnTimer.ended()) {
             spawnEgg();
             eggSpawnTimer.restart((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
