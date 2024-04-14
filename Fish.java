@@ -83,6 +83,10 @@ public abstract class Fish extends PixelActor {
         if (!settings.isFeatureAllowed(feature)) {
             throw new IllegalArgumentException("FishFeature " + feature + " is not allowed on this Fish type");
         }
+        // Do nothing if this feature is incompatible with this fish's existing features
+        if (!feature.isCompatible(features)) {
+            return;
+        }
         features.add(feature);
         if (updateImage) {
             updateImage();
