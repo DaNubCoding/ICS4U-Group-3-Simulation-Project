@@ -1,5 +1,4 @@
 import greenfoot.*;
-import java.util.List;
 
 /**
  * The hook at the end of the fishing line, latches onto fish.
@@ -16,11 +15,11 @@ public class Hook extends PixelActor {
      * @version April 2024
      */
     public static enum HookTier {
-        WORM("hook_worm", new IntPair(1, 0), new IntPair(0, 3)),
-        BASIC("hook_basic", new IntPair(1, 1), new IntPair(2, 4)),
-        ADVANCED("hook_advanced", new IntPair(1, 1), new IntPair(5, 11));
+        WORM(new IntPair(1, 0), new IntPair(0, 3)),
+        BASIC(new IntPair(1, 1), new IntPair(2, 4)),
+        ADVANCED(new IntPair(1, 1), new IntPair(5, 11));
 
-        public final String fileName;
+        public final GreenfootImage image;
         public final IntPair centerOfRotation;
         public final IntPair fishBitePoint;
 
@@ -28,8 +27,8 @@ public class Hook extends PixelActor {
          * @param fileName The name of the image file of the hook
          * @param centerOfRotation The center of rotation of the image of the hook
          */
-        private HookTier(String fileName, IntPair centerOfRotation, IntPair fishBitePoint) {
-            this.fileName = fileName;
+        private HookTier(IntPair centerOfRotation, IntPair fishBitePoint) {
+            image = new GreenfootImage("hooks/" + name().toLowerCase() + ".png");
             this.centerOfRotation = centerOfRotation;
             this.fishBitePoint = fishBitePoint;
         }
@@ -42,10 +41,10 @@ public class Hook extends PixelActor {
     private boolean occupied;
 
     public Hook(FishingRod fishingRod) {
-        super(fishingRod.getRodTier().hook.fileName + ".png");
+        super(fishingRod.getRodTier().hookTier.image);
         this.fishingRod = fishingRod;
 
-        hookTier = fishingRod.getRodTier().hook;
+        hookTier = fishingRod.getRodTier().hookTier;
         IntPair center = hookTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
         setMirrorX(!fishingRod.getMirrorX());

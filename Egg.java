@@ -117,7 +117,7 @@ public class Egg extends PixelActor {
     private static String constructImageString(Egg.EggSize size, Egg.EggColor color) {
         String sizeStr = size.name().toLowerCase();
         String colorStr = color.name().toLowerCase();
-        return "egg_" + sizeStr + "_" + colorStr + ".png";
+        return "eggs/" + sizeStr + "_" + colorStr + ".png";
     }
 
     /**
