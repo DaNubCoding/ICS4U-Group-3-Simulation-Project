@@ -130,6 +130,7 @@ public class Slider extends PixelActor {
     private int length;
     private Color color;
     private Thumb thumb;
+    private Text currentValueText;
 
     /**
      * Create a slider with integer max and min values of a certain length.
@@ -152,9 +153,13 @@ public class Slider extends PixelActor {
 
     @Override
     public void addedToWorld(World world) {
-        this.thumb = new Thumb(getX(), getX() + length, color.brighter());
+        thumb = new Thumb(getX(), getX() + length, color.brighter());
         // Place Thumb in the middle of the track
         world.addObject(thumb, getX() + length / 2, getY());
+
+        currentValueText = new Text(0, Text.AnchorX.CENTER, Text.AnchorY.TOP);
+        world.addObject(currentValueText, 0, 0);
+        updateText();
     }
 
     @Override
@@ -171,6 +176,8 @@ public class Slider extends PixelActor {
                 thumb.setX(mouseX);
             }
         }
+
+        updateText();
     }
 
     /**
@@ -211,5 +218,13 @@ public class Slider extends PixelActor {
      */
     public int getValue() {
         return (maxValue - minValue) * (thumb.getX() - getX()) / length + minValue;
+    }
+
+    /**
+     * Update the location and content of the text.
+     */
+    private void updateText() {
+        currentValueText.setLocation(thumb.getX(), thumb.getY() + thumb.getOriginalHeight() / 2 + 2);
+        currentValueText.setContent(getValue());
     }
 }
