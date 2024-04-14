@@ -214,7 +214,7 @@ public abstract class PixelActor extends Actor {
      */
     private void createExpandedImage() {
         if (originalImage == null) return;
-        maxDimension = (int) Math.ceil(Math.hypot(originalWidth, originalHeight) / 2) * 2;
+        maxDimension = (int) Math.ceil(Math.hypot(originalWidth, originalHeight));
         expandedImage = new GreenfootImage(maxDimension, maxDimension);
         int localX = (int) Math.floor((maxDimension - originalWidth) / 2);
         int localY = (int) Math.floor((maxDimension - originalHeight) / 2);
@@ -235,8 +235,8 @@ public abstract class PixelActor extends Actor {
         double sinAngle = Math.sin(angle);
         double cosAngle = Math.cos(angle);
         // Round to nearest even number to prevent jittering
-        transformedWidth = (int) Math.ceil((Math.abs(originalWidth * cosAngle) + Math.abs(originalHeight * sinAngle)) / 2) * 2;
-        transformedHeight = (int) Math.ceil((Math.abs(originalWidth * sinAngle) + Math.abs(originalHeight * cosAngle)) / 2) * 2;
+        transformedWidth = (int) Math.ceil((Math.abs(originalWidth * cosAngle) + Math.abs(originalHeight * sinAngle)));
+        transformedHeight = (int) Math.ceil((Math.abs(originalWidth * sinAngle) + Math.abs(originalHeight * cosAngle)));
 
         GreenfootImage rotatedImage = new GreenfootImage(expandedImage);
         rotatedImage.rotate((int) rotation);
