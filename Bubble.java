@@ -2,7 +2,7 @@ import greenfoot.*;
 
 /**
  * A bubble that Fish may produce. Purely aesthetic.
- * 
+ *
  * @author Andrew Wang
  * @version April 2024
  */
@@ -11,7 +11,7 @@ public class Bubble extends PixelActor {
     private double riseSpeed;
 
     public Bubble() {
-        super("bubble.png");
+        super(Util.randInt(0, 1) == 0 ? "bubble_small.png" : "bubble_large.png");
 
         speed = Util.randDouble(0.1, 0.5);
         riseSpeed = Util.randDouble(0.4, 0.6);
