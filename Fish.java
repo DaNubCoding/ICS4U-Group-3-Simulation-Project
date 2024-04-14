@@ -124,6 +124,15 @@ public abstract class Fish extends PixelActor {
     }
 
     /**
+     * Returns a set of all features on this Fish.
+     *
+     * @return a new set containing all FishFeatures on this fish
+     */
+    public Set<FishFeature> getFeatureSet() {
+        return EnumSet.copyOf(features);
+    }
+
+    /**
      * Gets the total XP value of this Fish, including all features.
      *
      * @return the amount of XP value this Fish is worth

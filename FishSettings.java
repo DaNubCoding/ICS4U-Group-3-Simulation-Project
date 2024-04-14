@@ -41,6 +41,11 @@ public class FishSettings {
         }
     }
 
+    /** The greatest tier value a fish can have. */
+    public static final int MAX_TIER = 5;
+
+    // Tier value of this Fish type
+    private Integer tier = null;
     // Amount of XP this Fish type is worth without any features
     private Integer baseValue = null;
     // Base image of this Fish type without any features
@@ -91,6 +96,7 @@ public class FishSettings {
      * settings are invalid.
      */
     public void validate() {
+        assertNonNull(tier, "tier");
         assertNonNull(baseValue, "base value");
         assertNonNull(bodyImage, "body image");
         assertNonNull(catchOffset, "catch offset");
@@ -119,6 +125,18 @@ public class FishSettings {
             }
         }
         featurePoints = Collections.unmodifiableMap(featurePoints);
+    }
+
+    /**
+     * Sets the tier.
+     *
+     * @param tier the tier value of this Fish type
+     */
+    public void setTier(int tier) {
+        if (tier < 1 || tier > MAX_TIER) {
+            throw new IllegalArgumentException("Tier value must be between 1 and FishSettings.MAX_TIER=" + MAX_TIER + ", inclusive (got " + tier + ")");
+        }
+        this.tier = tier;
     }
 
     /**
@@ -300,6 +318,15 @@ public class FishSettings {
      */
     public void setFeaturePoint(FishFeature feature, int x, int y) {
         featurePoints.put(feature, new IntPair(x, y));
+    }
+
+    /**
+     * Gets the tier.
+     *
+     * @return the tier value of this Fish type
+     */
+    public int getTier() {
+        return tier;
     }
 
     /**

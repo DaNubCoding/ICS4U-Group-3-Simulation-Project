@@ -17,9 +17,7 @@ import java.util.ListIterator;
  * @version April 2024
  */
 public abstract class PixelWorld extends World {
-    /**
-     * The scale factor of all PixelWorld display images
-     */
+    /** The scale factor of all PixelWorld display images. */
     public static final int PIXEL_SCALE = 4;
 
     private final int worldWidth;

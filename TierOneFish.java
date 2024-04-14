@@ -21,6 +21,7 @@ public abstract class TierOneFish extends Fish
      */
     public static void initialiseTierOneFishSettings(FishSettings settings, String bodyImage, Egg.EggColor eggColor, Class<? extends Fish>... evolutions){
         // Base settings
+        settings.setTier(1);
         settings.setBaseValue(100);
         settings.setBodyImage(bodyImage);
         settings.setCatchOffset(13, 5);

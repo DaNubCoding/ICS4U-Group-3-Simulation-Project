@@ -1,7 +1,9 @@
 import greenfoot.*;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
- *
+ * The world were the magic happens...
  *
  * @author Martin Baldwin
  * @version April 2024
@@ -9,8 +11,14 @@ import greenfoot.*;
 public class SimulationWorld extends PixelWorld {
     private static final GreenfootImage background = new GreenfootImage("background.png");
     private static final GreenfootImage foreground = new GreenfootImage("foreground.png");
-    public static final int SEA_FLOOR_Y = 140;
+
+    /** The y coordinate of the surface of the water, in canvas pixels, relative to the top of this world. */
     public static final int SEA_SURFACE_Y = 37;
+    /** The y coordinate of the sea floor, in canvas pixels, relative to the top of this world. */
+    public static final int SEA_FLOOR_Y = 140;
+
+    // For each fish tier, a set of FishRecords describing all fish at that tier that appeared in this world
+    private Set<FishRecord>[] discoveredFishByTier;
 
     private Fisher fisher1;
     private Fisher fisher2;
@@ -22,6 +30,11 @@ public class SimulationWorld extends PixelWorld {
         super(250, 160);
 
         setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, Text.class);
+
+        discoveredFishByTier = new Set[FishSettings.MAX_TIER];
+        for (int i = 0; i < discoveredFishByTier.length; i++) {
+            discoveredFishByTier[i] = new HashSet<FishRecord>();
+        }
 
         fisher1 = new Fisher(1);
         fisher2 = new Fisher(2);
@@ -44,6 +57,7 @@ public class SimulationWorld extends PixelWorld {
         render();
     }
 
+    @Override
     public void act() {
         render();
         Timer.incrementAct();
@@ -68,6 +82,37 @@ public class SimulationWorld extends PixelWorld {
 
         // Display new canvas image
         updateImage();
+    }
+
+    /**
+     * Adds an Actor to this world, and if it is a Fish, records that it has
+     * been discovered.
+     *
+     * @param object the object to add
+     * @param x the x coordinate of the location where the object is added
+     * @param y the y coordinate of the location where the object is added
+     * @see World#addObject
+     */
+    @Override
+    public void addObject(Actor object, int x, int y) {
+        super.addObject(object, x, y);
+
+        if (object instanceof Fish) {
+            // Discover this type of fish
+            Fish fish = (Fish) object;
+            discoveredFishByTier[fish.getSettings().getTier() - 1].add(new FishRecord(fish));
+        }
+    }
+
+    /**
+     * Returns a set of FishRecords describing all types of discovered fish at
+     * the specified tier.
+     *
+     * @param tier the tier value to retrieve discovered fish from, from 1 to {@link FishSettings#MAX_TIER}
+     * @return a new set of FishRecord objects describing discovered fish of the given tier
+     */
+    public Set<FishRecord> getDiscoveredFishOfTier(int tier) {
+        return new HashSet<FishRecord>(discoveredFishByTier[tier - 1]);
     }
 
     /**

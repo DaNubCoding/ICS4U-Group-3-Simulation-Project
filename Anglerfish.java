@@ -13,6 +13,7 @@ public class Anglerfish extends Fish {
     static {
         settings = new FishSettings();
         // Base settings
+        settings.setTier(4);
         settings.setBaseValue(100);
         settings.setBodyImage("anglerfish.png");
         settings.setCatchOffset(27, 18);
