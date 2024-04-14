@@ -24,8 +24,9 @@ import java.util.Collection;
  */
 public enum FishFeature {
     BIG_EYE(0.1, 10),
+    ANGLER_LIGHT(0.1, 5),
     ANGLER_BOMB(0.1, 15),
-    ANGLER_SOCK(0.2, 15),
+    ANGLER_SOCK(0.1, 15),
     HAT_BROWN(0.1, 5),
     HAT_PARTY(0.1, 5),
     ;
@@ -37,7 +38,7 @@ public enum FishFeature {
      * ignored.
      */
     private static final Set<FishFeature>[] mutuallyExclusiveSets = new Set[] {
-        EnumSet.range(ANGLER_BOMB, ANGLER_SOCK),
+        EnumSet.range(ANGLER_LIGHT, ANGLER_SOCK),
         EnumSet.range(HAT_BROWN, HAT_PARTY),
     };
 

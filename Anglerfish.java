@@ -16,8 +16,8 @@ public class Anglerfish extends Fish {
         settings.setBaseValue(100);
         settings.setBodyImage("anglerfish.png");
         settings.setCatchOffset(27, 18);
-        settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.HAT_PARTY, FishFeature.HAT_BROWN, FishFeature.ANGLER_SOCK, FishFeature.ANGLER_BOMB);
-        settings.addRequiredFeatureSet(FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK);
+        settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
+        settings.addRequiredFeatureSet(FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK);
         // Movement settings
         settings.setSwimSpeed(0.1);
         settings.setMinDepth(90);
@@ -32,11 +32,12 @@ public class Anglerfish extends Fish {
         settings.setEvolutionChance(0.5);
         settings.setEvolutions(null);
         // Feature image offsets
-        settings.setFeaturePoint(FishFeature.BIG_EYE, 19, 8);
-        settings.setFeaturePoint(FishFeature.HAT_PARTY, 15, 2);
-        settings.setFeaturePoint(FishFeature.HAT_BROWN, 13, 4);
-        settings.setFeaturePoint(FishFeature.ANGLER_SOCK, 22, 0);
-        settings.setFeaturePoint(FishFeature.ANGLER_BOMB, 22, 0);
+        settings.setFeaturePoint(FishFeature.BIG_EYE, 19, 4);
+        settings.setFeaturePoint(FishFeature.ANGLER_LIGHT, 22, -4);
+        settings.setFeaturePoint(FishFeature.ANGLER_BOMB, 22, -4);
+        settings.setFeaturePoint(FishFeature.ANGLER_SOCK, 22, -4);
+        settings.setFeaturePoint(FishFeature.HAT_BROWN, 13, 0);
+        settings.setFeaturePoint(FishFeature.HAT_PARTY, 15, -2);
 
         // Sanity check to ensure all settings have been defined
         settings.validate();

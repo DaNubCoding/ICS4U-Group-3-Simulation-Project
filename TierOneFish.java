@@ -24,7 +24,7 @@ public abstract class TierOneFish extends Fish
         settings.setBaseValue(100);
         settings.setBodyImage(bodyImage);
         settings.setCatchOffset(13, 5);
-        settings.setAllowedFeatures(FishFeature.HAT_PARTY, FishFeature.HAT_BROWN, FishFeature.ANGLER_SOCK, FishFeature.ANGLER_BOMB);
+        settings.setAllowedFeatures(FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
         // Movement settings
         settings.setSwimSpeed(0.2);
         settings.setMinDepth(SimulationWorld.SEA_SURFACE_Y + 10);
@@ -39,10 +39,12 @@ public abstract class TierOneFish extends Fish
         settings.setEvolutionChance(0.8);
         settings.setEvolutions(evolutions);
         // Feature image offsets
-        settings.setFeaturePoint(FishFeature.HAT_PARTY, 3, -5);
-        settings.setFeaturePoint(FishFeature.HAT_BROWN, 3, -2);
-        settings.setFeaturePoint(FishFeature.ANGLER_SOCK, 9, -5);
+        settings.setFeaturePoint(FishFeature.ANGLER_LIGHT, 9, -5);
         settings.setFeaturePoint(FishFeature.ANGLER_BOMB, 9, -5);
+        settings.setFeaturePoint(FishFeature.ANGLER_SOCK, 9, -5);
+        settings.setFeaturePoint(FishFeature.HAT_BROWN, 3, -2);
+        settings.setFeaturePoint(FishFeature.HAT_PARTY, 3, -5);
+
         // Sanity check to ensure all settings have been defined
         settings.validate();
     }
