@@ -547,4 +547,13 @@ public abstract class PixelActor extends Actor {
     public void setVisibility(boolean visible) {
         this.visible = visible;
     }
+
+    /**
+     * Set the transparency to a value between 0 and 255 (inclusive).
+     *
+     * @param transparency The transparency value between 0 ~ 255 (inclusive)
+     */
+    public void setTransparency(int transparency) {
+        transformedImage.setTransparency(transparency);
+    }
 }

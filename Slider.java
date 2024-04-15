@@ -123,6 +123,15 @@ public class Slider<T extends Number> extends PixelActor {
         public boolean isHovered() {
             return hovered;
         }
+
+        /**
+         * Whether the Thumb is being dragged or not.
+         *
+         * @return
+         */
+        public boolean isHeld() {
+            return held;
+        }
     }
 
     private T minValue;
@@ -164,7 +173,7 @@ public class Slider<T extends Number> extends PixelActor {
 
         currentValueText = new Text(0, Text.AnchorX.CENTER, Text.AnchorY.TOP);
         world.addObject(currentValueText, 0, 0);
-        updateText();
+        updateText(false);
     }
 
     @Override
@@ -174,15 +183,16 @@ public class Slider<T extends Number> extends PixelActor {
 
         int mouseX = mouseInfo.getX() / PixelWorld.PIXEL_SCALE;
         int mouseY = mouseInfo.getY() / PixelWorld.PIXEL_SCALE;
+        boolean isHovered = hovered(mouseX, mouseY);
         // Left mouse button pressed
         if (Greenfoot.mousePressed(null) && mouseInfo.getButton() == 1) {
             // If the thumb is hovered, handle drag with Thumb instead
-            if (hovered(mouseX, mouseY) && !thumb.isHovered()) {
+            if (isHovered && !thumb.isHovered()) {
                 thumb.setX(mouseX);
             }
         }
 
-        updateText();
+        updateText(isHovered);
     }
 
     /**
@@ -248,9 +258,14 @@ public class Slider<T extends Number> extends PixelActor {
 
     /**
      * Update the location and content of the text.
+     *
+     * @param isHovered True if the Slider is being hovered, false otherwise
      */
-    private void updateText() {
+    private void updateText(boolean isHovered) {
         currentValueText.setLocation(thumb.getX(), thumb.getY() + thumb.getOriginalHeight() / 2 + 2);
         currentValueText.setContent(getValue().toString());
+
+        // Make text more opaque on hover
+        currentValueText.setTransparency(isHovered || thumb.isHeld() ? 255 : 128);
     }
 }
