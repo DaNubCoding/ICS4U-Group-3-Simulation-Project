@@ -127,6 +127,7 @@ public class Slider<T extends Number> extends PixelActor {
 
     private T minValue;
     private T maxValue;
+    private T defaultValue;
     private int length;
     private Color color;
     private Thumb thumb;
@@ -137,14 +138,16 @@ public class Slider<T extends Number> extends PixelActor {
      *
      * @param minValue The minimum value of the Slider (left-most value)
      * @param maxValue The maximum value of the Slider (right-most value)
+     * @param defaultValue The default value the Slider will be initalized at
      * @param length The horizontal length of the slider
      * @param color The color of the slider
      */
-    public Slider(T minValue, T maxValue, int length, Color color) {
+    public Slider(T minValue, T maxValue, T defaultValue, int length, Color color) {
         super(createTrackImage(length, color));
 
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.defaultValue = defaultValue;
         this.length = length;
         this.color = color;
 
@@ -155,7 +158,9 @@ public class Slider<T extends Number> extends PixelActor {
     public void addedToWorld(World world) {
         thumb = new Thumb(getX(), getX() + length, color.brighter());
         // Place Thumb in the middle of the track
-        world.addObject(thumb, getX() + length / 2, getY());
+        double range = maxValue.doubleValue() - minValue.doubleValue();
+        int thumbX = (int) (getX() + length * (defaultValue.doubleValue() - minValue.doubleValue()) / range);
+        world.addObject(thumb, thumbX, getY());
 
         currentValueText = new Text(0, Text.AnchorX.CENTER, Text.AnchorY.TOP);
         world.addObject(currentValueText, 0, 0);
@@ -220,7 +225,7 @@ public class Slider<T extends Number> extends PixelActor {
      */
     @SuppressWarnings("unchecked")
     public T getValue() {
-        int range = maxValue.doubleValue() - minValue.doubleValue();
+        double range = maxValue.doubleValue() - minValue.doubleValue();
         int thumbOffsetX = thumb.getX() - getX();
         double value = range * thumbOffsetX / length + minValue.doubleValue();
         if (minValue instanceof Integer) {
