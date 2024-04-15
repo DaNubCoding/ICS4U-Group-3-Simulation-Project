@@ -220,7 +220,9 @@ public class Slider<T extends Number> extends PixelActor {
      */
     @SuppressWarnings("unchecked")
     public T getValue() {
-        double value = (maxValue.doubleValue() - minValue.doubleValue()) * (thumb.getX() - getX()) / length + minValue.doubleValue();
+        int range = maxValue.doubleValue() - minValue.doubleValue();
+        int thumbOffsetX = thumb.getX() - getX();
+        double value = range * thumbOffsetX / length + minValue.doubleValue();
         if (minValue instanceof Integer) {
             return (T) Integer.valueOf((int) value);
         } else if (minValue instanceof Double) {
