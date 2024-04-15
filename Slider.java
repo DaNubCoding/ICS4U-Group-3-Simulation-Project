@@ -253,6 +253,9 @@ public class Slider<T extends Number> extends PixelActor {
      * @return The current value of the slider as a String
      */
     public String getValueAsString() {
+        if (minValue instanceof Double) {
+            return String.format("%.2f", getValue());
+        }
         return getValue().toString();
     }
 
@@ -263,7 +266,7 @@ public class Slider<T extends Number> extends PixelActor {
      */
     private void updateText(boolean isHovered) {
         currentValueText.setLocation(thumb.getX(), thumb.getY() + thumb.getOriginalHeight() / 2 + 2);
-        currentValueText.setContent(getValue().toString());
+        currentValueText.setContent(getValueAsString());
 
         // Make text more opaque on hover
         currentValueText.setTransparency(isHovered || thumb.isHeld() ? 255 : 128);
