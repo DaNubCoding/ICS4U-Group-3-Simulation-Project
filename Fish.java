@@ -3,6 +3,7 @@ import java.util.Set;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An undersea actor and target of Fishers.
@@ -97,6 +98,9 @@ public abstract class Fish extends PixelActor {
      * @throws IllegalArgumentException if the given feature is not allowed on this Fish type
      */
     public void addFeature(FishFeature feature, boolean updateImage) {
+        if (getWorld() != null) {
+            throw new UnsupportedOperationException("Cannot handle adding any FishFeature to Fish after it has been added to a World");
+        }
         if (!settings.isFeatureAllowed(feature)) {
             throw new IllegalArgumentException("FishFeature " + feature + " is not allowed on this Fish type");
         }
@@ -108,16 +112,6 @@ public abstract class Fish extends PixelActor {
         if (updateImage) {
             updateImage();
         }
-    }
-
-    /**
-     * Removes a FishFeature from this Fish and updates its image accordingly.
-     *
-     * @param feature the FishFeature to remove
-     */
-    public void removeFeature(FishFeature feature) {
-        features.remove(feature);
-        updateImage();
     }
 
     /**
@@ -300,11 +294,23 @@ public abstract class Fish extends PixelActor {
 
     @Override
     public void act() {
+        // Only move with hook and do nothing else if it has already bitten a hook
+        if (bittenHook != null) {
+            attachToHook();
+            return;
+        }
+
+        // React to other fish features
+        if (!hasFeature(FishFeature.ANGLER_SOCK)) {
+            repelFromSocks();
+        }
+
+        // TODO: feature-specific behaviour
+
+        // Standard behaviour
         swim();
         spawnBubbles();
-
         lookForHook();
-        attachToHook();
     }
 
     /**
@@ -312,9 +318,6 @@ public abstract class Fish extends PixelActor {
      * <p>May be overridden to implement special swim patterns.</p>
      */
     protected void swim() {
-        // Don't try to swim if it has already bitten a hook
-        if (bittenHook != null) return;
-
         move(settings.getSwimSpeed());
         if (rotationTimer.ended()) {
             int maxAngle = settings.getMaxTurnDegrees();
@@ -324,6 +327,7 @@ public abstract class Fish extends PixelActor {
 
         checkBounds();
 
+        setMirrorX(getHeading() > 90 && getHeading() < 270);
         // Heading with respect to mirrorX
         double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
         setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
@@ -350,7 +354,17 @@ public abstract class Fish extends PixelActor {
      * and maximum depths.</p>
      */
     protected void checkBounds() {
-        if (getY() < settings.getMinDepth()) {
+        if (getY() < SimulationWorld.SEA_SURFACE_Y) {
+            if (getHeading() > 180) {
+                setHeading(getHeading() > 270 ? 0 : 180);
+            }
+            setLocation(getDoubleX(), SimulationWorld.SEA_SURFACE_Y);
+        } else if (getY() > getWorld().getHeight()) {
+            if (getHeading() < 180) {
+                setHeading(getHeading() < 90 ? 0 : 180);
+            }
+            setLocation(getDoubleX(), getWorld().getHeight());
+        } else if (getY() < settings.getMinDepth()) {
             // Try to get back to its depth range by slowly turning downwards
             setHeading(Util.interpolateAngle(getHeading(), 90, 0.0075));
         } else if (getY() > settings.getMaxDepth()) {
@@ -365,17 +379,46 @@ public abstract class Fish extends PixelActor {
         if (getX() < 0) {
             // Flip angle across y-axis
             setHeading(180 - getHeading());
-            setMirrorX(false);
             setRotation(getHeading());
             setLocation(0, getDoubleY());
         } else if (getX() > getWorld().getWidth()) {
             // Flip angle across y-axis
             setHeading(180 - getHeading());
-            setMirrorX(true);
             // + 180 because mirroring
             setRotation(getHeading() + 180);
             setLocation(getWorld().getWidth(), getDoubleY());
         }
+    }
+
+    /**
+     * Try to swim away from any fishes with socks within a certain radius.
+     */
+    protected void repelFromSocks() {
+        // Get repelled at an angle averaged away from any fishes with socks
+        List<Double> repelAngles = new ArrayList<>();
+        for (Fish other : ((SimulationWorld) getWorld()).getFishesByFeature(FishFeature.ANGLER_SOCK)) {
+            if (getDistanceTo(other) <= 32) {
+                repelAngles.add(other.getAngleTo(this));
+            }
+        }
+        if (repelAngles.isEmpty()) {
+            return;
+        }
+
+        // Also repel away from the vertical walls so fish try to avoid getting trapped
+        if (getX() < 32) {
+            repelAngles.add(0.0);
+        } else if (getX() > getWorld().getWidth() - 32) {
+            repelAngles.add(180.0);
+        }
+        // Interpolate between all angles, roughly approximating an average
+        double avg = repelAngles.get(0);
+        for (int i = 1; i < repelAngles.size(); i++) {
+            avg = Util.interpolateAngle(avg, repelAngles.get(i), 0.5);
+        }
+        setHeading(avg);
+        // Swim away from socks (in addition to movement in swim(), so the fish swims at 2x speed)
+        move(settings.getSwimSpeed());
     }
 
     /**

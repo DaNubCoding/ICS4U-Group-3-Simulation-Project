@@ -1,6 +1,10 @@
 import greenfoot.*;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The world were the magic happens...
@@ -18,7 +22,9 @@ public class SimulationWorld extends PixelWorld {
     public static final int SEA_FLOOR_Y = 140;
 
     // For each fish tier, a set of FishRecords describing all fish at that tier that appeared in this world
-    private Set<FishRecord>[] discoveredFishByTier;
+    private Set<FishRecord>[] discoveredFishesByTier;
+    // For each type of fish feature, a list of Fish currently in this world with that feature
+    private Map<FishFeature, List<Fish>> fishesByFeature;
 
     private Fisher fisher1;
     private Fisher fisher2;
@@ -31,9 +37,15 @@ public class SimulationWorld extends PixelWorld {
 
         setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, Text.class);
 
-        discoveredFishByTier = new Set[FishSettings.MAX_TIER];
-        for (int i = 0; i < discoveredFishByTier.length; i++) {
-            discoveredFishByTier[i] = new HashSet<FishRecord>();
+        // Initialize fish record keeping structures
+        discoveredFishesByTier = new Set[FishSettings.MAX_TIER];
+        for (int i = 0; i < discoveredFishesByTier.length; i++) {
+            discoveredFishesByTier[i] = new HashSet<FishRecord>();
+        }
+        // Initialize fish retrieval structures
+        fishesByFeature = new EnumMap<FishFeature, List<Fish>>(FishFeature.class);
+        for (FishFeature feature : FishFeature.values()) {
+            fishesByFeature.put(feature, new ArrayList<Fish>());
         }
 
         fisher1 = new Fisher(1);
@@ -41,7 +53,7 @@ public class SimulationWorld extends PixelWorld {
         addObject(fisher1, 50, 36);
         addObject(fisher2, 200, 36);
 
-        addObject(new Bass(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        addObject(new Bass(0, FishFeature.ANGLER_SOCK), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Salmon(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Tuna(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
 
@@ -98,9 +110,33 @@ public class SimulationWorld extends PixelWorld {
         super.addObject(object, x, y);
 
         if (object instanceof Fish) {
-            // Discover this type of fish
             Fish fish = (Fish) object;
-            discoveredFishByTier[fish.getSettings().getTier() - 1].add(new FishRecord(fish));
+            // Store this fish by its features for retrieval by other fish
+            for (FishFeature feature : fish.getFeatureSet()) {
+                fishesByFeature.get(feature).add(fish);
+            }
+            // Discover this type of fish
+            discoveredFishesByTier[fish.getSettings().getTier() - 1].add(new FishRecord(fish));
+        }
+    }
+
+    /**
+     * Removes an Actor from this world, and if it is a Fish, updates this
+     * world's lists of existing fish.
+     *
+     * @param object the object to remove
+     * @see World#removeObject
+     */
+    @Override
+    public void removeObject(Actor object) {
+        super.removeObject(object);
+
+        if (object instanceof Fish) {
+            // Remove this fish from all of this world's lists
+            Fish fish = (Fish) object;
+            for (FishFeature feature : fish.getFeatureSet()) {
+                fishesByFeature.get(feature).remove(fish);
+            }
         }
     }
 
@@ -108,11 +144,22 @@ public class SimulationWorld extends PixelWorld {
      * Returns a set of FishRecords describing all types of discovered fish at
      * the specified tier.
      *
-     * @param tier the tier value to retrieve discovered fish from, from 1 to {@link FishSettings#MAX_TIER}
-     * @return a new set of FishRecord objects describing discovered fish of the given tier
+     * @param tier the tier value to retrieve discovered fishes from, from 1 to {@link FishSettings#MAX_TIER}
+     * @return a new set of FishRecord objects describing discovered fishes of the given tier
      */
-    public Set<FishRecord> getDiscoveredFishOfTier(int tier) {
-        return new HashSet<FishRecord>(discoveredFishByTier[tier - 1]);
+    public Set<FishRecord> getDiscoveredFishesOfTier(int tier) {
+        return new HashSet<FishRecord>(discoveredFishesByTier[tier - 1]);
+    }
+
+    /**
+     * Returns a list of all fishes currently in this world with the given
+     * feature.
+     *
+     * @param feature the FishFeature on fish to retrieve
+     * @return a new list of all Fish in this world with the given feature
+     */
+    public List<Fish> getFishesByFeature(FishFeature feature) {
+        return new ArrayList<Fish>(fishesByFeature.get(feature));
     }
 
     /**

@@ -1,4 +1,6 @@
 import greenfoot.*;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An special actor class that can render itself onto a PixelWorld.
@@ -282,7 +284,11 @@ public abstract class PixelActor extends Actor {
      * @param heading The heading angle in degrees
      */
     public void setHeading(double heading) {
-        this.heading = heading;
+        double remainder = heading % 360.0;
+        if (remainder < 0.0) {
+            remainder += 360.0;
+        }
+        this.heading = remainder;
     }
 
     /**
@@ -370,7 +376,11 @@ public abstract class PixelActor extends Actor {
      * @param rotation The rotation angle in degrees
      */
     public void setRotation(double rotation) {
-        this.rotation = rotation;
+        double remainder = rotation % 360.0;
+        if (remainder < 0.0) {
+            remainder += 360.0;
+        }
+        this.rotation = remainder;
         createRotatedImage();
     }
 
@@ -555,5 +565,51 @@ public abstract class PixelActor extends Actor {
      */
     public void setTransparency(int transparency) {
         transformedImage.setTransparency(transparency);
+    }
+
+    /**
+     * Return all objects of the specified class within a specified radius
+     * around this actor. An object is within range if the distance between its
+     * center of rotation and this actor' center of rotation is less than or
+     * equal to the given radius.
+     * <p>
+     * Note: this method ignores objects that do not subclass from PixelActor!
+     *
+     * @param radius the radius of the circle, in canvas pixels
+     * @param cls the class of objects to look for, or {@code null} for all types of objects
+     */
+    @Override
+    public <A> List<A> getObjectsInRange(int radius, Class<A> cls) {
+        List<A> result = new ArrayList<A>();
+        for (A obj : getWorld().getObjects(cls)) {
+            if (obj == this || !(obj instanceof PixelActor)) {
+                continue;
+            }
+            PixelActor actor = (PixelActor) obj;
+            if (getDistanceTo(actor) <= radius) {
+                result.add(obj);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Calculate the distance between this actor and another actor.
+     *
+     * @param other the other actor to compute the distance with
+     * @return the straight-line distance between the two actors' positions (centers of rotation)
+     */
+    public double getDistanceTo(PixelActor other) {
+        return Math.hypot(other.getDoubleX() - x, other.getDoubleY() - y);
+    }
+
+    /**
+     * Calculate the angle between this actor and another actor.
+     *
+     * @param other the other actor to compute the angle with
+     * @return the angle in degrees from -180.0 to 180.0 between the two actors' positions (centers of rotation)
+     */
+    public double getAngleTo(PixelActor other) {
+        return Math.toDegrees(Math.atan2(other.getDoubleY() - y, other.getDoubleX() - x));
     }
 }
