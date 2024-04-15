@@ -9,7 +9,7 @@ import greenfoot.*;
  * @author Martin Baldwin
  * @version April 2024
  */
-public abstract class GifPixelActor extends PixelActor {
+public class GifPixelActor extends PixelActor {
     private final GifImage gif;
 
     /**

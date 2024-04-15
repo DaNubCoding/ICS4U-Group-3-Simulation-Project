@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * The world were the magic happens...
  *
  * @author Martin Baldwin
+ * @author Brandon Law
  * @version April 2024
  */
 public class SimulationWorld extends PixelWorld {
@@ -32,6 +33,10 @@ public class SimulationWorld extends PixelWorld {
     // Test text object: draw the current act count in the top right corner of the world
     private Text actText;
 
+    // GifImage for waves
+    private GifPixelActor backgroundWaves = new GifPixelActor(new GifImage("wavesanim.gif"));
+    private GifPixelActor foregroundWaves = new GifPixelActor(new GifImage("wavesanim.gif"));
+
     public SimulationWorld() {
         super(250, 160);
 
@@ -50,12 +55,15 @@ public class SimulationWorld extends PixelWorld {
 
         fisher1 = new Fisher(1);
         fisher2 = new Fisher(2);
-        addObject(fisher1, 50, 36);
-        addObject(fisher2, 200, 36);
+        addObject(fisher1, 50, 31);
+        addObject(fisher2, 200, 31);
 
         addObject(new Bass(0, FishFeature.ANGLER_SOCK), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Salmon(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Tuna(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+
+        backgroundWaves.setLocation(125, SEA_SURFACE_Y - 5);
+        foregroundWaves.setLocation(125, SEA_SURFACE_Y - 5);
 
         // TODO: remove this
         actText = new Text(Timer.getCurrentAct(), Text.AnchorX.RIGHT, Text.AnchorY.TOP) {
@@ -87,8 +95,15 @@ public class SimulationWorld extends PixelWorld {
         GreenfootImage canvas = getCanvas();
         // Draw the background
         canvas.drawImage(background, 0, 0);
+
+        backgroundWaves.updateImage();
+        backgroundWaves.render(getCanvas());
         // Draw actors
         renderPixelActors();
+        foregroundWaves.updateImage();
+        foregroundWaves.setTransparency(100);
+        foregroundWaves.render(getCanvas());
+
         // Draw water gradient on top of underwater actors
         canvas.drawImage(foreground, 0, 0);
 
