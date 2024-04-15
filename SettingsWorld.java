@@ -23,6 +23,11 @@ public class SettingsWorld extends PixelWorld {
     public void act() {
         render();
         Timer.incrementAct();
+
+        // Temporary
+        if (Greenfoot.isKeyDown("Enter")) {
+            Greenfoot.setWorld(new SimulationWorld());
+        }
     }
 
     /**
