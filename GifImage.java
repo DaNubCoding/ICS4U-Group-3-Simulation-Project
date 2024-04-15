@@ -9,22 +9,35 @@ import java.util.ArrayList;
 /**
  * This class can be used to read animated gif image files and extract the individual
  * images of the animation sequence.
+ * <p>
+ * Modified slightly by Martin Baldwin on 2024-04-15 so the animation runs at a speed
+ * based on acts rather than real elapsed time. This class thus requires the
+ * {@link Timer} class, and for its act count to be updated properly.
  *
  * @author Michael Berry
  * @author Neil Brown
+ * @author Martin Baldwin
  *
  * Copyright (c) 2011,2013,2014,2018,2021
  */
 public class GifImage
 {
+    /**
+     * The number of milliseconds that one act lasts at the standard simulation speed.
+     * <p>
+     * This value is the delay returned by {@code greenfoot.core.Simulation.calculateDelay(50)}
+     * (nanoseconds) converted into milliseconds.
+     */
+    private static final int MILLIS_PER_ACT = 16243039 / 1000000;
+
     /** The images used in the animation. */
     private GreenfootImage[] images;
-    /** The delay between each frame. */
+    /** The delay between each frame, in acts. */
     private int[] delay;
     /** The index of the current frame in the GIF file. */
     private int currentIndex;
     /** The time passed since the last frame in ms. */
-    private long time;
+    private int time;
     /** Whether the animation is paused or not. */
     private boolean pause;
 
@@ -42,7 +55,7 @@ public class GifImage
             images = new GreenfootImage[] {new GreenfootImage(file)};
             delay = new int[] {1000}; // Doesn't matter, as long as it's not zero
             currentIndex = 0;
-            time = System.currentTimeMillis();
+            time = Timer.getCurrentAct();
         }
     }
 
@@ -92,7 +105,7 @@ public class GifImage
     public void resume()
     {
         pause = false;
-        time = System.currentTimeMillis();
+        time = Timer.getCurrentAct();
     }
 
     /**
@@ -106,7 +119,7 @@ public class GifImage
 
     public GreenfootImage getCurrentImage()
     {
-        long delta = System.currentTimeMillis() - time;
+        long delta = Timer.getCurrentAct() - time;
 
         while (delta >= delay[currentIndex] && !pause) {
             delta -= delay[currentIndex];
@@ -136,10 +149,10 @@ public class GifImage
         for (int i=0 ; i<numFrames ; i++) {
             GreenfootImage image = new GreenfootImage(decode.getFrame(i).getWidth(), decode.getFrame(i).getHeight());
             image.drawImage(decode.getFrame(i), 0, 0);
-            delay[i] = decode.getDelay(i);
+            delay[i] = decode.getDelay(i) / MILLIS_PER_ACT;
             images[i] = image;
         }
-        time = System.currentTimeMillis();
+        time = Timer.getCurrentAct();
     }
 
     /**
