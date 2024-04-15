@@ -6,7 +6,7 @@ import greenfoot.*;
  * @author Andrew Wang
  * @version April 2024
  */
-public class Slider extends PixelActor {
+public class Slider<T extends Number> extends PixelActor {
     /**
      * The draggable thumb on the slider.
      *
@@ -125,22 +125,22 @@ public class Slider extends PixelActor {
         }
     }
 
-    private int minValue;
-    private int maxValue;
+    private T minValue;
+    private T maxValue;
     private int length;
     private Color color;
     private Thumb thumb;
     private Text currentValueText;
 
     /**
-     * Create a slider with integer max and min values of a certain length.
+     * Create a slider with max and min values of a certain length.
      *
      * @param minValue The minimum value of the Slider (left-most value)
      * @param maxValue The maximum value of the Slider (right-most value)
      * @param length The horizontal length of the slider
      * @param color The color of the slider
      */
-    public Slider(int minValue, int maxValue, int length, Color color) {
+    public Slider(T minValue, T maxValue, int length, Color color) {
         super(createTrackImage(length, color));
 
         this.minValue = minValue;
@@ -212,12 +212,30 @@ public class Slider extends PixelActor {
     }
 
     /**
-     * Get the current value of the slider.
+     * Get the current value of the slider as a number.
+     * <p>The value must be retrieved via methods like {@code .doubleValue()}
+     * or {@code .intValue()}</p>
      *
-     * @return The current value
+     * @return The current value as a number
      */
-    public int getValue() {
-        return (maxValue - minValue) * (thumb.getX() - getX()) / length + minValue;
+    public T getValue() {
+        double value = (maxValue.doubleValue() - minValue.doubleValue()) * (thumb.getX() - getX()) / length + minValue.doubleValue();
+        if (minValue instanceof Integer) {
+            return (T) Integer.valueOf((int) value);
+        } else if (minValue instanceof Double) {
+            return (T) Double.valueOf((double) Math.round(value * 100) / 100);
+        } else {
+            throw new IllegalArgumentException("Unsupported number type");
+        }
+    }
+
+    /**
+     * Get the current value of the slider as a String.
+     *
+     * @return The current value of the slider as a String
+     */
+    public String getValueAsString() {
+        return getValue().toString();
     }
 
     /**
@@ -225,6 +243,6 @@ public class Slider extends PixelActor {
      */
     private void updateText() {
         currentValueText.setLocation(thumb.getX(), thumb.getY() + thumb.getOriginalHeight() / 2 + 2);
-        currentValueText.setContent(getValue());
+        currentValueText.setContent(getValue().toString());
     }
 }

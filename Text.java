@@ -38,6 +38,7 @@ public class Text extends PixelActor {
         for (char c = '0'; c <= '9'; c++) {
             m.put(c, new GreenfootImage("characters/" + (c - '0') + ".png"));
         }
+        m.put('.', new GreenfootImage("characters/period.png"));
         CHARMAP = Collections.unmodifiableMap(m);
     }
 
