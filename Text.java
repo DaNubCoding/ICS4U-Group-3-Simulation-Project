@@ -8,10 +8,9 @@ import java.util.Collections;
  * a string, meant to be read by the user.
  * <p>
  * Each character is rendered with its corresponding image from the characters
- * image subdirectory. Note that not all characters have an image available for
- * them and are missing from this class's CHARMAP. If such a character is
- * encountered when rendering text, a {@link NullPointerException} will be
- * thrown.
+ * image subdirectory. Note that this class's charmap only contains ASCII
+ * characters from 0x20 to 0x7E. If any other character is encountered when
+ * rendering text, an {@link IndexOutOfBoundsException} will be thrown.
  * <p>
  * Text objects can be constructed with a string or an integer which is
  * automatically turned into a string using {@link String#valueOf(int)}.
@@ -24,22 +23,40 @@ public class Text extends PixelActor {
      * The height of character images found in ./images/characters/.
      * Text rendering assumes all characters have this height.
      */
-    public static final int CHARACTER_HEIGHT = 7;
+    public static final int CHARACTER_HEIGHT = 10;
 
     /**
      * The number of pixels to leave between characters in text.
      */
-    public static final int CHARACTER_SPACING = 2;
+    public static final int CHARACTER_SPACING = 1;
 
     // Map characters to their image representations
-    private static final Map<Character, GreenfootImage> CHARMAP;
+    // A character's image is found at the index of the ASCII value minus 0x20 so that it starts at space
+    private static final GreenfootImage[] charmap;
     static {
-        Map<Character, GreenfootImage> m = new HashMap<>();
-        for (char c = '0'; c <= '9'; c++) {
-            m.put(c, new GreenfootImage("characters/" + (c - '0') + ".png"));
+        charmap = new GreenfootImage[0x7F - 0x20];
+        int i = 0;
+        for (String entity : new String[] {"space", "excl", "quot", "num", "dollar", "percnt", "amp", "apos", "lpar", "rpar", "ast", "plus", "comma", "minus", "period", "sol"}) {
+            charmap[i++] = new GreenfootImage("characters/" + entity + ".png");
         }
-        m.put('.', new GreenfootImage("characters/period.png"));
-        CHARMAP = Collections.unmodifiableMap(m);
+        for (int n = 0; n <= 9; n++) {
+            charmap[i++] = new GreenfootImage("characters/" + n + ".png");
+        }
+        for (String entity : new String[] {"colon", "semi", "lt", "equals", "gt", "quest", "commat"}) {
+            charmap[i++] = new GreenfootImage("characters/" + entity + ".png");
+        }
+        for (char c = 'a'; c <= 'z'; c++) {
+            charmap[i++] = new GreenfootImage("characters/" + c + ".png");
+        }
+        for (String entity : new String[] {"lsqb", "bsol", "rsqb", "hat", "lowbar", "grave"}) {
+            charmap[i++] = new GreenfootImage("characters/" + entity + ".png");
+        }
+        for (char c = 'a'; c <= 'z'; c++) {
+            charmap[i++] = new GreenfootImage("characters/" + c + "low.png");
+        }
+        for (String entity : new String[] {"lcub", "verbar", "rcub", "tilde"}) {
+            charmap[i++] = new GreenfootImage("characters/" + entity + ".png");
+        }
     }
 
     /**
@@ -172,14 +189,11 @@ public class Text extends PixelActor {
         int width = -CHARACTER_SPACING;
         GreenfootImage[] charImages = new GreenfootImage[content.length()];
         for (int i = 0; i < content.length(); i++) {
-            GreenfootImage charImage = CHARMAP.get(content.charAt(i));
-            if (charImage == null) {
-                throw new NullPointerException("Encountered character '" + content.charAt(i) + "' which does not have a defined image in Text.CHARMAP");
-            }
-            width += charImage.getWidth() + CHARACTER_SPACING;
+            GreenfootImage charImage = charmap[content.charAt(i) - ' '];
             if (charImage.getHeight() != CHARACTER_HEIGHT) {
                 throw new UnsupportedOperationException("Image for character '" + content.charAt(i) + "' has a height that does not match Text.CHARACTER_HEIGHT");
             }
+            width += charImage.getWidth() + CHARACTER_SPACING;
             charImages[i] = charImage;
         }
         // Draw the characters to an image
