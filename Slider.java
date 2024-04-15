@@ -218,6 +218,7 @@ public class Slider<T extends Number> extends PixelActor {
      *
      * @return The current value as a number
      */
+    @SuppressWarnings("unchecked")
     public T getValue() {
         double value = (maxValue.doubleValue() - minValue.doubleValue()) * (thumb.getX() - getX()) / length + minValue.doubleValue();
         if (minValue instanceof Integer) {
