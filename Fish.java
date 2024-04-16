@@ -445,6 +445,7 @@ public abstract class Fish extends PixelActor {
             // Determine whether the fish should evolve based on evolution chance
             Egg.EggSize size;
             Class<? extends Fish> hatchClass;
+            int childEvoPoints = evoPoints;
             boolean canEvolve = evoPoints >= 100;
             boolean willEvolve = Util.randDouble(0, 1) < settings.getEvolutionChance();
             if (canEvolve && willEvolve) {
@@ -455,13 +456,14 @@ public abstract class Fish extends PixelActor {
                 } else {
                     hatchClass = getClass();
                 }
+                childEvoPoints = 0;
             } else {
                 // Keep egg size and hatch the same fish type as this fish
                 size = settings.getEggSize();
                 hatchClass = getClass();
             }
 
-            Egg egg = new Egg(size, settings.getEggColor(), hatchClass, evoPoints);
+            Egg egg = new Egg(size, settings.getEggColor(), hatchClass, childEvoPoints);
             getWorld().addObject(egg, getX(), getY());
         }
     }
