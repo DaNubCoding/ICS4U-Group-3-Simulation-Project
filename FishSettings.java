@@ -21,6 +21,9 @@ import java.util.Arrays;
  * @version April 2024
  */
 public class FishSettings {
+    /** The greatest tier value a fish can have. */
+    public static final int MAX_TIER = 5;
+
     /**
      * Thrown from {@link #validate} when a FishSettings object contains an
      * invalid setting.
@@ -40,9 +43,6 @@ public class FishSettings {
             super(message, cause);
         }
     }
-
-    /** The greatest tier value a fish can have. */
-    public static final int MAX_TIER = 5;
 
     // Tier value of this Fish type
     private Integer tier = null;
@@ -77,8 +77,8 @@ public class FishSettings {
     // All features that can be added to the Fish
     private Set<FishFeature> allowedFeatures = null;
 
-    // The Fish must have at least one of the features in each set of this list
-    private List<Set<FishFeature>> requiredFeatureSets = new ArrayList<Set<FishFeature>>();
+    // The Fish must have at least one of the features in each set, chosen randomly according to its integer weight
+    private List<Map<FishFeature, Integer>> requiredFeatureSets = new ArrayList<>();
 
     // Image offsets for all types of features
     // Each IntPair defines the x and y offsets of the top left corner of each
@@ -113,8 +113,8 @@ public class FishSettings {
         assertNonNull(evolutions, "evolutions");
         assertNonNull(allowedFeatures, "allowed features");
         // Ensure required features are all allowed
-        for (Set<FishFeature> featureSet : requiredFeatureSets) {
-            if (!allowedFeatures.containsAll(featureSet)) {
+        for (Map<FishFeature, Integer> map : requiredFeatureSets) {
+            if (!allowedFeatures.containsAll(map.keySet())) {
                 throw new InvalidSettingException("FishSettings attempting to require FishFeatures that are not allowed");
             }
         }
@@ -296,17 +296,25 @@ public class FishSettings {
     }
 
     /**
-     * Adds a required feature set.
+     * Adds a required feature set. This Fish type is required to have one of
+     * the features from the given features array upon hatching. The weights
+     * array specifies the random weight of the corresponding feature (where
+     * array indices match), to give each feature a specific chance of occuring
+     * when being chosen from this set of required features.
      *
-     * @param features a group of FishFeatures that this Fish type must have one of upon hatching
+     * @param features an array of FishFeatures that this Fish type must have one of upon hatching
+     * @param weights an array of integer weightings that affect how likely it is for its corresponding feature to occur
+     * @throws IllegalArgumentException if the two arrays differ in length
      */
-    public void addRequiredFeatureSet(FishFeature... features) {
-        if (features == null) {
-            return;
+    public void addRequiredFeatureSet(FishFeature[] features, int[] weights) {
+        if (features.length != weights.length) {
+            throw new IllegalArgumentException("FishSettings required feature set must have same number of features and weights");
         }
-        Set<FishFeature> set = EnumSet.noneOf(FishFeature.class);
-        Collections.addAll(set, features);
-        requiredFeatureSets.add(set);
+        Map<FishFeature, Integer> map = new EnumMap<>(FishFeature.class);
+        for (int i = 0; i < features.length; i++) {
+            map.put(features[i], weights[i]);
+        }
+        requiredFeatureSets.add(map);
     }
 
     /**
@@ -475,12 +483,31 @@ public class FishSettings {
     }
 
     /**
-     * Gets all required feature sets.
+     * Returns a set of FishFeatures from all required feature sets chosen
+     * randomly according to their respective weight values.
      *
-     * @return sets of FishFeatures that this Fish type must have one of upon hatching, in a list
+     * @return a new set of random FishFeatures that fulfills this Fish type's required features
      */
-    public List<Set<FishFeature>> getRequiredFeatureSets() {
-        return new ArrayList<Set<FishFeature>>(requiredFeatureSets);
+    public Set<FishFeature> chooseRequiredFeatures() {
+        Set<FishFeature> result = EnumSet.noneOf(FishFeature.class);
+        for (Map<FishFeature, Integer> map : requiredFeatureSets) {
+            // Pick a random feature from each set
+            int totalWeight = 0;
+            for (int weight : map.values()) {
+                totalWeight += weight;
+            }
+            int chooseWeight = Util.randInt(0, totalWeight - 1);
+            // Find the feature that corresponds to the chosen value
+            int accWeight = 0;
+            for (FishFeature feature : map.keySet()) {
+                accWeight += map.get(feature);
+                if (accWeight > chooseWeight) {
+                    result.add(feature);
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     /**

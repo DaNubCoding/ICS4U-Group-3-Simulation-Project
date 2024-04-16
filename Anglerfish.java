@@ -18,7 +18,10 @@ public class Anglerfish extends Fish {
         settings.setBodyImage("anglerfish.png");
         settings.setCatchOffset(27, 18);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
-        settings.addRequiredFeatureSet(FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK);
+        settings.addRequiredFeatureSet(
+            new FishFeature[] {FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK},
+            new int[] {8, 1, 1}
+        );
         // Movement settings
         settings.setSwimSpeed(0.1);
         settings.setMinDepth(90);

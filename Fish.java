@@ -63,10 +63,8 @@ public abstract class Fish extends PixelActor {
 
         this.features = EnumSet.noneOf(FishFeature.class);
         // Add required features
-        for (Set<FishFeature> reqFeatureSet : settings.getRequiredFeatureSets()) {
-            // Pick a random feature from each set
-            FishFeature[] reqFeatures = reqFeatureSet.toArray(new FishFeature[reqFeatureSet.size()]);
-            addFeature(reqFeatures[Util.randInt(0, reqFeatures.length - 1)], false);
+        for (FishFeature feature : settings.chooseRequiredFeatures()) {
+            addFeature(feature, false);
         }
         // Add specified features
         if (features != null) {
