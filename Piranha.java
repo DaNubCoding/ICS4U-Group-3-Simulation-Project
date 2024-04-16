@@ -28,7 +28,7 @@ public class Piranha extends Fish {
         settings.setEggSize(Egg.EggSize.MEDIUM);
         settings.setEggColor(Egg.EggColor.GREEN);
         settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(25);
+        settings.setEvoPointGain(30);
         settings.setEvolutionChance(0.4);
         settings.setEvolutions(Barracuda.class);
         // Feature image offsets

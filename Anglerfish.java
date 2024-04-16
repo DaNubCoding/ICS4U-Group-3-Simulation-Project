@@ -33,7 +33,7 @@ public class Anglerfish extends Fish {
         settings.setEggSize(Egg.EggSize.GIGANTIC);
         settings.setEggColor(Egg.EggColor.GREEN);
         settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(25);
+        settings.setEvoPointGain(20);
         settings.setEvolutionChance(0.1);
         settings.setEvolutions(null);
         // Feature image offsets
