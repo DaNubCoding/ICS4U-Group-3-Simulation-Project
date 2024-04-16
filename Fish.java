@@ -357,11 +357,11 @@ public abstract class Fish extends PixelActor {
                 setHeading(getHeading() > 270 ? 0 : 180);
             }
             setLocation(getDoubleX(), SimulationWorld.SEA_SURFACE_Y);
-        } else if (getY() > getWorld().getHeight()) {
+        } else if (getY() > SimulationWorld.SEA_FLOOR_Y) {
             if (getHeading() < 180) {
                 setHeading(getHeading() < 90 ? 0 : 180);
             }
-            setLocation(getDoubleX(), getWorld().getHeight());
+            setLocation(getDoubleX(), SimulationWorld.SEA_FLOOR_Y);
         } else if (getY() < settings.getMinDepth()) {
             // Try to get back to its depth range by slowly turning downwards
             setHeading(Util.interpolateAngle(getHeading(), 90, 0.0075));
