@@ -25,6 +25,7 @@ public class SettingsWorld extends PixelWorld {
         addObject(slider1, 100, 50);
         addObject(slider2, 100, 70);
         addObject(slider3, 100, 90);
+        addObject(new Button("Start!", () -> {Greenfoot.setWorld(new SimulationWorld());}), 120, 130);
 
         render();
     }
