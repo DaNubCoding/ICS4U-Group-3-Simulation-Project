@@ -74,7 +74,7 @@ public class SummaryWorld extends PixelWorld
             }
         }
         keyPressed = Greenfoot.isKeyDown("enter");
-        
+
         if(pageNumber == 3){ //if we are currently on the fish summary page
             actNumber++;
             if(speedMultiplierSlider.getValue().doubleValue() != FishRecord.getSpeedMultiplier()){
@@ -145,7 +145,7 @@ public class SummaryWorld extends PixelWorld
         }
         // Display new canvas image
         updateImage();
-        
+
         //remove expText to not interfere with rest of summary screen
         removeObject(expText);
     }
@@ -159,7 +159,7 @@ public class SummaryWorld extends PixelWorld
         addObject(speedMultiplierSlider, 170, 46);
         renderPixelActors();
         updateImage();
-        
+
         //sets variable default values to run the fish summary screen
         currentTier = 1;
         fishesToDisplay = new ArrayList(simWorld.getDiscoveredFishesOfTier(currentTier));
@@ -168,7 +168,7 @@ public class SummaryWorld extends PixelWorld
         fishFrequencyMultiplier = 1.0;
         FishRecord.setSpeedMultiplier(1.0);
     }
-    
+
     private void addNextFishToWorld(){
         if(currentTier>4){
             return;
@@ -182,13 +182,13 @@ public class SummaryWorld extends PixelWorld
             fishesIndex++;
         }
     }
-    
+
     private void render(){
         GreenfootImage canvas = getCanvas();
         canvas.drawImage(FISH_SUMMARY_BACKGROUND, 0, 0);
-        
+
         renderPixelActors();
-        
+
         updateImage();
     }
 }

@@ -20,7 +20,7 @@ public class FishRecord extends PixelActor {
     private static double speedMultiplier;
     private Text name;
     private Star tierStars;
-    
+
     /**
      * Creates a new FishRecord using information from the given Fish.
      *
@@ -34,13 +34,13 @@ public class FishRecord extends PixelActor {
         name = new Text(type.getCanonicalName(), Text.AnchorX.CENTER, Text.AnchorY.TOP);
         tierStars = new Star(fish.getSettings().getTier());
     }
-    
+
     @Override
     public void addedToWorld(World world) {
         world.addObject(name, getX(), getY() + getOriginalImage().getHeight());
         world.addObject(tierStars, getX(), getY() + getOriginalImage().getHeight() + 14);
     }
-    
+
     @Override
     public void act() {
         move(SPEED * speedMultiplier);
@@ -53,7 +53,7 @@ public class FishRecord extends PixelActor {
             w.removeObject(this);
         }
     }
-    
+
     /**
      * Indicates whether some other object is equal to this FishRecord.
      * <p>
@@ -73,16 +73,16 @@ public class FishRecord extends PixelActor {
         FishRecord other = (FishRecord) obj;
         return type.equals(other.type) && features.equals(other.features);
     }
-    
+
     @Override
     public int hashCode() {
         return 17 * type.hashCode() + features.hashCode();
     }
-    
+
     public static void setSpeedMultiplier(double multiplier){
         speedMultiplier = multiplier;
     }
-    
+
     public static double getSpeedMultiplier(){
         return speedMultiplier;
     }
