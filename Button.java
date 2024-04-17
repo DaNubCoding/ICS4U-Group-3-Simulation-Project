@@ -1,7 +1,10 @@
 import greenfoot.*;
 
 /**
- * A button that displays text,
+ * A button that displays text.
+ *
+ * @author Andrew Wang
+ * @version April 2024
  */
 public class Button extends PixelActor {
     private Text text;
@@ -63,6 +66,11 @@ public class Button extends PixelActor {
         return checkX && checkY;
     }
 
+    /**
+     * Get the image of the button when idle.
+     *
+     * @return The image of the button when idle
+     */
     private GreenfootImage getIdleImage() {
         GreenfootImage textImage = text.getOriginalImage();
         // Create the button image a bit larger than the text image
@@ -79,6 +87,11 @@ public class Button extends PixelActor {
         return image;
     }
 
+    /**
+     * Get the image of the button when the mouse if hovering.
+     *
+     * @return The image of the button when hovering
+     */
     private GreenfootImage getHoverImage() {
         GreenfootImage textImage = text.getOriginalImage();
         // Create the button image a bit larger than the text image
@@ -95,6 +108,11 @@ public class Button extends PixelActor {
         return image;
     }
 
+    /**
+     * Get the image of the button when it is being clicked.
+     *
+     * @return The image of the button when clicked
+     */
     private GreenfootImage getClickImage() {
         GreenfootImage textImage = text.getOriginalImage();
         // Create the button image a bit larger than the text image
