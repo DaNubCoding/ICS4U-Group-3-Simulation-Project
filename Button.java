@@ -2,6 +2,12 @@ import greenfoot.*;
 
 /**
  * A button that displays text.
+ * <p>When passing in the method, it must be in the following format:</p>
+ * {@code new Button("TEXT", CLASS_NAME::METHOD_NAME)}
+ * <p>Where {@code CLASS_NAME} is the name of the class that contains the method
+ * to be called, and {@code METHOD_NAME} is the name of the method to be called.</p>
+ * <p>For example:
+ * {@code new Button("Start Simulation", SettingsWorld::startSimulation)}</p>
  *
  * @author Andrew Wang
  * @version April 2024
@@ -15,6 +21,12 @@ public class Button extends PixelActor {
     private GreenfootImage hoverImage;
     private GreenfootImage clickImage;
 
+    /**
+     * Create a button that displays a text and runs a method when clicked.
+     *
+     * @param text The text string to display on the button
+     * @param method The method that is ran when the button is clicked
+     */
     public Button(String text, Runnable method) {
         super();
         this.text = new Text(text, Text.AnchorX.CENTER, Text.AnchorY.CENTER);
