@@ -15,7 +15,7 @@ public class Tuna extends TierOneFish
     //sets this tier one fish's settings to basic settings, with specified body image and egg color
     static {
         settings = new FishSettings();
-        initialiseTierOneFishSettings(settings, "fishes/tuna.png", Egg.EggColor.BLUE, Swordfish.class);
+        initialiseTierOneFishSettings(settings, "fishes/tuna.png", Egg.EggColor.BLUE, Flyingfish.class);
     }
 
     public Tuna(int evoPoints, FishFeature... features) {
