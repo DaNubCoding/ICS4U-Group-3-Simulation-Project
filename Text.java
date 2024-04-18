@@ -14,8 +14,11 @@ import java.util.Collections;
  * <p>
  * Text objects can be constructed with a string or an integer which is
  * automatically turned into a string using {@link String#valueOf(int)}.
+ * <p>
+ * Use "\n" to create a new line.
  *
  * @author Martin Baldwin
+ * @author Andrew Wang
  * @version April 2024
  */
 public class Text extends PixelActor {
@@ -29,6 +32,10 @@ public class Text extends PixelActor {
      * The number of pixels to leave between characters in text.
      */
     public static final int CHARACTER_SPACING = 1;
+    /**
+     * The number of pixels bewteen lines of the text.
+     */
+    public static final int LINE_SPACING = 1;
 
     // Map characters to their image representations
     // A character's image is found at the index of the ASCII value minus 0x20 so that it starts at space
@@ -186,20 +193,37 @@ public class Text extends PixelActor {
             return null;
         }
         // Find the dimensions and character images required for this text
+        int maxWidth = -CHARACTER_SPACING;
         int width = -CHARACTER_SPACING;
+        int height = CHARACTER_HEIGHT;
         GreenfootImage[] charImages = new GreenfootImage[content.length()];
         for (int i = 0; i < content.length(); i++) {
+            // Move on to the next line if a newline character is found
+            if (content.charAt(i) == '\n') {
+                width = -CHARACTER_SPACING;
+                height += CHARACTER_HEIGHT + LINE_SPACING;
+                charImages[i] = null;
+                continue;
+            }
             GreenfootImage charImage = charmap[content.charAt(i) - ' '];
             if (charImage.getHeight() != CHARACTER_HEIGHT) {
                 throw new UnsupportedOperationException("Image for character '" + content.charAt(i) + "' has a height that does not match Text.CHARACTER_HEIGHT");
             }
             width += charImage.getWidth() + CHARACTER_SPACING;
+            maxWidth = Math.max(maxWidth, width);
             charImages[i] = charImage;
         }
         // Draw the characters to an image
-        GreenfootImage result = new GreenfootImage(width, CHARACTER_HEIGHT);
-        for (int i = 0, x = 0; i < charImages.length; x += charImages[i].getWidth() + CHARACTER_SPACING, i++) {
-            result.drawImage(charImages[i], x, 0);
+        GreenfootImage result = new GreenfootImage(maxWidth, height);
+        for (int i = 0, x = 0, y = 0; i < charImages.length; i++) {
+            // A new line is reached
+            if (charImages[i] == null) {
+                x = 0;
+                y += CHARACTER_HEIGHT + LINE_SPACING;
+                continue;
+            }
+            result.drawImage(charImages[i], x, y);
+            x += charImages[i].getWidth() + CHARACTER_SPACING;
         }
         return result;
     }
