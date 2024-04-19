@@ -103,7 +103,7 @@ public abstract class Fish extends PixelActor {
             throw new IllegalArgumentException("FishFeature " + feature + " is not allowed on this Fish type");
         }
         // Do nothing if this feature is incompatible with this fish's existing features
-        if (!feature.isCompatible(features)) {
+        if (!feature.isCompatibleWith(features)) {
             return;
         }
         features.add(feature);
@@ -298,12 +298,18 @@ public abstract class Fish extends PixelActor {
             return;
         }
 
+        // Feature-specific behaviour
+        for (FishFeature feature : features) {
+            feature.actOn(this);
+            if (getWorld() == null) {
+                return;
+            }
+        }
+
         // React to other fish features
         if (!hasFeature(FishFeature.ANGLER_SOCK)) {
             repelFromSocks();
         }
-
-        // TODO: feature-specific behaviour
 
         // Standard behaviour
         swim();

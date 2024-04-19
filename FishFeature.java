@@ -2,12 +2,14 @@ import greenfoot.*;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Collection;
+import java.util.function.Consumer;
 
 /**
  * All features that may exist on fish. Each feature has attributes for:
  * <ul>
  * <li>a probability of a fish gaining the feature
  * <li>the amount of XP the feature adds to a fish when caught
+ * <li>an optional functional operation run every act on a given fish object
  * </ul>
  * <p>
  * Note that the image used for each feature is found in the features image
@@ -17,18 +19,21 @@ import java.util.Collection;
  * Features in this enum should be defined in the desired order of rendering,
  * with later-defined features being drawn on top of earlier-defined features.
  * (The rendering order is a result of the Fish class using an {@link java.util.EnumSet} internally).
+ * <p>
+ * Feature functions are the first thing to run in a fish's act, and are
+ * expected to operate via side effects.
  *
  * @author Martin Baldwin
  * @author Sandra Huang
  * @version April 2024
  */
 public enum FishFeature {
-    ANGLER_LIGHT(0.1, 5),
-    ANGLER_BOMB(0.1, 15),
-    ANGLER_SOCK(0.1, 15),
-    BIG_EYE(0.1, 10),
-    HAT_BROWN(0.1, 5),
-    HAT_PARTY(0.1, 5),
+    ANGLER_LIGHT(0.1, 5, null),
+    ANGLER_BOMB(0.1, 15, FishFeature::actBomb),
+    ANGLER_SOCK(0.1, 15, null), // Behaviour implemented from other Fish
+    BIG_EYE(0.1, 10, null),
+    HAT_BROWN(0.1, 5, null),
+    HAT_PARTY(0.1, 5, FishFeature::actHatParty),
     ;
 
     /**
@@ -45,15 +50,18 @@ public enum FishFeature {
     private final GreenfootImage image;
     private final double chance;
     private final int value;
+    private final Consumer<Fish> act;
 
     /**
      * @param chance the probability of gaining this feature, as a double, 0.0 indicating 0% and 1.0 indicating 100%
      * @param value the amount of XP this feature is worth
+     * @param act a function to run every act on all Fish objects with this feature
      */
-    private FishFeature(double chance, int value) {
+    private FishFeature(double chance, int value, Consumer<Fish> act) {
         image = new GreenfootImage("features/" + name().toLowerCase() + ".png");
         this.chance = chance;
         this.value = value;
+        this.act = act;
     }
 
     /**
@@ -84,12 +92,24 @@ public enum FishFeature {
     }
 
     /**
+     * Perform the operation assigned to this FishFeature on the given Fish object.
+     *
+     * @param fish the Fish object to act upon from this feature
+     */
+    public void actOn(Fish fish) {
+        if (act == null) {
+            return;
+        }
+        act.accept(fish);
+    }
+
+    /**
      * Tests if this FishFeature is compatible with a collection of FishFeatures.
      *
      * @param the collection of features to test for compatibility with this feature
      * @return true if this feature is compatible with the other features, false otherwise
      */
-    public boolean isCompatible(Collection<FishFeature> features) {
+    public boolean isCompatibleWith(Collection<FishFeature> features) {
         for (Set<FishFeature> set : mutuallyExclusiveSets) {
             if (set.contains(this)) {
                 for (FishFeature other : features) {
@@ -100,5 +120,26 @@ public enum FishFeature {
             }
         }
         return true;
+    }
+
+    /**
+     * Kill the given fish and all fish around it at a random point in time.
+     */
+    private static void actBomb(Fish fish) {
+        if (Util.randDouble(0, 1) < 0.001) {
+            PixelWorld world = fish.getWorld();
+            for (Fish other : fish.getObjectsInRange(32, Fish.class)) {
+                world.removeObject(other);
+            }
+            world.removeObject(fish);
+        }
+    }
+
+    /**
+     * Move forwards an extra amount so as to move faster.
+     */
+    private static void actHatParty(Fish fish) {
+        // 1x + 2x = 3x speed
+        fish.move(fish.getSettings().getSwimSpeed() * 2.0);
     }
 }
