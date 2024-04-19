@@ -56,7 +56,7 @@ public class SimulationWorld extends PixelWorld {
         addObject(fisher1, 50, 31);
         addObject(fisher2, 200, 31);
 
-        addObject(new Bass(0, FishFeature.ANGLER_SOCK), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        addObject(new Bass(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Salmon(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Tuna(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
 
