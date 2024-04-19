@@ -1,5 +1,6 @@
 import greenfoot.*;
 import java.util.Set;
+import java.util.List;
 import java.util.EnumSet;
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -127,18 +128,32 @@ public enum FishFeature {
      */
     private static void actBomb(Fish fish) {
         // Only explode at a random point after the fish has existed for some time
-        if (fish.getAge() < 120 || Util.randDouble(0, 1) >= 0.001) {
-            return;
+        if (fish.getAge() > 120 && Util.randDouble(0, 1) < 0.001) {
+            blowUp(fish);
         }
+    }
 
+    /**
+     * Make a given fish blow up.
+     */
+    private static void blowUp(Fish fish) {
         PixelWorld world = fish.getWorld();
-        for (Fish other : fish.getObjectsInRange(32, Fish.class)) {
+        // Grab the in-range fish first before removing it from world
+        // But must be removed from world before the loop, or else another fish
+        // blowing up can circularly discover this fish
+        List<Fish> fishInRange = fish.getObjectsInRange(32, Fish.class);
+        List<Egg> eggsInRange = fish.getObjectsInRange(32, Egg.class);
+        world.removeObject(fish);
+
+        for (Fish other : fishInRange) {
+            if (other.hasFeature(ANGLER_BOMB)) {
+                blowUp(other);
+            }
             world.removeObject(other);
         }
-        for (Egg egg : fish.getObjectsInRange(32, Egg.class)) {
+        for (Egg egg : eggsInRange) {
             world.removeObject(egg);
         }
-        world.removeObject(fish);
         world.addObject(new Explosion(), fish.getX(), fish.getY());
     }
 
