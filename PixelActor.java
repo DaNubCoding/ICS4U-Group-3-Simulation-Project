@@ -577,20 +577,12 @@ public abstract class PixelActor extends Actor {
      *
      * @param radius the radius of the circle, in canvas pixels
      * @param cls the class of objects to look for, or {@code null} for all types of objects
+     * @return a list of objects in this actor's world of the given class within the given range
+     * @see PixelWorld#getObjectsInRange
      */
     @Override
     public <A> List<A> getObjectsInRange(int radius, Class<A> cls) {
-        List<A> result = new ArrayList<A>();
-        for (A obj : getWorld().getObjects(cls)) {
-            if (obj == this || !(obj instanceof PixelActor)) {
-                continue;
-            }
-            PixelActor actor = (PixelActor) obj;
-            if (getDistanceTo(actor) <= radius) {
-                result.add(obj);
-            }
-        }
-        return result;
+        return getWorld().getObjectsInRange(radius, getX(), getY(), cls);
     }
 
     /**
@@ -601,6 +593,17 @@ public abstract class PixelActor extends Actor {
      */
     public double getDistanceTo(PixelActor other) {
         return Math.hypot(other.getDoubleX() - x, other.getDoubleY() - y);
+    }
+
+    /**
+     * Calculate the distance between this actor and a point.
+     *
+     * @param x the x-coordinate of the point
+     * @param y the y-coordinate of the point
+     * @return the straight-line distance between the actor's position (center of rotation) and the point
+     */
+    public double getDistanceTo(double x, double y) {
+        return Math.hypot(x - this.x, y - this.y);
     }
 
     /**

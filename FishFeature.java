@@ -138,12 +138,14 @@ public enum FishFeature {
      */
     private static void blowUp(Fish fish) {
         PixelWorld world = fish.getWorld();
-        // Grab the in-range fish first before removing it from world
-        // But must be removed from world before the loop, or else another fish
-        // blowing up can circularly discover this fish
-        List<Fish> fishInRange = fish.getObjectsInRange(32, Fish.class);
-        List<Egg> eggsInRange = fish.getObjectsInRange(32, Egg.class);
         world.removeObject(fish);
+
+        // Find the world position of the bomb itself, offset from the feature, body image, and fish position
+        IntPair bombOffset = fish.getSettings().getFeaturePoint(FishFeature.ANGLER_BOMB);
+        DoublePair bombPos = fish.getImageOffsetGlobalPosition(fish.getBodyOffsetX() + bombOffset.x + 12, fish.getBodyOffsetY() + bombOffset.y + 9);
+        // Get all fishes and eggs around the bomb
+        List<Fish> fishInRange = world.getObjectsInRange(32, (int) bombPos.x, (int) bombPos.y, Fish.class);
+        List<Egg> eggsInRange = world.getObjectsInRange(32, (int) bombPos.x, (int) bombPos.y, Egg.class);
 
         for (Fish other : fishInRange) {
             if (other.hasFeature(ANGLER_BOMB)) {
@@ -154,7 +156,7 @@ public enum FishFeature {
         for (Egg egg : eggsInRange) {
             world.removeObject(egg);
         }
-        world.addObject(new Explosion(), fish.getX(), fish.getY());
+        world.addObject(new Explosion(), (int) bombPos.x, (int) bombPos.y);
     }
 
     /**

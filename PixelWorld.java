@@ -190,6 +190,32 @@ public abstract class PixelWorld extends World {
     }
 
     /**
+     * Return all objects of the specified class within a specified radius
+     * around a point. An object is within range if the distance between its
+     * center of rotation and the given point is less than or equal to the
+     * given radius.
+     * <p>
+     * Note: this method ignores objects that do not subclass from PixelActor!
+     *
+     * @param radius the radius of the circle, in canvas pixels
+     * @param cls the class of objects to look for, or {@code null} for all types of objects
+     * @return a list of objects in this actor's world of the given class within the given range
+     */
+    public <A> List<A> getObjectsInRange(int radius, int x, int y, Class<A> cls) {
+        List<A> result = new ArrayList<A>();
+        for (A obj : getObjects(cls)) {
+            if (!(obj instanceof PixelActor)) {
+                continue;
+            }
+            PixelActor actor = (PixelActor) obj;
+            if (actor.getDistanceTo(x, y) <= radius) {
+                result.add(obj);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Gets the width of the downscaled world.
      * <p>
      * This is not the width of the final world that is displayed to the user.

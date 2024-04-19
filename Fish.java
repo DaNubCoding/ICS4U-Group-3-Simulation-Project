@@ -223,6 +223,26 @@ public abstract class Fish extends PixelActor {
     }
 
     /**
+     * Gets the current horizontal offset of this fish's body image, relative to
+     * its full image.
+     *
+     * @return the number of pixels from the left of this fish's actor image to the left of its body image
+     */
+    public int getBodyOffsetX() {
+        return bodyOffsetX;
+    }
+
+    /**
+     * Gets the current vertical offset of this fish's body image, relative to
+     * its full image.
+     *
+     * @return the number of pixels from the top of this fish's actor image to the top of its body image
+     */
+    public int getBodyOffsetY() {
+        return bodyOffsetY;
+    }
+
+    /**
      * Gets the coordinates of the point in the world where this Fish may be
      * caught from.
      *
@@ -413,7 +433,11 @@ public abstract class Fish extends PixelActor {
      */
     protected void repelFromSocks() {
         for (Fish other : ((SimulationWorld) getWorld()).getFishesByFeature(FishFeature.ANGLER_SOCK)) {
-            double distance = getDistanceTo(other);
+            // Find the world position of the sock itself, offset from the feature, body image, and fish position
+            IntPair sockOffset = other.getSettings().getFeaturePoint(FishFeature.ANGLER_SOCK);
+            DoublePair sockPos = other.getImageOffsetGlobalPosition(other.getBodyOffsetX() + sockOffset.x + 10, other.getBodyOffsetY() + sockOffset.y + 9);
+            // Repel from this sock only if it is close enough
+            double distance = getDistanceTo(sockPos.x, sockPos.y);
             if (distance > 32) continue;
 
             // Calculate the target angle required to optimally avoid the sock
