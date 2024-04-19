@@ -118,7 +118,7 @@ public class Slider<T extends Number> extends PixelActor {
          * Specifically for outside use by the Slider, there is only need to
          * calculate hover once in hovered().
          *
-         * @return True is being hovered, false otherwise
+         * @return True if being hovered, false otherwise
          */
         public boolean isHovered() {
             return hovered;
