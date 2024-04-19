@@ -29,11 +29,11 @@ import java.util.function.Consumer;
  */
 public enum FishFeature {
     ANGLER_LIGHT(0.1, 5, null),
-    ANGLER_BOMB(0.1, 15, FishFeature::actBomb),
-    ANGLER_SOCK(0.1, 15, null), // Behaviour implemented from other Fish
+    ANGLER_BOMB(0.05, 15, FishFeature::actBomb),
+    ANGLER_SOCK(0.005, 15, null), // Behaviour implemented from other Fish
     BIG_EYE(0.1, 10, null),
     HAT_BROWN(0.1, 5, null),
-    HAT_PARTY(0.1, 5, FishFeature::actHatParty),
+    HAT_PARTY(0.05, 5, FishFeature::actHatParty),
     ;
 
     /**
