@@ -472,7 +472,7 @@ public abstract class Fish extends PixelActor {
             // Give it a random extra bit of rotation
             avoidanceAngle += Util.randInt(-10, 10);
             avoidanceAngle %= 360;
-            // Minimum angle of 35 degrees above and below horizontal
+            // Minimum angle of 40 degrees above and below horizontal
             avoidanceAngle = Math.max(avoidanceAngle, 40);
             avoidanceAngle = Math.min(avoidanceAngle, 320);
             // How much the Fish wants to avoid the sock as a percentage
