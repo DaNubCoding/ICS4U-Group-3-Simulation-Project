@@ -60,7 +60,7 @@ public class Hook extends PixelActor {
             setHeading(rodTip.x, rodTip.y);
             move(fishingRod.getReelInSpeed());
             // Remove hook and fishing line when it gets pulled above the surface
-            if (getY() < SimulationWorld.SEA_SURFACE_Y - 10) {
+            if (getDoubleY() <= rodTip.y + 5) {
                 fishingRod.reelIn();
                 return;
             }
