@@ -329,6 +329,51 @@ public abstract class Fish extends PixelActor {
             repelFromSocks();
         }
 
+        // Standard behaviour
+        swim();
+        reproduce();
+        spawnBubbles();
+        lookForHook();
+        age++;
+    }
+
+    /**
+     * Call this in act(). Makes the fish swim.
+     * <p>May be overridden to implement special swim patterns.</p>
+     */
+    protected void swim() {
+        move(settings.getSwimSpeed() * swimSpeedMultiplier);
+        if (rotationTimer.ended()) {
+            int maxAngle = settings.getMaxTurnDegrees();
+            setHeading(getHeading() + Util.randInt(-maxAngle, maxAngle));
+            rotationTimer.restart(settings.getAverageTurnInterval());
+        }
+
+        checkBounds();
+
+        setMirrorX(getHeading() > 90 && getHeading() < 270);
+        // Heading with respect to mirrorX
+        double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
+        setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
+
+        doBoidBehavior();
+    }
+
+    /**
+     * Attempt to spawn eggs.
+     */
+    private void reproduce() {
+        if (eggSpawnTimer.ended() && nearbyKinsCount < 8) {
+            spawnEgg();
+            eggSpawnTimer.restart((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
+        }
+    }
+
+    /**
+     * Do boid-like behavior, fish bunch up with others of the same type,
+     * forming schools of fish.
+     */
+    private void doBoidBehavior() {
         nearbyKinsCount = 0;
         int averageAngle = 0;
         int averageX = 0;
@@ -355,37 +400,6 @@ public abstract class Fish extends PixelActor {
             setHeading(Util.interpolateAngle(getHeading(), averageAngle, 0.008));
             // Cohesion
             setHeading(Util.interpolateAngle(getHeading(), getAngleTo(averageX, averageY), 0.005));
-        }
-
-        // Standard behaviour
-        swim();
-        spawnBubbles();
-        lookForHook();
-        age++;
-    }
-
-    /**
-     * Call this in act(). Makes the fish swim.
-     * <p>May be overridden to implement special swim patterns.</p>
-     */
-    protected void swim() {
-        move(settings.getSwimSpeed() * swimSpeedMultiplier);
-        if (rotationTimer.ended()) {
-            int maxAngle = settings.getMaxTurnDegrees();
-            setHeading(getHeading() + Util.randInt(-maxAngle, maxAngle));
-            rotationTimer.restart(settings.getAverageTurnInterval());
-        }
-
-        checkBounds();
-
-        setMirrorX(getHeading() > 90 && getHeading() < 270);
-        // Heading with respect to mirrorX
-        double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
-        setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
-
-        if (eggSpawnTimer.ended() && nearbyKinsCount < 8) {
-            spawnEgg();
-            eggSpawnTimer.restart((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
         }
     }
 
