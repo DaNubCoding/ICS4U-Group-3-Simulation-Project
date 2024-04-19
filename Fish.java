@@ -398,31 +398,34 @@ public abstract class Fish extends PixelActor {
      * Try to swim away from any fishes with socks within a certain radius.
      */
     protected void repelFromSocks() {
-        // Get repelled at an angle averaged away from any fishes with socks
-        List<Double> repelAngles = new ArrayList<>();
         for (Fish other : ((SimulationWorld) getWorld()).getFishesByFeature(FishFeature.ANGLER_SOCK)) {
-            if (getDistanceTo(other) <= 32) {
-                repelAngles.add(other.getAngleTo(this));
-            }
-        }
-        if (repelAngles.isEmpty()) {
-            return;
-        }
+            double distance = getDistanceTo(other);
+            if (distance > 32) continue;
 
-        // Also repel away from the vertical walls so fish try to avoid getting trapped
-        if (getX() < 32) {
-            repelAngles.add(0.0);
-        } else if (getX() > getWorld().getWidth() - 32) {
-            repelAngles.add(180.0);
+            // Calculate the target angle required to optimally avoid the sock
+            double avoidanceAngle = getAngleTo(other) + 180;
+            // Give it a random extra bit of rotation
+            avoidanceAngle += Util.randInt(-10, 10);
+            // How much the Fish wants to avoid the sock as a percentage
+            // i.e. how close it is to the sock
+            // Clamp it to avoid too extreme values
+            double eagerness = Math.min(Math.max(1 - distance / 32, 0.1), 0.75);
+            // Interpolate towards this new angle
+            setHeading(Util.interpolateAngle(getHeading(), avoidanceAngle, 0.1 * eagerness));
+            // Prevent the fish from turning too vertical while avoiding the sock
+            double heading = getHeading() % 360;
+            if (heading <= 90) {
+                setHeading(Math.min(heading, 60));
+            } else if (heading <= 180) {
+                setHeading(Math.max(heading, 120));
+            } else if (heading <= 270) {
+                setHeading(Math.min(heading, 240));
+            } else {
+                setHeading(Math.max(heading, 300));
+            }
+            // Finally move the fish based on how eager it is to get away
+            move(settings.getSwimSpeed() * 3 * eagerness);
         }
-        // Interpolate between all angles, roughly approximating an average
-        double avg = repelAngles.get(0);
-        for (int i = 1; i < repelAngles.size(); i++) {
-            avg = Util.interpolateAngle(avg, repelAngles.get(i), 0.5);
-        }
-        setHeading(avg);
-        // Swim away from socks (in addition to movement in swim(), so the fish swims at 2x speed)
-        move(settings.getSwimSpeed());
     }
 
     /**
