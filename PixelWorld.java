@@ -135,8 +135,6 @@ public abstract class PixelWorld extends World {
      */
     @Override
     public void addObject(Actor object, int x, int y) {
-        super.addObject(object, x, y);
-
         // Add this object to the list for its class
         List<Actor> list = actorMap.get(object.getClass());
         if (list == null) {
@@ -144,6 +142,8 @@ public abstract class PixelWorld extends World {
             actorMap.put(object.getClass(), list);
         }
         list.add(object);
+
+        super.addObject(object, x, y);
     }
 
     /**
