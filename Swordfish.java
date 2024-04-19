@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A 
+ * A
  *
  * @author Stanley Wang
  * @author Sandra Huang
@@ -13,7 +13,7 @@ public class Swordfish extends Fish {
     static {
         settings = new FishSettings();
         // Base settings
-        settings.setTier(4);
+        settings.setTier(3);
         settings.setBaseValue(100);
         settings.setBodyImage("fishes/swordfish.png");
         settings.setCatchOffset(28, 6);
