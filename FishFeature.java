@@ -23,10 +23,10 @@ import java.util.Collection;
  * @version April 2024
  */
 public enum FishFeature {
-    BIG_EYE(0.1, 10),
     ANGLER_LIGHT(0.1, 5),
     ANGLER_BOMB(0.1, 15),
     ANGLER_SOCK(0.1, 15),
+    BIG_EYE(0.1, 10),
     HAT_BROWN(0.1, 5),
     HAT_PARTY(0.1, 5),
     ;
