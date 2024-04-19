@@ -1,6 +1,10 @@
 import greenfoot.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collection;
 
 /**
  * A type of world whose display image is an upscaled version of its canvas
@@ -24,6 +28,9 @@ public abstract class PixelWorld extends World {
     private final int worldHeight;
     private final GreenfootImage canvas;
 
+    // All actors in this world mapped by their classes, for efficient access
+    private Map<Class<? extends Actor>, List<Actor>> actorMap;
+
     // PixelActor subclasses in order of rendering, from bottom to top
     private Class<? extends PixelActor>[] renderOrder;
 
@@ -40,6 +47,7 @@ public abstract class PixelWorld extends World {
         canvas = new GreenfootImage(worldWidth, worldHeight);
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
+        actorMap = new HashMap<Class<? extends Actor>, List<Actor>>();
         renderOrder = null;
     }
 
@@ -115,6 +123,70 @@ public abstract class PixelWorld extends World {
         for (PixelActor actor : actorsToDraw) {
             actor.render(canvas);
         }
+    }
+
+    /**
+     * Adds an Actor to this world, storing it for efficient access.
+     *
+     * @param object the object to add
+     * @param x the x coordinate of the location where the object is added
+     * @param y the y coordinate of the location where the object is added
+     * @see World#addObject
+     */
+    @Override
+    public void addObject(Actor object, int x, int y) {
+        super.addObject(object, x, y);
+
+        // Add this object to the list for its class
+        List<Actor> list = actorMap.get(object.getClass());
+        if (list == null) {
+            list = new ArrayList<Actor>();
+            actorMap.put(object.getClass(), list);
+        }
+        list.add(object);
+    }
+
+    /**
+     * Removes an Actor from this world.
+     *
+     * @param object the object to remove
+     * @see World#removeObject
+     */
+    @Override
+    public void removeObject(Actor object) {
+        super.removeObject(object);
+
+        // Remove this object from the list for its class
+        actorMap.get(object.getClass()).remove(object);
+    }
+
+    /**
+     * Gets all objects of a particular class in this world.
+     * <p>
+     * This method is significantly more efficient than {@link World#getObjects},
+     * making use of a map of classes to their actor instances.
+     *
+     * @param cls the class of objects to look for, or {@code null} to find all objects
+     * @return a list of objects in this world that are instances of the given class
+     * @see World#getObjects
+     */
+    @Override
+    public <A> List<A> getObjects(Class<A> cls) {
+        List result = new ArrayList();
+        if (cls == null) {
+            // Add all objects to result list
+            for (List<Actor> list : actorMap.values()) {
+                result.addAll(list);
+            }
+        } else {
+            // Add all objects of classes that are subclasses of or the same as the given class
+            for (Class<? extends Actor> keyCls : actorMap.keySet()) {
+                if (cls.isAssignableFrom(keyCls)) {
+                    result.addAll(actorMap.get(keyCls));
+                }
+            }
+        }
+        return result;
     }
 
     /**

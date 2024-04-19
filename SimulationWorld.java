@@ -115,6 +115,7 @@ public class SimulationWorld extends PixelWorld {
      * @param x the x coordinate of the location where the object is added
      * @param y the y coordinate of the location where the object is added
      * @see World#addObject
+     * @see PixelWorld#addObject
      */
     @Override
     public void addObject(Actor object, int x, int y) {
@@ -137,6 +138,7 @@ public class SimulationWorld extends PixelWorld {
      *
      * @param object the object to remove
      * @see World#removeObject
+     * @see PixelWorld#removeObject
      */
     @Override
     public void removeObject(Actor object) {

@@ -244,8 +244,7 @@ public abstract class Fish extends PixelActor {
         if (bittenHook != null) {
             return;
         }
-        List<Hook> hooks = getWorld().getObjects(Hook.class);
-        for (Hook hook : hooks) {
+        for (Hook hook : getWorld().getObjects(Hook.class)) {
             if (hook.isOccupied()) continue;
             DoublePair catchPoint = getCatchPoint();
             DoublePair fishBitePoint = hook.getBitePoint();
