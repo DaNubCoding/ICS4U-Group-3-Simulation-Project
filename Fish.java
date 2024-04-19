@@ -383,6 +383,7 @@ public abstract class Fish extends PixelActor {
         int averageY = 0;
         for (Fish other : getWorld().getObjects(getClass())) {
             if (other == this) continue;
+            if (other.hasFeature(FishFeature.HAT_PARTY) || other.hasFeature(FishFeature.ANGLER_SOCK)) continue;
             double distance = getDistanceTo(other);
             if (distance < 32) {
                 averageAngle += other.getHeading();
