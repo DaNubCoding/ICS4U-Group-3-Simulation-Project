@@ -192,7 +192,7 @@ public class Slider<T extends Number> extends PixelActor {
             }
         }
 
-        updateText(isHovered);
+        updateText(isHovered || thumb.isHovered());
     }
 
     /**
