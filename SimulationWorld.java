@@ -34,9 +34,7 @@ public class SimulationWorld extends PixelWorld {
     private Text actText;
 
     // GifImage for waves
-    private GifPixelActor backgroundWaves = new GifPixelActor(new GifImage("wavesanim.gif"));
-    private GifPixelActor foregroundWaves = new GifPixelActor(new GifImage("wavesanim.gif"));
-
+    private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"));
     public SimulationWorld() {
         super(250, 160);
 
@@ -58,14 +56,12 @@ public class SimulationWorld extends PixelWorld {
         addObject(fisher1, 50, 31);
         addObject(fisher2, 200, 31);
 
-        addObject(new Bass(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        addObject(new Bass(0, FishFeature.ANGLER_SOCK), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Salmon(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Tuna(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
 
-        backgroundWaves.setLocation(125, SEA_SURFACE_Y - 5);
-        foregroundWaves.setLocation(125, SEA_SURFACE_Y - 5);
+        waves.setLocation(125, SEA_SURFACE_Y - 5);
 
-        // TODO: remove this
         actText = new Text(Timer.getCurrentAct(), Text.AnchorX.RIGHT, Text.AnchorY.TOP) {
             @Override
             public void act() {
@@ -96,15 +92,15 @@ public class SimulationWorld extends PixelWorld {
         // Draw the background
         canvas.drawImage(background, 0, 0);
 
-        backgroundWaves.updateImage();
-        backgroundWaves.render(getCanvas());
-        // Draw actors
-        renderPixelActors();
-        foregroundWaves.updateImage();
-        foregroundWaves.setTransparency(100);
-        foregroundWaves.render(getCanvas());
+        waves.updateImage();
+        waves.setTransparency(255);
+        waves.render(getCanvas());
 
-        // Draw water gradient on top of underwater actors
+        renderPixelActors();
+
+        waves.setTransparency(100);
+        waves.render(getCanvas());
+
         canvas.drawImage(foreground, 0, 0);
 
         // Display new canvas image
