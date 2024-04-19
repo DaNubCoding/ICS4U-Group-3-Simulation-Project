@@ -385,12 +385,12 @@ public abstract class Fish extends PixelActor {
             if (other == this) continue;
             if (other.hasFeature(FishFeature.HAT_PARTY) || other.hasFeature(FishFeature.ANGLER_SOCK)) continue;
             double distance = getDistanceTo(other);
-            if (distance < 32) {
+            if (distance < 40) {
                 averageAngle += other.getHeading();
                 averageX += other.getX();
                 averageY += other.getY();
                 nearbyKinsCount++;
-                if (distance < 9) {
+                if (distance < (this.getOriginalHeight() + other.getOriginalHeight()) / 2) {
                     // Separation
                     setHeading(Util.interpolateAngle(getHeading(), -getAngleTo(other), 0.008));
                 }
