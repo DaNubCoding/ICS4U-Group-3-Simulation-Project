@@ -374,6 +374,9 @@ public abstract class Fish extends PixelActor {
      * forming schools of fish.
      */
     private void doBoidBehavior() {
+        if (hasFeature(FishFeature.HAT_PARTY)) return;
+        if (hasFeature(FishFeature.ANGLER_SOCK)) return;
+
         nearbyKinsCount = 0;
         int averageAngle = 0;
         int averageX = 0;
