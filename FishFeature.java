@@ -135,6 +135,9 @@ public enum FishFeature {
         for (Fish other : fish.getObjectsInRange(32, Fish.class)) {
             world.removeObject(other);
         }
+        for (Egg egg : fish.getObjectsInRange(32, Egg.class)) {
+            world.removeObject(egg);
+        }
         world.removeObject(fish);
         world.addObject(new Explosion(), fish.getX(), fish.getY());
     }
