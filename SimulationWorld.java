@@ -1,6 +1,6 @@
 import greenfoot.*;
 import java.util.Set;
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.Map;
 import java.util.EnumMap;
 import java.util.List;
@@ -45,7 +45,7 @@ public class SimulationWorld extends PixelWorld {
         // Initialize fish record keeping structures
         discoveredFishesByTier = new Set[FishSettings.MAX_TIER];
         for (int i = 0; i < discoveredFishesByTier.length; i++) {
-            discoveredFishesByTier[i] = new HashSet<FishRecord>();
+            discoveredFishesByTier[i] = new TreeSet<FishRecord>();
         }
         // Initialize fish retrieval structures
         fishesByFeature = new EnumMap<FishFeature, List<Fish>>(FishFeature.class);
@@ -163,7 +163,7 @@ public class SimulationWorld extends PixelWorld {
      * @return a new set of FishRecord objects describing discovered fishes of the given tier
      */
     public Set<FishRecord> getDiscoveredFishesOfTier(int tier) {
-        return new HashSet<FishRecord>(discoveredFishesByTier[tier - 1]);
+        return new TreeSet<FishRecord>(discoveredFishesByTier[tier - 1]);
     }
 
     /**

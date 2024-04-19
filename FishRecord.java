@@ -1,20 +1,30 @@
 import greenfoot.*;
 import java.util.Set;
+import java.util.List;
 import java.util.Collections;
+import java.util.Arrays;
 
 /**
- * A data class for storing information about a Fish object for presenting it
- * later on the summary screen.
+ * A class for storing and comparing information about a Fish object for
+ * presenting it as an actor later on the summary screen.
  *
  * @author Martin Baldwin
  * @author Sandra Huang
  * @version April 2024
  */
-public class FishRecord extends PixelActor {
+public class FishRecord extends PixelActor implements Comparable<FishRecord> {
+    private static final List<Class<? extends Fish>> TYPE_ORDER = Collections.unmodifiableList(Arrays.asList(
+        Salmon.class, Mollusk.class, Jellyfish.class, Squid.class,
+        Bass.class, Piranha.class, Barracuda.class, Anglerfish.class,
+        Tuna.class, Flyingfish.class, Swordfish.class, Whale.class
+    ));
+
     // The class object representing the fish's class
     private final Class<? extends Fish> type;
     // An immutable set of features that were on the fish
     private final Set<FishFeature> features;
+    // The total XP value of the fish
+    private final int value;
 
     private static final double SPEED = 0.5;
     private static double speedMultiplier;
@@ -30,6 +40,8 @@ public class FishRecord extends PixelActor {
         super();
         type = fish.getClass();
         features = Collections.unmodifiableSet(fish.getFeatureSet());
+        value = fish.getValue();
+
         setImage(fish.getOriginalImage());
         name = new Text(type.getCanonicalName(), Text.AnchorX.CENTER, Text.AnchorY.TOP);
         tierStars = new Star(fish.getSettings().getTier());
@@ -66,8 +78,7 @@ public class FishRecord extends PixelActor {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        }
-        if (!(obj instanceof FishRecord)) {
+        } else if (!(obj instanceof FishRecord)) {
             return false;
         }
         FishRecord other = (FishRecord) obj;
@@ -77,6 +88,49 @@ public class FishRecord extends PixelActor {
     @Override
     public int hashCode() {
         return 17 * type.hashCode() + features.hashCode();
+    }
+
+    /**
+     * Compares this FishRecord with another FishRecord for order.
+     * <p>
+     * Fishes are first sorted by class according to the type order list defined
+     * at the top of this class. They are then sorted by value, then by
+     * features, placing featureless fishes earlier.
+     *
+     * @param other the FishRecord to be compared
+     * @return a negative integer, zero, or a positive integer as this FishRecord is less than, equal to, or greater than the specified FishRecord
+     * @see Comparable#compareTo
+     */
+    @Override
+    public int compareTo(FishRecord other) {
+        if (equals(other)) {
+            return 0;
+        }
+        // Sort by type
+        int typeDiff = TYPE_ORDER.indexOf(type) - TYPE_ORDER.indexOf(other.type);
+        if (typeDiff != 0) {
+            return typeDiff;
+        }
+        // Sort by value
+        if (value != other.value) {
+            return value - other.value;
+        }
+        // Sort featureless earlier
+        boolean isEmpty = features.isEmpty();
+        boolean isOtherEmpty = other.features.isEmpty();
+        if (isEmpty != isOtherEmpty) {
+            return isEmpty ? -1 : 1;
+        }
+        // Sort earlier features earlier
+        for (FishFeature feature : FishFeature.values()) {
+            boolean hasFeature = features.contains(feature);
+            boolean otherHasFeature = other.features.contains(feature);
+            if (hasFeature != otherHasFeature) {
+                return hasFeature ? -1 : 1;
+            }
+        }
+        // Unreachable: covered by equality test at top
+        return 0;
     }
 
     public static void setSpeedMultiplier(double multiplier){
