@@ -126,13 +126,17 @@ public enum FishFeature {
      * Kill the given fish and all fish around it at a random point in time.
      */
     private static void actBomb(Fish fish) {
-        if (Util.randDouble(0, 1) < 0.001) {
-            PixelWorld world = fish.getWorld();
-            for (Fish other : fish.getObjectsInRange(32, Fish.class)) {
-                world.removeObject(other);
-            }
-            world.removeObject(fish);
+        // Only explode at a random point after the fish has existed for some time
+        if (fish.getAge() < 120 || Util.randDouble(0, 1) >= 0.001) {
+            return;
         }
+
+        PixelWorld world = fish.getWorld();
+        for (Fish other : fish.getObjectsInRange(32, Fish.class)) {
+            world.removeObject(other);
+        }
+        world.removeObject(fish);
+        world.addObject(new Explosion(), fish.getX(), fish.getY());
     }
 
     /**

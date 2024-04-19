@@ -27,12 +27,16 @@ public abstract class Fish extends PixelActor {
     private final FishSettings settings;
     // All features present on this fish
     private Set<FishFeature> features;
+    // Hook to follow once caught
     private Hook bittenHook;
-    protected Timer rotationTimer;
-    protected Timer bubbleTimer;
+    // Behaviour timers
+    private Timer rotationTimer;
+    private Timer bubbleTimer;
     private Timer eggSpawnTimer;
     // Evolutionary points
     private int evoPoints;
+    // Age of this fish, in acts
+    private int age;
 
     // Offset of body image currently in use to compensate for features
     private int bodyOffsetX;
@@ -77,6 +81,7 @@ public abstract class Fish extends PixelActor {
         rotationTimer = new Timer(settings.getAverageTurnInterval());
         eggSpawnTimer = new Timer((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
         bubbleTimer = new Timer(Util.randInt(240, 480));
+        age = 0;
     }
 
     /**
@@ -151,6 +156,15 @@ public abstract class Fish extends PixelActor {
      */
     public FishSettings getSettings() {
         return settings;
+    }
+
+    /**
+     * Gets the age of this fish, in acts.
+     *
+     * @return the number of acts that this fish has existed in its world for
+     */
+    public int getAge() {
+        return age;
     }
 
     /**
@@ -315,6 +329,7 @@ public abstract class Fish extends PixelActor {
         swim();
         spawnBubbles();
         lookForHook();
+        age++;
     }
 
     /**
