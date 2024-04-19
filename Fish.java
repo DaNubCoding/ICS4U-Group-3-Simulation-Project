@@ -37,6 +37,8 @@ public abstract class Fish extends PixelActor {
     private int evoPoints;
     // Age of this fish, in acts
     private int age;
+    // Random speed variation
+    private double swimSpeedMultiplier;
 
     // Offset of body image currently in use to compensate for features
     private int bodyOffsetX;
@@ -82,6 +84,7 @@ public abstract class Fish extends PixelActor {
         eggSpawnTimer = new Timer((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
         bubbleTimer = new Timer(Util.randInt(240, 480));
         age = 0;
+        swimSpeedMultiplier = Util.randDouble(0.8, 1.2);
     }
 
     /**
@@ -324,6 +327,34 @@ public abstract class Fish extends PixelActor {
             repelFromSocks();
         }
 
+        int count = 0;
+        int averageAngle = 0;
+        int averageX = 0;
+        int averageY = 0;
+        for (Fish other : getWorld().getObjects(getClass())) {
+            if (other == this) continue;
+            double distance = getDistanceTo(other);
+            if (distance < 32) {
+                averageAngle += other.getHeading();
+                averageX += other.getX();
+                averageY += other.getY();
+                count++;
+                if (distance < 9) {
+                    // Separation
+                    setHeading(Util.interpolateAngle(getHeading(), -getAngleTo(other), 0.008));
+                }
+            }
+        }
+        if (count != 0) {
+            averageAngle /= count;
+            averageX /= count;
+            averageY /= count;
+            // Alignment
+            setHeading(Util.interpolateAngle(getHeading(), averageAngle, 0.008));
+            // Cohesion
+            setHeading(Util.interpolateAngle(getHeading(), getAngleTo(averageX, averageY), 0.005));
+        }
+
         // Standard behaviour
         swim();
         spawnBubbles();
@@ -336,7 +367,7 @@ public abstract class Fish extends PixelActor {
      * <p>May be overridden to implement special swim patterns.</p>
      */
     protected void swim() {
-        move(settings.getSwimSpeed());
+        move(settings.getSwimSpeed() * swimSpeedMultiplier);
         if (rotationTimer.ended()) {
             int maxAngle = settings.getMaxTurnDegrees();
             setHeading(getHeading() + Util.randInt(-maxAngle, maxAngle));
