@@ -39,6 +39,8 @@ public abstract class Fish extends PixelActor {
     private int age;
     // Random speed variation
     private double swimSpeedMultiplier;
+    // The number of the same type of fish nearby
+    private int nearbyKinsCount;
 
     // Offset of body image currently in use to compensate for features
     private int bodyOffsetX;
@@ -327,7 +329,7 @@ public abstract class Fish extends PixelActor {
             repelFromSocks();
         }
 
-        int count = 0;
+        nearbyKinsCount = 0;
         int averageAngle = 0;
         int averageX = 0;
         int averageY = 0;
@@ -338,17 +340,17 @@ public abstract class Fish extends PixelActor {
                 averageAngle += other.getHeading();
                 averageX += other.getX();
                 averageY += other.getY();
-                count++;
+                nearbyKinsCount++;
                 if (distance < 9) {
                     // Separation
                     setHeading(Util.interpolateAngle(getHeading(), -getAngleTo(other), 0.008));
                 }
             }
         }
-        if (count != 0) {
-            averageAngle /= count;
-            averageX /= count;
-            averageY /= count;
+        if (nearbyKinsCount != 0) {
+            averageAngle /= nearbyKinsCount;
+            averageX /= nearbyKinsCount;
+            averageY /= nearbyKinsCount;
             // Alignment
             setHeading(Util.interpolateAngle(getHeading(), averageAngle, 0.008));
             // Cohesion
@@ -381,7 +383,7 @@ public abstract class Fish extends PixelActor {
         double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
         setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
 
-        if (eggSpawnTimer.ended()) {
+        if (eggSpawnTimer.ended() && nearbyKinsCount < 8) {
             spawnEgg();
             eggSpawnTimer.restart((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
         }
