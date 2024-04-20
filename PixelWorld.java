@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Collection;
 
 /**
@@ -47,7 +47,7 @@ public abstract class PixelWorld extends World {
         canvas = new GreenfootImage(worldWidth, worldHeight);
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
-        actorMap = new HashMap<Class<? extends Actor>, List<Actor>>();
+        actorMap = new LinkedHashMap<Class<? extends Actor>, List<Actor>>();
         renderOrder = null;
     }
 
