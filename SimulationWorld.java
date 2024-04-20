@@ -39,7 +39,7 @@ public class SimulationWorld extends PixelWorld {
     public SimulationWorld() {
         super(250, 160);
 
-        setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, UIBar.class, Text.class);
+        setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, Explosion.class, UIBar.class, Text.class);
 
         // Initialize fish record keeping structures
         discoveredFishesByTier = new Set[FishSettings.MAX_TIER];
