@@ -148,10 +148,14 @@ public enum FishFeature {
         List<Egg> eggsInRange = world.getObjectsInRange(32, (int) bombPos.x, (int) bombPos.y, Egg.class);
 
         for (Fish other : fishInRange) {
+            if (other.getWorld() == null) {
+                continue;
+            }
             if (other.hasFeature(ANGLER_BOMB)) {
                 blowUp(other);
+            } else {
+                world.removeObject(other);
             }
-            world.removeObject(other);
         }
         for (Egg egg : eggsInRange) {
             world.removeObject(egg);
