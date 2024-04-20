@@ -10,7 +10,6 @@
  */
 public enum Layer {
     BACKGROUND,
-    EGG,
     BUBBLE,
     FISHING_ROD, BOAT,
     FISH,
