@@ -1,7 +1,4 @@
 import greenfoot.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
 
 /**
  * An object whose image consists of horizontal lines of characters created from

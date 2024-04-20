@@ -2,7 +2,6 @@ import greenfoot.*;
 import java.util.Set;
 import java.util.List;
 import java.util.Collections;
-import java.util.Arrays;
 
 /**
  * A class for storing and comparing information about a Fish object for

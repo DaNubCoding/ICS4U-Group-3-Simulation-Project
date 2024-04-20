@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.LinkedHashMap;
-import java.util.Collection;
 
 /**
  * A type of world whose display image is an upscaled version of its canvas

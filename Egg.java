@@ -1,6 +1,5 @@
 import greenfoot.*;
 import java.lang.reflect.Constructor;
-import java.util.Set;
 
 /**
  * The eggs spawns by fish, can be a variety of colors and sizes depending on

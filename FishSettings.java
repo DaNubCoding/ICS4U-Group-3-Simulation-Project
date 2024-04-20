@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.EnumMap;
 import java.util.Collections;
-import java.util.Arrays;
 
 /**
  * A class to contain all Fish subclass-specific settings.

@@ -1,9 +1,7 @@
 import greenfoot.*;
 import java.util.Set;
 import java.util.EnumSet;
-import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * An undersea actor and target of Fishers.

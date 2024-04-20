@@ -1,6 +1,5 @@
 import greenfoot.*;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * An special actor class that can render itself onto a PixelWorld.
