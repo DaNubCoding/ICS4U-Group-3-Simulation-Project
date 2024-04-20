@@ -4,18 +4,15 @@ import java.util.HashMap;
 import java.util.Collections;
 
 /**
- * An object whose image is a single horizontal line of characters created from
- * a string, meant to be read by the user.
+ * An object whose image is consists of horizontal lines of characters created
+ * from a string, meant to be read by the user.
  * <p>
  * Each character is rendered with its corresponding image from the characters
  * image subdirectory. Note that this class's charmap only contains ASCII
- * characters from 0x20 to 0x7E. If any other character is encountered when
- * rendering text, an {@link IndexOutOfBoundsException} will be thrown.
- * <p>
- * Text objects can be constructed with a string or an integer which is
- * automatically turned into a string using {@link String#valueOf(int)}.
- * <p>
- * Use "\n" to create a new line.
+ * characters from 0x20 to 0x7E, but the newline character '\n' 0x0A is also
+ * handled, shifting all following characters to be drawn on a new line below,
+ * starting from the left. If any other character is encountered when rendering
+ * text, an {@link IndexOutOfBoundsException} will be thrown.
  *
  * @author Martin Baldwin
  * @author Andrew Wang
@@ -32,6 +29,7 @@ public class Text extends PixelActor {
      * The number of pixels to leave between characters in text.
      */
     public static final int CHARACTER_SPACING = 1;
+
     /**
      * The number of pixels bewteen lines of the text.
      */
@@ -103,7 +101,7 @@ public class Text extends PixelActor {
      * Creates a displayable text object from the given string with the
      * specified alignment.
      *
-     * @param content the String to render to this text object
+     * @param content the string to render to this text object
      * @param anchorX a {@link AnchorX} value describing horizontal alignment
      * @param anchorY a {@link AnchorY} value describing vertical alignment
      */
@@ -112,6 +110,20 @@ public class Text extends PixelActor {
         this.anchorX = anchorX;
         this.anchorY = anchorY;
         updatePosition();
+    }
+
+    /**
+     * Creates a displayable text object from the given string with the
+     * specified alignment and desired maximum render width.
+     *
+     * @param content the string to render to this text object
+     * @param anchorX a {@link AnchorX} value describing horizontal alignment
+     * @param anchorY a {@link AnchorY} value describing vertical alignment
+     * @param maxWidth the desired maximum width of the rendered content
+     * @see #reflowToWidth
+     */
+    public Text(String content, AnchorX anchorX, AnchorY anchorY, int maxWidth) {
+        this(reflowToWidth(content, maxWidth), anchorX, anchorY);
     }
 
     /**
@@ -213,6 +225,10 @@ public class Text extends PixelActor {
             maxWidth = Math.max(maxWidth, width);
             charImages[i] = charImage;
         }
+        if (maxWidth <= 0) {
+            // Text consists of only newlines
+            return null;
+        }
         // Draw the characters to an image
         GreenfootImage result = new GreenfootImage(maxWidth, height);
         for (int i = 0, x = 0, y = 0; i < charImages.length; i++) {
@@ -226,5 +242,52 @@ public class Text extends PixelActor {
             x += charImages[i].getWidth() + CHARACTER_SPACING;
         }
         return result;
+    }
+
+    /**
+     * Replaces spaces with newline characters in appropriate places to fit the
+     * given content string within the given width when rendered.
+     * <p>
+     * This method does not handle splitting words. If a single word would
+     * appear longer than the maximum width, it will appear on its own line and
+     * flow past the maxmimum width. (A word here is a sequence of characters
+     * that are not spaces.)
+     *
+     * @param content the string to reflow
+     * @param maxWidth the desired maximum width of the rendered content
+     * @return a new string with spaces replaced with newline characters where appropriate
+     */
+    public static String reflowToWidth(String content, int maxWidth) {
+        int width = -CHARACTER_SPACING;
+        int wordWidth = -CHARACTER_SPACING;
+        int lastSpace = -1;
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < content.length(); i++) {
+            char c = content.charAt(i);
+            // Force move to a new line
+            if (c == '\n') {
+                result.append(c);
+                width = -CHARACTER_SPACING;
+                wordWidth = -CHARACTER_SPACING;
+                continue;
+            }
+            int charWidth = charmap[c - ' '].getWidth() + CHARACTER_SPACING;
+            width += charWidth;
+            wordWidth += charWidth;
+            result.append(c);
+            if (c == ' ') {
+                lastSpace = result.length() - 1;
+                wordWidth = -CHARACTER_SPACING;
+            }
+            if (width > maxWidth) {
+                // Replace the last space with a newline to move this word to a new line
+                if (lastSpace != -1) {
+                    result.deleteCharAt(lastSpace);
+                    result.insert(lastSpace, '\n');
+                }
+                width = wordWidth;
+            }
+        }
+        return result.toString();
     }
 }
