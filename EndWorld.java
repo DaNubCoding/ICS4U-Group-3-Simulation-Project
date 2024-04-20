@@ -16,8 +16,6 @@ public class EndWorld extends PixelWorld {
     public EndWorld(SimulationWorld simWorld, EndState state) {
         super(250, 160);
 
-        setRenderOrder(null);
-
         addObject(new AnimatedText(state.description, Text.AnchorX.LEFT, Text.AnchorY.TOP, 100), 16, 16);
         addObject(new Button("Continue", () -> Greenfoot.setWorld(new SummaryWorld(simWorld))), getWidth() - 38, getHeight() - 16);
 

@@ -103,7 +103,7 @@ public class Text extends PixelActor {
      * @param anchorY a {@link AnchorY} value describing vertical alignment
      */
     public Text(String content, AnchorX anchorX, AnchorY anchorY) {
-        super(createStringImage(content));
+        super(createStringImage(content), Layer.UI);
         this.anchorX = anchorX;
         this.anchorY = anchorY;
         updatePosition();

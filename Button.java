@@ -28,7 +28,7 @@ public class Button extends PixelActor {
      * @param method The method that is ran when the button is clicked
      */
     public Button(String text, Runnable method) {
-        super();
+        super(Layer.UI);
         this.text = new Text(text, Text.AnchorX.CENTER, Text.AnchorY.CENTER);
         this.method = method;
 

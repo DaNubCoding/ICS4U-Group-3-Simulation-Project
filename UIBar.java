@@ -42,7 +42,7 @@ public abstract class UIBar extends PixelActor
         //call teh pixel actors constructor first (via the super() call )
         //pixel actors constructor requires a greenfootimage for it's constructor, so we use our helper static method to generate  it, and then pass it ot the UI
 
-        super(generateUI(barWidth ,barHeight , 0));
+        super(generateUI(barWidth ,barHeight , 0), Layer.UI);
 
         this.width = barWidth;
         this.height = barHeight;

@@ -70,7 +70,7 @@ public class Egg extends PixelActor {
      * @param evoPoints The number of evolutionary points to hatch a fish with
      */
     public Egg(Egg.EggSize size, Egg.EggColor color, Class<? extends Fish> hatchClass, int evoPoints) {
-        super(constructImageString(size, color));
+        super(constructImageString(size, color), Layer.EGG);
         this.size = size;
         this.color = color;
         this.hatchClass = hatchClass;

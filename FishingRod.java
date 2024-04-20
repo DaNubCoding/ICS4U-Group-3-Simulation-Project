@@ -63,7 +63,7 @@ public class FishingRod extends PixelActor {
     private Timer castTimer;
 
     public FishingRod(Fisher fisher) {
-        super();
+        super(Layer.FISHING_ROD);
         this.fisher = fisher;
         setRodTier(RodTier.WOODEN);
 

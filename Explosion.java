@@ -12,7 +12,7 @@ public class Explosion extends GifPixelActor
     private int timer = 48;
 
     public Explosion() {
-        super(new GifImage("explode.gif"));
+        super(new GifImage("explode.gif"), Layer.EFFECT);
     }
 
     public void act()

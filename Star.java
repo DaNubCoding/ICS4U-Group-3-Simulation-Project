@@ -12,6 +12,7 @@ public class Star extends PixelActor
     private static final GreenfootImage STAR = new GreenfootImage("summary/star.png");
 
     public Star(int number){
+        super(Layer.UI);
         image = new GreenfootImage(number*(STAR.getWidth()+1)-1, STAR.getHeight());
         for(int i=0; i<number; i++){
             image.drawImage(STAR, i*(STAR.getWidth()+1), 0);

@@ -36,7 +36,7 @@ public class FishRecord extends PixelActor implements Comparable<FishRecord> {
      * @param fish the Fish object to get information from
      */
     public FishRecord(Fish fish) {
-        super();
+        super(Layer.FISH);
         type = fish.getClass();
         features = Collections.unmodifiableSet(fish.getFeatureSet());
         value = fish.getValue();

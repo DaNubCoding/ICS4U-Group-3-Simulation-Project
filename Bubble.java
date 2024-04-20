@@ -11,7 +11,7 @@ public class Bubble extends PixelActor {
     private double riseSpeed;
 
     public Bubble() {
-        super(Util.randInt(0, 1) == 0 ? "bubble_small.png" : "bubble_large.png");
+        super(Util.randInt(0, 1) == 0 ? "bubble_small.png" : "bubble_large.png", Layer.BUBBLE);
 
         speed = Util.randDouble(0.1, 0.5);
         riseSpeed = Util.randDouble(0.4, 0.6);

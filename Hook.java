@@ -41,7 +41,7 @@ public class Hook extends PixelActor {
     private Fish attachedFish;
 
     public Hook(FishingRod fishingRod) {
-        super(fishingRod.getRodTier().hookTier.image);
+        super(fishingRod.getRodTier().hookTier.image, Layer.HOOK);
         this.fishingRod = fishingRod;
 
         hookTier = fishingRod.getRodTier().hookTier;

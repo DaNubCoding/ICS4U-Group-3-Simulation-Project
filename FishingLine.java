@@ -21,7 +21,7 @@ public class FishingLine extends PixelActor {
      * @param hook The hook on this fishing line
      */
     public FishingLine(FishingRod fishingRod, Hook hook) {
-        super();
+        super(Layer.FISHING_LINE);
         this.fishingRod = fishingRod;
         this.hook = hook;
     }

@@ -32,7 +32,7 @@ public class Slider<T extends Number> extends PixelActor {
          * @param color The color of the Thumb
          */
         public Thumb(int leftBound, int rightBound, Color color) {
-            super(createThumbImage(color));
+            super(createThumbImage(color), Layer.UI);
             this.leftBound = leftBound;
             this.rightBound = rightBound;
             this.color = color;
@@ -152,7 +152,7 @@ public class Slider<T extends Number> extends PixelActor {
      * @param color The color of the slider
      */
     public Slider(T minValue, T maxValue, T defaultValue, int length, Color color) {
-        super(createTrackImage(length, color));
+        super(createTrackImage(length, color), Layer.UI);
 
         this.minValue = minValue;
         this.maxValue = maxValue;

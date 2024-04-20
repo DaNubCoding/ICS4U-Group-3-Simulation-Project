@@ -73,7 +73,7 @@ public class Fisher extends PixelActor {
     private FishingRod fishingRod;
 
     public Fisher(int side) {
-        super();
+        super(Layer.BOAT);
         this.side = side;
         setBoatTier(BoatTier.WOODEN);
 

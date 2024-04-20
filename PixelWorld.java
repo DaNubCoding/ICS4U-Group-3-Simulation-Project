@@ -3,7 +3,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.EnumMap;
 
 /**
  * A type of world whose display image is an upscaled version of its canvas
@@ -12,9 +13,9 @@ import java.util.LinkedHashMap;
  * All rendering should be done to a PixelWorld's canvas, which may then be
  * displayed to the user in the Greenfoot window by calling {@link #updateImage}.
  * <p>
- * This class provides tools to handle rendering objects of the PixelActor class
- * in a specific order. This render order is separate from the paint order of
- * all Actor objects defined by {@link #setPaintOrder}.
+ * This class handles separating objects of the PixelActor class by layer for
+ * rendering. This render order is separate from the paint order of all Actor
+ * objects defined by {@link #setPaintOrder}.
  *
  * @author Martin Baldwin
  * @version April 2024
@@ -30,8 +31,8 @@ public abstract class PixelWorld extends World {
     // All actors in this world mapped by their classes, for efficient access
     private Map<Class<? extends Actor>, List<Actor>> actorMap;
 
-    // PixelActor subclasses in order of rendering, from bottom to top
-    private List<Class<? extends PixelActor>> renderOrder;
+    // PixelActor objects by their assigned layer, for rendering order
+    private Map<Layer, List<PixelActor>> actorsByLayer;
 
     /**
      * Creates a new PixelWorld with the specified dimensions.
@@ -46,8 +47,11 @@ public abstract class PixelWorld extends World {
         canvas = new GreenfootImage(worldWidth, worldHeight);
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
-        actorMap = new LinkedHashMap<Class<? extends Actor>, List<Actor>>();
-        renderOrder = null;
+        actorMap = new HashMap<Class<? extends Actor>, List<Actor>>();
+        actorsByLayer = new EnumMap<Layer, List<PixelActor>>(Layer.class);
+        for (Layer layer : Layer.values()) {
+            actorsByLayer.put(layer, new ArrayList<PixelActor>());
+        }
     }
 
     /**
@@ -77,54 +81,19 @@ public abstract class PixelWorld extends World {
     }
 
     /**
-     * Sets the order in which PixelActors in this world will be rendered. Order
-     * is specified by class: objects of classes listed later will be drawn on
-     * top of objects of classes listed earlier.
+     * Renders all PixelActors currently in this world by layer. Actors are
+     * rendered by calling the {@link PixelActor#render} method on this world's
+     * canvas.
      * <p>
-     * Objects of classes not listed will be drawn on top of all other objects,
-     * in the order of {@code getObjects(PixelActor.class)}.
-     * <p>
-     * The render order can be unset by passing {@code null}.
+     * Render order is defined by the order of layers in the {@link Layer} enum.
      *
-     * @param classes the classes of PixelActors in render order, from bottom to top, or {@code null}
-     */
-    public void setRenderOrder(Class<? extends PixelActor>... classes) {
-        if (classes != null && classes.length > 0) {
-            renderOrder = List.of(classes);
-        } else {
-            renderOrder = null;
-        }
-    }
-
-    /**
-     * Renders all PixelActors currently in this world according to the current
-     * render order. Actors are rendered by calling the {@link PixelActor#render}
-     * method on this world's canvas.
-     * <p>
-     * If no render order is set, actors are rendered in the order of
-     * {@code getObjects(PixelActor.class)}.
-     *
-     * @see #setRenderOrder
+     * @see Layer
      */
     public void renderPixelActors() {
-        List<PixelActor> actorsToDraw = getObjects(PixelActor.class);
-        // Render actors in the set order
-        if (renderOrder != null) {
-            for (Class<? extends PixelActor> cls : renderOrder) {
-                // Render actors only of the current class and remove them from the list
-                for (ListIterator<PixelActor> iter = actorsToDraw.listIterator(); iter.hasNext();) {
-                    PixelActor actor = iter.next();
-                    if (!cls.isInstance(actor)) {
-                        continue;
-                    }
-                    actor.render(canvas);
-                    iter.remove();
-                }
+        for (List<PixelActor> layerActors : actorsByLayer.values()) {
+            for (PixelActor actor : layerActors) {
+                actor.render(canvas);
             }
-        }
-        // Render remaining actors that are not in the set order (or all of them if no order was set)
-        for (PixelActor actor : actorsToDraw) {
-            actor.render(canvas);
         }
     }
 
@@ -146,6 +115,12 @@ public abstract class PixelWorld extends World {
         }
         list.add(object);
 
+        // Add actors to the list for their layers
+        if (object instanceof PixelActor) {
+            PixelActor actor = (PixelActor) object;
+            actorsByLayer.get(actor.getLayer()).add(actor);
+        }
+
         super.addObject(object, x, y);
     }
 
@@ -161,6 +136,12 @@ public abstract class PixelWorld extends World {
 
         // Remove this object from the list for its class
         actorMap.get(object.getClass()).remove(object);
+
+        // Remove actors from the list for their layers
+        if (object instanceof PixelActor) {
+            PixelActor actor = (PixelActor) object;
+            actorsByLayer.get(actor.getLayer()).remove(actor);
+        }
     }
 
     /**

@@ -46,19 +46,23 @@ public abstract class PixelActor extends Actor {
     private boolean mirrorY;
     // Whether the PixelActor will be rendered
     private boolean visible;
+    // The layer which this actor belongs to
+    private Layer layer;
 
     /**
-     * Create a PixelActor with a starting GreenfootImage.
+     * Create a PixelActor with a starting GreenfootImage and a defined rendering layer.
      *
      * @param image The starting image of the PixelActor
+     * @param layer The {@link Layer} to add this actor to
      */
-    public PixelActor(GreenfootImage image) {
+    public PixelActor(GreenfootImage image, Layer layer) {
         this.x = x;
         this.y = y;
         heading = 0;
         rotation = 0;
         mirrorX = mirrorY = false;
         visible = true;
+        this.layer = layer;
 
         setImage(image);
         // Ensure Greenfoot does not draw this actor's image on its own
@@ -66,19 +70,20 @@ public abstract class PixelActor extends Actor {
     }
 
     /**
-     * Create a PixelActor with a starting image file.
+     * Create a PixelActor with a starting image file and a defined rendering layer.
      *
      * @param imagePath The path to the starting image of the PixelActor
+     * @param layer The {@link Layer} to add this actor to
      */
-    public PixelActor(String imagePath) {
-        this(new GreenfootImage(imagePath));
+    public PixelActor(String imagePath, Layer layer) {
+        this(new GreenfootImage(imagePath), layer);
     }
 
     /**
-     * Create a PixelActor without a starting image.
+     * Create a PixelActor on a defined rendering layer without a starting image.
      */
-    public PixelActor() {
-        this((GreenfootImage) null);
+    public PixelActor(Layer layer) {
+        this((GreenfootImage) null, layer);
     }
 
     /**
@@ -173,6 +178,15 @@ public abstract class PixelActor extends Actor {
     @Override
     public void setImage(String path) {
         setImage(new GreenfootImage(path));
+    }
+
+    /**
+     * Get the layer which this PixelActor belongs to.
+     *
+     * @return the {@link Layer} this actor was assigned
+     */
+    public Layer getLayer() {
+        return layer;
     }
 
     /**

@@ -62,7 +62,7 @@ public abstract class Fish extends PixelActor {
      * @throws IllegalArgumentException if any of the given features are not allowed on this Fish type
      */
     public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
-        super();
+        super(Layer.FISH);
         // Store fish subclass-specific settings
         this.settings = settings;
         this.evoPoints = evoPoints;

@@ -35,11 +35,9 @@ public class SimulationWorld extends PixelWorld {
     private RodBar rodBar;
 
     // GifImage for waves
-    private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"));
+    private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"), Layer.FOREGROUND);
     public SimulationWorld() {
         super(250, 160);
-
-        setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, Explosion.class, UIBar.class, Text.class);
 
         // Initialize fish record keeping structures
         discoveredFishesByTier = new ArrayList<Set<FishRecord>>();

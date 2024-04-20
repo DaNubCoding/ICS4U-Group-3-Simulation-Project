@@ -13,12 +13,14 @@ public class GifPixelActor extends PixelActor {
     private final GifImage gif;
 
     /**
-     * Creates a GifPixelActor using the given GifImage as its animated image.
+     * Creates a GifPixelActor on the defined rendering layer using the given
+     * GifImage as its animated image.
      *
      * @param gif the GifImage to use to animate the actor's image
+     * @param layer The {@link Layer} to add this actor to
      */
-    public GifPixelActor(GifImage gif) {
-        super(gif.getCurrentImage());
+    public GifPixelActor(GifImage gif, Layer layer) {
+        super(gif.getCurrentImage(), layer);
         this.gif = gif;
     }
 

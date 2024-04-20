@@ -10,7 +10,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class TitleWorld extends PixelWorld
 {
-    private GifPixelActor gif = new GifPixelActor(new GifImage("TitleScreenRedux.gif"));
+    private GifPixelActor gif = new GifPixelActor(new GifImage("TitleScreenRedux.gif"), Layer.BACKGROUND);
     private boolean keyPressed = true;
 
     /**
