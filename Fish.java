@@ -37,6 +37,10 @@ public abstract class Fish extends PixelActor {
     private int evoPoints;
     // Age of this fish, in acts
     private int age;
+    // Random speed variation
+    private double swimSpeedMultiplier;
+    // The number of the same type of fish nearby
+    private int nearbyKinsCount;
 
     // Offset of body image currently in use to compensate for features
     private int bodyOffsetX;
@@ -82,6 +86,7 @@ public abstract class Fish extends PixelActor {
         eggSpawnTimer = new Timer((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
         bubbleTimer = new Timer(Util.randInt(240, 480));
         age = 0;
+        swimSpeedMultiplier = Util.randDouble(0.8, 1.2);
     }
 
     /**
@@ -339,6 +344,7 @@ public abstract class Fish extends PixelActor {
 
         // Standard behaviour
         swim();
+        reproduce();
         spawnBubbles();
         lookForHook();
         age++;
@@ -349,7 +355,7 @@ public abstract class Fish extends PixelActor {
      * <p>May be overridden to implement special swim patterns.</p>
      */
     protected void swim() {
-        move(settings.getSwimSpeed());
+        move(settings.getSwimSpeed() * swimSpeedMultiplier);
         if (rotationTimer.ended()) {
             int maxAngle = settings.getMaxTurnDegrees();
             setHeading(getHeading() + Util.randInt(-maxAngle, maxAngle));
@@ -363,9 +369,54 @@ public abstract class Fish extends PixelActor {
         double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
         setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
 
-        if (eggSpawnTimer.ended()) {
+        doBoidBehavior();
+    }
+
+    /**
+     * Attempt to spawn eggs.
+     */
+    private void reproduce() {
+        if (eggSpawnTimer.ended() && nearbyKinsCount < 8) {
             spawnEgg();
             eggSpawnTimer.restart((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
+        }
+    }
+
+    /**
+     * Do boid-like behavior, fish bunch up with others of the same type,
+     * forming schools of fish.
+     */
+    private void doBoidBehavior() {
+        if (hasFeature(FishFeature.HAT_PARTY)) return;
+        if (hasFeature(FishFeature.ANGLER_SOCK)) return;
+
+        nearbyKinsCount = 0;
+        int averageAngle = 0;
+        int averageX = 0;
+        int averageY = 0;
+        for (Fish other : getWorld().getObjects(getClass())) {
+            if (other == this) continue;
+            if (other.hasFeature(FishFeature.HAT_PARTY) || other.hasFeature(FishFeature.ANGLER_SOCK)) continue;
+            double distance = getDistanceTo(other);
+            if (distance < 40) {
+                averageAngle += other.getHeading();
+                averageX += other.getX();
+                averageY += other.getY();
+                nearbyKinsCount++;
+                if (distance < (this.getOriginalHeight() + other.getOriginalHeight()) / 2) {
+                    // Separation
+                    setHeading(Util.interpolateAngle(getHeading(), -getAngleTo(other), 0.008));
+                }
+            }
+        }
+        if (nearbyKinsCount != 0) {
+            averageAngle /= nearbyKinsCount;
+            averageX /= nearbyKinsCount;
+            averageY /= nearbyKinsCount;
+            // Alignment
+            setHeading(Util.interpolateAngle(getHeading(), averageAngle, 0.008));
+            // Cohesion
+            setHeading(Util.interpolateAngle(getHeading(), getAngleTo(averageX, averageY), 0.005));
         }
     }
 
@@ -438,15 +489,15 @@ public abstract class Fish extends PixelActor {
             // Give it a random extra bit of rotation
             avoidanceAngle += Util.randInt(-10, 10);
             avoidanceAngle %= 360;
-            // Minimum angle of 35 degrees above and below horizontal
-            avoidanceAngle = Math.max(avoidanceAngle, 35);
-            avoidanceAngle = Math.min(avoidanceAngle, 325);
+            // Minimum angle of 40 degrees above and below horizontal
+            avoidanceAngle = Math.max(avoidanceAngle, 40);
+            avoidanceAngle = Math.min(avoidanceAngle, 320);
             // How much the Fish wants to avoid the sock as a percentage
             // i.e. how close it is to the sock
             // Clamp it to avoid too extreme values
-            double eagerness = Math.min(Math.max(1 - distance / 32, 0.1), 0.75);
+            double eagerness = Math.min(Math.max(1 - distance / 32, 0.2), 0.8);
             // Interpolate towards this new angle
-            setHeading(Util.interpolateAngle(getHeading(), avoidanceAngle, 0.1 * eagerness));
+            setHeading(Util.interpolateAngle(getHeading(), avoidanceAngle, 0.24 * eagerness));
             // Prevent the fish from turning too vertical while avoiding the sock
             double heading = getHeading() % 360;
             if (heading <= 90) {

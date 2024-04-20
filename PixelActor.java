@@ -615,4 +615,15 @@ public abstract class PixelActor extends Actor {
     public double getAngleTo(PixelActor other) {
         return Math.toDegrees(Math.atan2(other.getDoubleY() - y, other.getDoubleX() - x));
     }
+
+    /**
+     * Calculate the angle between this actor and a point.
+     *
+     * @param x the x-coordinate of the point to compute the angle to
+     * @param y the y-coordinate of the point to compute the angle to
+     * @return the angle in degrees from -180.0 to 180.0 between the actor and the point's positions
+     */
+    public double getAngleTo(double x, double y) {
+        return Math.toDegrees(Math.atan2(y - this.y, x - this.x));
+    }
 }
