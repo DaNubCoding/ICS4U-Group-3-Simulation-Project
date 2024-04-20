@@ -79,9 +79,14 @@ public class SimulationWorld extends PixelWorld {
         render();
         Timer.incrementAct();
 
+        // If there are no more fish or eggs in the world, end the simulation
+        if (getObjects(Fish.class).size() + getObjects(Egg.class).size() == 0) {
+            Greenfoot.setWorld(new EndWorld(this, EndState.EXTINCTION));
+        }
+
         // Temporary test
         if (Greenfoot.isKeyDown("e")) {
-            Greenfoot.setWorld(new SummaryWorld(this));
+            Greenfoot.setWorld(new EndWorld(this, EndState.TEST));
         }
     }
 
@@ -95,12 +100,12 @@ public class SimulationWorld extends PixelWorld {
 
         waves.updateImage();
         waves.setTransparency(255);
-        waves.render(getCanvas());
+        waves.render(canvas);
 
         renderPixelActors();
 
         waves.setTransparency(100);
-        waves.render(getCanvas());
+        waves.render(canvas);
 
         canvas.drawImage(foreground, 0, 0);
 
