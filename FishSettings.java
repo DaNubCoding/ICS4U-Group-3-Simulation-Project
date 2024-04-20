@@ -14,7 +14,7 @@ import java.util.Arrays;
  * This was created to vastly improve the cleanliness of the Fish superclass and
  * its subclasses.
  * <p>
- * For maintainers: when adding a new field, a new line in {@link @validate}
+ * For maintainers: when adding a new field, a new line in {@link validate}
  * must be added in addition to its corresponding getter and setter.
  *
  * @author Martin Baldwin
@@ -233,7 +233,7 @@ public class FishSettings {
     /**
      * Sets the color of the egg that is spawned by the fish.
      *
-     * @param size The color of the egg spawned by the fish
+     * @param color The color of the egg spawned by the fish
      */
     public void setEggColor(Egg.EggColor color) {
         eggColor = color;

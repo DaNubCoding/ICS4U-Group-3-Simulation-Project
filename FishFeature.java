@@ -107,7 +107,7 @@ public enum FishFeature {
     /**
      * Tests if this FishFeature is compatible with a collection of FishFeatures.
      *
-     * @param the collection of features to test for compatibility with this feature
+     * @param features the collection of features to test for compatibility with this feature
      * @return true if this feature is compatible with the other features, false otherwise
      */
     public boolean isCompatibleWith(Collection<FishFeature> features) {

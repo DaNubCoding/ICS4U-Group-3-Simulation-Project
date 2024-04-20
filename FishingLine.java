@@ -15,9 +15,10 @@ public class FishingLine extends PixelActor {
     private double endY;
 
     /**
-     * Initialize the fishing line with a master fisher.
+     * Initialize the fishing line attached to a fishing rod and hook.
      *
-     * @param master The fisher the fishing line belongs to
+     * @param fishingRod The fishing rod the fishing line belongs to
+     * @param hook The hook on this fishing line
      */
     public FishingLine(FishingRod fishingRod, Hook hook) {
         super();

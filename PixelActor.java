@@ -69,7 +69,7 @@ public abstract class PixelActor extends Actor {
     /**
      * Create a PixelActor with a starting image file.
      *
-     * @param image The path to the starting image of the PixelActor
+     * @param imagePath The path to the starting image of the PixelActor
      */
     public PixelActor(String imagePath) {
         this(new GreenfootImage(imagePath));
