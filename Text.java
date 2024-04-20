@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Collections;
 
 /**
- * An object whose image is consists of horizontal lines of characters created
- * from a string, meant to be read by the user.
+ * An object whose image consists of horizontal lines of characters created from
+ * a string, meant to be read by the user.
  * <p>
  * Each character is rendered with its corresponding image from the characters
  * image subdirectory. Note that this class's charmap only contains ASCII
@@ -264,9 +264,9 @@ public class Text extends PixelActor {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < content.length(); i++) {
             char c = content.charAt(i);
+            result.append(c);
             // Force move to a new line
             if (c == '\n') {
-                result.append(c);
                 width = -CHARACTER_SPACING;
                 wordWidth = -CHARACTER_SPACING;
                 continue;
@@ -274,13 +274,12 @@ public class Text extends PixelActor {
             int charWidth = charmap[c - ' '].getWidth() + CHARACTER_SPACING;
             width += charWidth;
             wordWidth += charWidth;
-            result.append(c);
             if (c == ' ') {
                 lastSpace = result.length() - 1;
                 wordWidth = -CHARACTER_SPACING;
             }
             if (width > maxWidth) {
-                // Replace the last space with a newline to move this word to a new line
+                // Replace the last space with a newline to move the current word to a new line
                 if (lastSpace != -1) {
                     result.deleteCharAt(lastSpace);
                     result.insert(lastSpace, '\n');
