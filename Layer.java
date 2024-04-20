@@ -10,9 +10,10 @@
  */
 public enum Layer {
     BACKGROUND,
-    BUBBLE,
+    BG_BUBBLE, // background bubbles
     FISHING_ROD, BOAT,
     FISH,
+    FG_BUBBLE, // foreground bubbles
     FISHING_LINE, HOOK,
     EFFECT,
     FOREGROUND,
