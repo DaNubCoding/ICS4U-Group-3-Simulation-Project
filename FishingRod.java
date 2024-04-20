@@ -111,10 +111,15 @@ public class FishingRod extends PixelActor {
 
     /**
      * Reel in the fishing rod when the hook returns to the surface.
-     * <p>Effectively removes the hook and fishing line.</p>
+     * <p>Effectively gains the fish's XP value and removes the fish, hook, and fishing line.</p>
      */
     public void reelIn() {
         PixelWorld world = getWorld();
+        Fish caughtFish = hook.getAttachedFish();
+        if (caughtFish != null) {
+            fisher.addExp(caughtFish.getValue());
+            world.removeObject(caughtFish);
+        }
         world.removeObject(fishingLine);
         world.removeObject(hook);
         fishingLine = null;

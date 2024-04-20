@@ -295,8 +295,7 @@ public abstract class Fish extends PixelActor {
         // Unimplemented condition until rod tiers and fish tiers are implemented
         if (true) {
             bittenHook = hook;
-            hook.occupy();
-            hook.reelIn();
+            hook.reelIn(this);
             // Set center of rotation (location of actor position) to catch point, relative to full image
             IntPair catchOffset = settings.getCatchOffset();
             setCenterOfRotation(bodyOffsetX + catchOffset.x, bodyOffsetY + catchOffset.y);
@@ -315,12 +314,6 @@ public abstract class Fish extends PixelActor {
         DoublePair newPos = bittenHook.getBitePoint();
         setLocation(newPos.x, newPos.y);
         setRotation((bittenHook.getRotation() + 90) * (getMirrorX() ? 1 : -1));
-
-        // Remove once hook is gone (reached boat)
-        if (bittenHook.getWorld() == null) {
-            bittenHook = null;
-            getWorld().removeObject(this);
-        }
     }
 
     @Override

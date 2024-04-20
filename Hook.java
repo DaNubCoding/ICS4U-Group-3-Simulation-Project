@@ -38,7 +38,7 @@ public class Hook extends PixelActor {
     private HookTier hookTier;
     // Change this to true to start the reel-in process
     private boolean reelingIn;
-    private boolean occupied;
+    private Fish attachedFish;
 
     public Hook(FishingRod fishingRod) {
         super(fishingRod.getRodTier().hookTier.image);
@@ -50,7 +50,7 @@ public class Hook extends PixelActor {
         setMirrorX(!fishingRod.getMirrorX());
 
         reelingIn = false;
-        occupied = false;
+        attachedFish = null;
     }
 
     public void act() {
@@ -82,6 +82,14 @@ public class Hook extends PixelActor {
     }
 
     /**
+     * Occupy this hook with the given fish and begin the reel-in process.
+     */
+    public void reelIn(Fish fish) {
+        attachedFish = fish;
+        reelIn();
+    }
+
+    /**
      * Get the point at which fish will get hooked.
      * <p>When distance to fish is calculated, it uses this point and the fish's catch point.</p>
      *
@@ -99,13 +107,15 @@ public class Hook extends PixelActor {
      * @return True if already hooking a fish, false otherwise
      */
     public boolean isOccupied() {
-        return occupied;
+        return attachedFish != null;
     }
 
     /**
-     * Called by fish to make the hook occupied.
+     * Get the fish currently on this hook.
+     *
+     * @return the fish object that is hooked by this hook, or null if there is none
      */
-    public void occupy() {
-        occupied = true;
+    public Fish getAttachedFish() {
+        return attachedFish;
     }
 }

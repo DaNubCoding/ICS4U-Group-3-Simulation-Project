@@ -63,6 +63,7 @@ public class Fisher extends PixelActor {
     private int rightBound;
 
     private BoatTier boatTier;
+    private int exp;
 
     private Timer driftTimer;
     private double driftMagnitude;
@@ -75,6 +76,7 @@ public class Fisher extends PixelActor {
         super();
         this.side = side;
         setBoatTier(BoatTier.WOODEN);
+        exp = 0;
 
         IntPair center = boatTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
@@ -225,6 +227,24 @@ public class Fisher extends PixelActor {
      */
     public void incrementBoatTier() {
         setBoatTier(boatTier.nextTier());
+    }
+
+    /**
+     * Add the specified number of experience points to this fisher.
+     *
+     * @param exp the number of points to add
+     */
+    public void addExp(int exp) {
+        this.exp += exp;
+    }
+
+    /**
+     * Get the current number of experience points this fisher has.
+     *
+     * @return this fisher's amount of XP earned
+     */
+    public int getExp() {
+        return exp;
     }
 
     /**
