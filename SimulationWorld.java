@@ -32,13 +32,14 @@ public class SimulationWorld extends PixelWorld {
 
     // Test text object: draw the current act count in the top right corner of the world
     private Text actText;
+    private RodBar rodBar;
 
     // GifImage for waves
     private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"));
     public SimulationWorld() {
         super(250, 160);
 
-        setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, Text.class);
+        setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, UIBar.class, Text.class);
 
         // Initialize fish record keeping structures
         discoveredFishesByTier = new Set[FishSettings.MAX_TIER];
@@ -62,13 +63,13 @@ public class SimulationWorld extends PixelWorld {
 
         waves.setLocation(125, SEA_SURFACE_Y - 5);
 
-        actText = new Text(Timer.getCurrentAct(), Text.AnchorX.RIGHT, Text.AnchorY.TOP) {
+        actText = new Text(Timer.getCurrentAct(), Text.AnchorX.CENTER, Text.AnchorY.TOP) {
             @Override
             public void act() {
                 setContent(Timer.getCurrentAct());
             }
         };
-        addObject(actText, getWidth() - 4, 4);
+        addObject(actText, getWidth() / 2, 4);
 
         render();
     }

@@ -58,6 +58,7 @@ public class FishingRod extends PixelActor {
     private FishingLine fishingLine;
     private Hook hook;
     private RodTier rodTier;
+    private RodBar rodBar;
 
     private Timer castTimer;
 
@@ -72,13 +73,17 @@ public class FishingRod extends PixelActor {
         }
 
         castTimer = new Timer((int) (rodTier.castFrequency * Util.randDouble(0.8, 1.2)));
+        rodBar = new RodBar(30, 8);
     }
 
-    /**
-     * Act when added to world, so that it shows up in the correct location.
-     */
     @Override
     public void addedToWorld(World world) {
+        if (fisher.getSide() == 1) {
+            world.addObject(rodBar, 2, 12);
+        } else {
+            world.addObject(rodBar, world.getWidth() - 32, 12);
+        }
+
         act();
     }
 
@@ -117,7 +122,10 @@ public class FishingRod extends PixelActor {
         PixelWorld world = getWorld();
         Fish caughtFish = hook.getAttachedFish();
         if (caughtFish != null) {
-            fisher.addExp(caughtFish.getValue());
+            int fishValue = caughtFish.getValue();
+            double percentage = Util.randDouble(0.3, 0.7);
+            fisher.gainExp((int) Math.floor(fishValue * percentage));
+            rodBar.gainExp((int) Math.ceil(fishValue * (1 - percentage)));
             world.removeObject(caughtFish);
         }
         world.removeObject(fishingLine);
@@ -168,16 +176,18 @@ public class FishingRod extends PixelActor {
      *
      * @param rodTier The tier of the rod as a RodTier enum element
      */
-    private void setRodTier(RodTier rodTier) {
+    public void setRodTier(RodTier rodTier) {
         this.rodTier = rodTier;
         setImage(rodTier.imagePrefix + fisher.getSide() + ".png");
         setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
     }
 
     /**
-     * Increase the tier of the rod.
+     * Get the RodBar object that represents the EXP of this fishing rod.
+     *
+     * @return The RodBar object
      */
-    public void incrementRodTier() {
-        setRodTier(rodTier.nextTier());
+    public RodBar getRodBar() {
+        return rodBar;
     }
 }

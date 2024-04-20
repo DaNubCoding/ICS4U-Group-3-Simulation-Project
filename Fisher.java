@@ -63,7 +63,7 @@ public class Fisher extends PixelActor {
     private int rightBound;
 
     private BoatTier boatTier;
-    private int exp;
+    private BoatBar boatBar;
 
     private Timer driftTimer;
     private double driftMagnitude;
@@ -76,7 +76,6 @@ public class Fisher extends PixelActor {
         super();
         this.side = side;
         setBoatTier(BoatTier.WOODEN);
-        exp = 0;
 
         IntPair center = boatTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
@@ -91,6 +90,25 @@ public class Fisher extends PixelActor {
         initNextDrive();
 
         fishingRod = new FishingRod(this);
+        boatBar = new BoatBar(30, 8);
+    }
+
+    @Override
+    public void addedToWorld(World world) {
+        anchorX = getX();
+        anchorY = getY();
+
+        if (side == 1) {
+            world.addObject(boatBar, 2, 2);
+            leftBound = 30;
+            rightBound = getWorld().getWidth() / 2 - 40;
+            world.addObject(fishingRod, getX(), getY());
+        } else {
+            world.addObject(boatBar, world.getWidth() - 32, 2);
+            leftBound = getWorld().getWidth() / 2 + 40;
+            rightBound = getWorld().getWidth() - 30;
+            world.addObject(fishingRod, getX(), getY());
+        }
     }
 
     /**
@@ -113,31 +131,17 @@ public class Fisher extends PixelActor {
         return getImageOffsetGlobalPosition(rodOffset.x, rodOffset.y);
     }
 
-    public void addedToWorld(World world) {
-        anchorX = getX();
-        anchorY = getY();
-
-        if (side == 1) {
-            leftBound = 30;
-            rightBound = getWorld().getWidth() / 2 - 40;
-            world.addObject(fishingRod, getX(), getY());
-        } else {
-            leftBound = getWorld().getWidth() / 2 + 40;
-            rightBound = getWorld().getWidth() - 30;
-            world.addObject(fishingRod, getX(), getY());
-        }
-    }
-
     public void act() {
         drift();
         drive();
         move();
         checkBounds();
 
-        // Temporary test
-        if (Util.randInt(0, 3000) == 0) {
-            incrementBoatTier();
-            fishingRod.incrementRodTier();
+        if (boatTier.ordinal() != boatBar.getLevel() - 1) {
+            setBoatTier(BoatTier.values()[boatBar.getLevel() - 1]);
+        }
+        if (fishingRod.getRodTier().ordinal() != fishingRod.getRodBar().getLevel() - 1) {
+            fishingRod.setRodTier(FishingRod.RodTier.values()[fishingRod.getRodBar().getLevel() - 1]);
         }
     }
 
@@ -223,31 +227,6 @@ public class Fisher extends PixelActor {
     }
 
     /**
-     * Increase the tier of the boat.
-     */
-    public void incrementBoatTier() {
-        setBoatTier(boatTier.nextTier());
-    }
-
-    /**
-     * Add the specified number of experience points to this fisher.
-     *
-     * @param exp the number of points to add
-     */
-    public void addExp(int exp) {
-        this.exp += exp;
-    }
-
-    /**
-     * Get the current number of experience points this fisher has.
-     *
-     * @return this fisher's amount of XP earned
-     */
-    public int getExp() {
-        return exp;
-    }
-
-    /**
      * Get the current boat tier of this fisher.
      *
      * @return this fisher's current BoatTier value
@@ -263,5 +242,14 @@ public class Fisher extends PixelActor {
      */
     public FishingRod getFishingRod() {
         return fishingRod;
+    }
+
+    /**
+     * Add some exp to the fisher boat's bar.
+     *
+     * @param exp The amount of exp to gain
+     */
+    public void gainExp(int exp) {
+        boatBar.gainExp(exp);
     }
 }
