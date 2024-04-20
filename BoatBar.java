@@ -69,7 +69,7 @@ public class BoatBar extends UIBar
         if(exp < maxExp){
             exp += amount;
         }
-        if(exp == maxExp && level < maxLevel){
+        if(exp >= maxExp && level < maxLevel){
             level++;
             exp = 0;
         }
