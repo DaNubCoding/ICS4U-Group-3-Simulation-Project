@@ -43,10 +43,10 @@ public enum FishFeature {
      * any attempts to add any features from the set that contains it will be
      * ignored.
      */
-    private static final Set<FishFeature>[] mutuallyExclusiveSets = new Set[] {
+    private static List<Set<FishFeature>> mutuallyExclusiveSets = List.of(
         EnumSet.range(ANGLER_LIGHT, ANGLER_SOCK),
-        EnumSet.range(HAT_BROWN, HAT_PARTY),
-    };
+        EnumSet.range(HAT_BROWN, HAT_PARTY)
+    );
 
     private final GreenfootImage image;
     private final double chance;

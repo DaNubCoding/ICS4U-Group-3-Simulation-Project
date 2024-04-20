@@ -13,11 +13,11 @@ import java.util.Arrays;
  * @version April 2024
  */
 public class FishRecord extends PixelActor implements Comparable<FishRecord> {
-    private static final List<Class<? extends Fish>> TYPE_ORDER = Collections.unmodifiableList(Arrays.asList(
+    private static final List<Class<? extends Fish>> typeOrder = List.of(
         Salmon.class, Mollusk.class, Jellyfish.class, Squid.class,
         Bass.class, Piranha.class, Barracuda.class, Anglerfish.class,
         Tuna.class, Flyingfish.class, Swordfish.class, Whale.class
-    ));
+    );
 
     // The class object representing the fish's class
     private final Class<? extends Fish> type;
@@ -107,7 +107,7 @@ public class FishRecord extends PixelActor implements Comparable<FishRecord> {
             return 0;
         }
         // Sort by type
-        int typeDiff = TYPE_ORDER.indexOf(type) - TYPE_ORDER.indexOf(other.type);
+        int typeDiff = typeOrder.indexOf(type) - typeOrder.indexOf(other.type);
         if (typeDiff != 0) {
             return typeDiff;
         }

@@ -546,8 +546,9 @@ public abstract class Fish extends PixelActor {
             if (canEvolve && willEvolve) {
                 // Increase egg size and hatch a random evolution of this fish type
                 size = settings.getEggSize().nextSize();
-                if (settings.getEvolutions().length > 0) {
-                    hatchClass = settings.getEvolutions()[Util.randInt(0, settings.getEvolutions().length - 1)];
+                List<Class<? extends Fish>> evolutions = settings.getEvolutions();
+                if (evolutions.size() > 0) {
+                    hatchClass = evolutions.get(Util.randInt(0, evolutions.size() - 1));
                 } else {
                     hatchClass = getClass();
                 }

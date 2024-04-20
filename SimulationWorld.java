@@ -23,7 +23,7 @@ public class SimulationWorld extends PixelWorld {
     public static final int SEA_FLOOR_Y = 140;
 
     // For each fish tier, a set of FishRecords describing all fish at that tier that appeared in this world
-    private Set<FishRecord>[] discoveredFishesByTier;
+    private List<Set<FishRecord>> discoveredFishesByTier;
     // For each type of fish feature, a list of Fish currently in this world with that feature
     private Map<FishFeature, List<Fish>> fishesByFeature;
 
@@ -42,9 +42,9 @@ public class SimulationWorld extends PixelWorld {
         setRenderOrder(Egg.class, Bubble.class, FishingRod.class, Fisher.class, Fish.class, FishingLine.class, Hook.class, Explosion.class, UIBar.class, Text.class);
 
         // Initialize fish record keeping structures
-        discoveredFishesByTier = new Set[FishSettings.MAX_TIER];
-        for (int i = 0; i < discoveredFishesByTier.length; i++) {
-            discoveredFishesByTier[i] = new TreeSet<FishRecord>();
+        discoveredFishesByTier = new ArrayList<Set<FishRecord>>();
+        for (int i = 0; i < FishSettings.MAX_TIER; i++) {
+            discoveredFishesByTier.add(new TreeSet<FishRecord>());
         }
         // Initialize fish retrieval structures
         fishesByFeature = new EnumMap<FishFeature, List<Fish>>(FishFeature.class);
@@ -134,7 +134,7 @@ public class SimulationWorld extends PixelWorld {
                 fishesByFeature.get(feature).add(fish);
             }
             // Discover this type of fish
-            discoveredFishesByTier[fish.getSettings().getTier() - 1].add(new FishRecord(fish));
+            discoveredFishesByTier.get(fish.getSettings().getTier() - 1).add(new FishRecord(fish));
         }
     }
 
@@ -167,7 +167,7 @@ public class SimulationWorld extends PixelWorld {
      * @return a new set of FishRecord objects describing discovered fishes of the given tier
      */
     public Set<FishRecord> getDiscoveredFishesOfTier(int tier) {
-        return new TreeSet<FishRecord>(discoveredFishesByTier[tier - 1]);
+        return new TreeSet<FishRecord>(discoveredFishesByTier.get(tier - 1));
     }
 
     /**

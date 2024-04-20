@@ -32,7 +32,7 @@ public abstract class PixelWorld extends World {
     private Map<Class<? extends Actor>, List<Actor>> actorMap;
 
     // PixelActor subclasses in order of rendering, from bottom to top
-    private Class<? extends PixelActor>[] renderOrder;
+    private List<Class<? extends PixelActor>> renderOrder;
 
     /**
      * Creates a new PixelWorld with the specified dimensions.
@@ -90,7 +90,11 @@ public abstract class PixelWorld extends World {
      * @param classes the classes of PixelActors in render order, from bottom to top, or {@code null}
      */
     public void setRenderOrder(Class<? extends PixelActor>... classes) {
-        renderOrder = classes;
+        if (classes != null && classes.length > 0) {
+            renderOrder = List.of(classes);
+        } else {
+            renderOrder = null;
+        }
     }
 
     /**

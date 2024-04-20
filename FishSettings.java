@@ -72,7 +72,7 @@ public class FishSettings {
     // The percentage chance of evolving after the threshold is reached
     private Double evolutionChance = null;
     // All subclasses of Fish that this Fish type may evolve into
-    private Class<? extends Fish>[] evolutions = null;
+    private List<Class<? extends Fish>> evolutions = null;
 
     // All features that can be added to the Fish
     private Set<FishFeature> allowedFeatures = null;
@@ -124,7 +124,6 @@ public class FishSettings {
                 throw new InvalidSettingException("FishSettings does not have a feature point defined for the allowed FishFeature " + feature);
             }
         }
-        featurePoints = Collections.unmodifiableMap(featurePoints);
     }
 
     /**
@@ -274,10 +273,9 @@ public class FishSettings {
      * @param classes all subclasses of Fish that this Fish type may evolve into, or {@code null} for none
      */
     public void setEvolutions(Class<? extends Fish>... classes) {
-        if (classes == null) {
-            evolutions = new Class[0];
-        } else {
-            evolutions = classes;
+        evolutions = new ArrayList<Class<? extends Fish>>();
+        if (classes != null) {
+            Collections.addAll(evolutions, classes);
         }
     }
 
@@ -459,8 +457,8 @@ public class FishSettings {
      *
      * @return an array of all subclasses of Fish that this Fish type may evolve into
      */
-    public Class<? extends Fish>[] getEvolutions() {
-        return Arrays.copyOf(evolutions, evolutions.length);
+    public List<Class<? extends Fish>> getEvolutions() {
+        return new ArrayList<Class<? extends Fish>>(evolutions);
     }
 
     /**
