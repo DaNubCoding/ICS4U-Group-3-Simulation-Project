@@ -226,7 +226,6 @@ public class Fisher extends PixelActor {
             percentage = (getWorld().getWidth() - right) / barRange;
         }
         percentage = Math.min(Math.max(percentage, 0.0), 1.0);
-        System.out.println(percentage);
         int transparency = (int) (100 + 80 * percentage);
         boatBar.setTransparency(transparency);
         fishingRod.getRodBar().setTransparency(transparency);
