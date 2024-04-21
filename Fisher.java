@@ -99,6 +99,8 @@ public class Fisher extends PixelActor {
         if (fishingRod.getRodTier().ordinal() != fishingRod.getRodBar().getLevel() - 1) {
             fishingRod.setRodTier(RodTier.values()[fishingRod.getRodBar().getLevel() - 1]);
         }
+
+        fadeOutBars();
     }
 
     /**
@@ -207,5 +209,26 @@ public class Fisher extends PixelActor {
      */
     public void gainExp(int exp) {
         boatBar.gainExp(exp);
+    }
+
+    /**
+     * Fade out the UIBars if the boat overlaps with them.
+     */
+    private void fadeOutBars() {
+        double percentage;
+        // The horizontal range that is considered within the bar
+        double barRange = boatBar.getOriginalWidth() + 2;
+        if (side == 1) {
+            int left = getX() - (int) getTransformedWidth() / 2;
+            percentage = left / barRange;
+        } else {
+            int right = getX() + (int) getTransformedWidth() / 2;
+            percentage = (getWorld().getWidth() - right) / barRange;
+        }
+        percentage = Math.min(Math.max(percentage, 0.0), 1.0);
+        System.out.println(percentage);
+        int transparency = (int) (100 + 80 * percentage);
+        boatBar.setTransparency(transparency);
+        fishingRod.getRodBar().setTransparency(transparency);
     }
 }
