@@ -22,9 +22,6 @@ public class FishingRod extends PixelActor {
         setRodTier(RodTier.WOODEN);
 
         setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
-        if (fisher.getSide() == 2) {
-            setMirrorX(true);
-        }
 
         castTimer = new Timer((int) (rodTier.castFrequency * Util.randDouble(0.8, 1.2)));
         rodBar = new UIBar(30, 8, 800, "Gold.jpg");
@@ -32,10 +29,9 @@ public class FishingRod extends PixelActor {
 
     @Override
     public void addedToWorld(World world) {
-        if (fisher.getSide() == 1) {
-            world.addObject(rodBar, 2, 12);
-        } else {
-            world.addObject(rodBar, world.getWidth() - 32, 12);
+        world.addObject(rodBar, fisher.getBarX(), 12);
+        if (fisher.getMirrorX()) {
+            setMirrorX(true);
         }
 
         act();

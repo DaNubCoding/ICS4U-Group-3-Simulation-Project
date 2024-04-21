@@ -27,8 +27,8 @@ public class SimulationWorld extends PixelWorld {
     // For each type of fish feature, a list of Fish currently in this world with that feature
     private Map<FishFeature, List<Fish>> fishesByFeature;
 
-    private Fisher fisher1;
-    private Fisher fisher2;
+    private Fisher leftFisher;
+    private Fisher rightFisher;
 
     // Test text object: draw the current act count in the top right corner of the world
     private Text actText;
@@ -49,10 +49,10 @@ public class SimulationWorld extends PixelWorld {
             fishesByFeature.put(feature, new ArrayList<Fish>());
         }
 
-        fisher1 = new Fisher(1);
-        fisher2 = new Fisher(2);
-        addObject(fisher1, 50, 31);
-        addObject(fisher2, 200, 31);
+        leftFisher = new LeftFisher();
+        rightFisher = new RightFisher();
+        addObject(leftFisher, 50, 31);
+        addObject(rightFisher, 200, 31);
 
         addObject(new Bass(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         addObject(new Salmon(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
@@ -187,9 +187,9 @@ public class SimulationWorld extends PixelWorld {
     public Fisher getFisher(int side) {
         switch (side) {
         case 1:
-            return fisher1;
+            return leftFisher;
         case 2:
-            return fisher2;
+            return rightFisher;
         default:
             throw new IllegalArgumentException("Player side value must be 1 or 2");
         }

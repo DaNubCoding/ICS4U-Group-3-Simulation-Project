@@ -6,9 +6,7 @@ import greenfoot.*;
  * @author Andrew Wang
  * @version April 2024
  */
-public class Fisher extends PixelActor {
-    // 1 or 2
-    private int side;
+public abstract class Fisher extends PixelActor {
     // An invisible point the boat will return to even when drifting slightly
     private double anchorX;
     private double anchorY;
@@ -28,16 +26,12 @@ public class Fisher extends PixelActor {
 
     private FishingRod fishingRod;
 
-    public Fisher(int side) {
+    public Fisher() {
         super(Layer.BOAT);
-        this.side = side;
         setBoatTier(BoatTier.WOODEN);
 
         IntPair center = boatTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
-        if (side == 2) {
-            setMirrorX(true);
-        }
 
         driftTimer = new Timer(0);
         initNextDrift();
@@ -51,20 +45,11 @@ public class Fisher extends PixelActor {
 
     @Override
     public void addedToWorld(World world) {
-        anchorX = getX();
-        anchorY = getY();
+        setAnchor(getX(), getY());
 
-        if (side == 1) {
-            world.addObject(boatBar, 2, 2);
-            leftBound = 30;
-            rightBound = getWorld().getWidth() / 2 - 40;
-            world.addObject(fishingRod, getX(), getY());
-        } else {
-            world.addObject(boatBar, world.getWidth() - 32, 2);
-            leftBound = getWorld().getWidth() / 2 + 40;
-            rightBound = getWorld().getWidth() - 30;
-            world.addObject(fishingRod, getX(), getY());
-        }
+        world.addObject(getBoatBar(), getBarX(), 2);
+        setBounds(getLeftBound(), getRightBound());
+        world.addObject(getFishingRod(), getX(), getY());
     }
 
     /**
@@ -72,9 +57,7 @@ public class Fisher extends PixelActor {
      *
      * @return 1 if left, 2 if right
      */
-    public int getSide() {
-        return side;
-    }
+    public abstract int getSide();
 
     /**
      * Get the position where this fisher's rod should be placed, relative to
@@ -163,14 +146,28 @@ public class Fisher extends PixelActor {
      * Restrict the boat to its area.
      */
     private void checkBounds() {
-        if (getDoubleX() < leftBound) {
-            setLocation(leftBound, getDoubleY());
+        if (getDoubleX() < getLeftBound()) {
+            setLocation(getLeftBound(), getDoubleY());
             anchorX += 5;
-        } else if (getDoubleX() > rightBound) {
-            setLocation(rightBound, getDoubleY());
+        } else if (getDoubleX() > getRightBound()) {
+            setLocation(getRightBound(), getDoubleY());
             anchorX -= 5;
         }
     }
+
+    /**
+     * Get the left bound of the region the boat will stay within.
+     *
+     * @return The left bound of the region
+     */
+    public abstract int getLeftBound();
+
+    /**
+     * Get the right bound of the region the boat will stay within.
+     *
+     * @return The right bound of the region
+     */
+    public abstract int getRightBound();
 
     /**
      * Set the baot's tier to a new tier, update image accordingly.
@@ -179,7 +176,7 @@ public class Fisher extends PixelActor {
      */
     private void setBoatTier(BoatTier boatTier) {
         this.boatTier = boatTier;
-        setImage(boatTier.imagePrefix + side + ".png");
+        setImage(getBoatTier().imagePrefix + getSide() + ".png");
         IntPair center = boatTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
     }
@@ -212,22 +209,63 @@ public class Fisher extends PixelActor {
     }
 
     /**
+     * Get the UIBar that shows the EXP of the boat.
+     *
+     * @return The UIBar object of the Fisher
+     */
+    public UIBar getBoatBar() {
+        return boatBar;
+    }
+
+    /**
      * Fade out the UIBars if the boat overlaps with them.
      */
     private void fadeOutBars() {
-        double percentage;
-        // The horizontal range that is considered within the bar
-        double barRange = boatBar.getOriginalWidth() + 2;
-        if (side == 1) {
-            int left = getX() - (int) getTransformedWidth() / 2;
-            percentage = left / barRange;
-        } else {
-            int right = getX() + (int) getTransformedWidth() / 2;
-            percentage = (getWorld().getWidth() - right) / barRange;
-        }
+        int barRange = boatBar.getOriginalWidth() + 2;
+        double percentage = getBarOverlapPercentage(barRange);
         percentage = Math.min(Math.max(percentage, 0.0), 1.0);
         int transparency = (int) (100 + 80 * percentage);
         boatBar.setTransparency(transparency);
         fishingRod.getRodBar().setTransparency(transparency);
+    }
+
+    /**
+     * Get the x coordinate the Bars of this Fisher will be placed at.
+     * <p>This is the position of the left edge of the bars.</p>
+     *
+     * @return The x-coordinate of the Bars
+     */
+    public abstract int getBarX();
+
+    /**
+     * Get the percentage of the bar that is overlapping the boat.
+     * <p>Basically how much the edge of the boat is going into the bar.</p>
+     *
+     * @param barRange The horizontal range that is considered to be overlapping the bar
+     * @return The percentage of overlap
+     */
+    public abstract double getBarOverlapPercentage(int barRange);
+
+    /**
+     * Set the left and right bounds of the region the boat will stay within.
+     *
+     * @param leftBound The x-coordinate of the left bound
+     * @param rightBound The x-coordinate of the right bound
+     */
+    public void setBounds(int leftBound, int rightBound) {
+        this.leftBound = leftBound;
+        this.rightBound = rightBound;
+    }
+
+    /**
+     * Set the anchor of the Fisher.
+     * <p>The anchor is the point that the Fisher boat will drift around.</p>
+     *
+     * @param x The x-coordinate of the anchor point
+     * @param y The y-coordinate of the anchor point
+     */
+    public void setAnchor(int x, int y) {
+        anchorX = x;
+        anchorY = y;
     }
 }
