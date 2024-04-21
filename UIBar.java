@@ -74,21 +74,6 @@ public abstract class UIBar extends PixelActor
         return barBackground;
     }
 
-    // public void act()
-    // {
-    //     // Add your action code here.
-    //     actCounter++;
-
-    //     if (actCounter % 55 == 0 ){
-    //         gainExp(1);
-    //         double barPercentage = (double ) exp / (double)maxExp;
-
-    //         //instead of calling update use our static helper method to "generate the updatedUI" and pass it to PixelActors set
-    //         //update();
-    //         super.setImage(generateUI(this.width, this.height, barPercentage));
-    //     }
-    // }
-
     public void gainExp(int amount){
         if(exp < maxExp){
             exp += amount;
