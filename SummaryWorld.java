@@ -59,6 +59,7 @@ public class SummaryWorld extends PixelWorld
 
         pageNumber = 1;
 
+        triggerFadeIn(0.02);
         displayPlayerSummary(1);
     }
 
@@ -79,7 +80,7 @@ public class SummaryWorld extends PixelWorld
             }else if(pageNumber == 3){
                 displayFishSummary();
             }else if(pageNumber == 4){
-                Greenfoot.setWorld(new TitleWorld());
+                triggerFadeOut(0.01);
             }
         }
         keyPressed = Greenfoot.isKeyDown("enter");
@@ -97,7 +98,11 @@ public class SummaryWorld extends PixelWorld
                     counter = 0;
                 }
             }
-            render();
+        }
+        render();
+
+        if (isFadeOutComplete()) {
+            Greenfoot.setWorld(new TitleWorld(true));
         }
     }
 

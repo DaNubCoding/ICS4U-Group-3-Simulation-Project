@@ -7,7 +7,6 @@ import greenfoot.*;
  * @author Andrew Wang
  * @version April 2024
  */
-
 public class SettingsWorld extends PixelWorld {
     private static final GreenfootImage background = new GreenfootImage("settings_world_background.png");
 
@@ -23,8 +22,9 @@ public class SettingsWorld extends PixelWorld {
         addObject(slider1, 100, 50);
         addObject(slider2, 100, 70);
         addObject(slider3, 100, 90);
-        addObject(new Button("Start!", () -> Greenfoot.setWorld(new SimulationWorld())), 120, 130);
+        addObject(new Button("Start!", () -> triggerFadeOut(0.02)), 120, 130);
 
+        triggerFadeIn(0.02);
         render();
     }
 
@@ -34,9 +34,13 @@ public class SettingsWorld extends PixelWorld {
         Timer.incrementAct();
 
         if (Greenfoot.isKeyDown("Enter") && !keyPressed) {
-            Greenfoot.setWorld(new SimulationWorld());
+            triggerFadeOut(0.02);
         }
         keyPressed = Greenfoot.isKeyDown("Enter");
+
+        if (isFadeOutComplete()) {
+            Greenfoot.setWorld(new SimulationWorld());
+        }
     }
 
     /**

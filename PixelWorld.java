@@ -18,6 +18,7 @@ import java.util.EnumMap;
  * objects defined by {@link #setPaintOrder}.
  *
  * @author Martin Baldwin
+ * @author Andrew Wang
  * @version April 2024
  */
 public abstract class PixelWorld extends World {
@@ -33,6 +34,11 @@ public abstract class PixelWorld extends World {
 
     // PixelActor objects by their assigned layer, for rendering order
     private Map<Layer, List<PixelActor>> actorsByLayer;
+
+    private GreenfootImage fadeImage;
+    private double fadePercentage;
+    // negative for fade in, positive for fade out
+    private double fadeSpeed;
 
     /**
      * Creates a new PixelWorld with the specified dimensions.
@@ -52,6 +58,10 @@ public abstract class PixelWorld extends World {
         for (Layer layer : Layer.values()) {
             actorsByLayer.put(layer, new ArrayList<PixelActor>());
         }
+
+        fadeImage = new GreenfootImage(worldWidth, worldHeight);
+        fadeImage.setColor(Color.BLACK);
+        fadeImage.fill();
     }
 
     /**
@@ -75,9 +85,18 @@ public abstract class PixelWorld extends World {
      * been done.
      */
     public void updateImage() {
+        renderFade();
         GreenfootImage scaled = new GreenfootImage(canvas);
         scaled.scale(worldWidth * PIXEL_SCALE, worldHeight * PIXEL_SCALE);
         setBackground(scaled);
+    }
+
+    private void renderFade() {
+        fadePercentage += fadeSpeed;
+        fadePercentage = Math.max(Math.min(fadePercentage, 1.0), 0.0);
+        fadeImage.setTransparency((int) (255 * fadePercentage));
+        if (fadePercentage == 0.0) return;
+        canvas.drawImage(fadeImage, 0, 0);
     }
 
     /**
@@ -225,5 +244,51 @@ public abstract class PixelWorld extends World {
     @Override
     public int getHeight() {
         return worldHeight;
+    }
+
+    /**
+     * Start the fade-in process.
+     * <p>This will cause the world to fade in from black.</p>
+     * <p>If in the process of fading, this does nothing.</p>
+     *
+     * @param speed The speed the world will fade in
+     */
+    public void triggerFadeIn(double speed) {
+        if (fadePercentage != 1.0 && fadePercentage != 0.0) return;
+        fadePercentage = 1.0;
+        fadeSpeed = -speed;
+    }
+
+    /**
+     * Start the fade-out process.
+     * <p>This will cause the world to fade to black.</p>
+     * <p>If in the process of fading, this does nothing.</p>
+     *
+     * @param speed The speed the world will fade out
+     */
+    public void triggerFadeOut(double speed) {
+        if (fadePercentage != 0.0) return;
+        fadePercentage = 0.0;
+        fadeSpeed = speed;
+    }
+
+    /**
+     * Whether the world has fully faded in.
+     *
+     * @return True if done fading in, false otherwise
+     */
+    public boolean isFadeInComplete() {
+        if (fadeSpeed >= 0) return false;
+        return fadePercentage == 0.0;
+    }
+
+    /**
+     * Whether the world has fully faded out (fully black).
+     *
+     * @return True if done fading out, false otherwise
+     */
+    public boolean isFadeOutComplete() {
+        if (fadeSpeed <= 0) return false;
+        return fadePercentage == 1.0;
     }
 }

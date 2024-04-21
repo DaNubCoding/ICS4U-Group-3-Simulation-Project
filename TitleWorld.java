@@ -16,30 +16,45 @@ public class TitleWorld extends PixelWorld
     /**
      * Constructor for objects of class TitleWorld.
      *
+     * @param fade Whether to start the world fading in
      */
-    public TitleWorld()
+    public TitleWorld(boolean fade)
     {
         super(250, 160);
         addObject(gif, 125, 80);
+
+        if (fade) triggerFadeIn(0.02);
         render();
         prepare();
+    }
+
+    /**
+     * Used by Greenfoot to create the initial TitleWorld, doesn't fade.
+     */
+    public TitleWorld() {
+        this(false);
     }
 
     public void act() {
         render();
         Timer.incrementAct();
+
+        if (Greenfoot.isKeyDown("enter") && !keyPressed){
+            triggerFadeOut(0.02);
+        }
+        keyPressed = Greenfoot.isKeyDown("Enter");
+
+        if (isFadeOutComplete()) {
+            Greenfoot.setWorld(new SettingsWorld());
+        }
     }
 
     private void render() {
         gif.updateImage();
         gif.render(getCanvas());
         updateImage();
-        if (Greenfoot.isKeyDown("enter") && !keyPressed){
-            Greenfoot.setWorld(new SettingsWorld());
-        }
-        keyPressed = Greenfoot.isKeyDown("Enter");
     }
-    
+
     /**
      * Prepare the world for the start of the program.
      * That is: create the initial objects and add them to the world.

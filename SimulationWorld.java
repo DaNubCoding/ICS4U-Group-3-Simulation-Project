@@ -30,11 +30,14 @@ public class SimulationWorld extends PixelWorld {
     private Fisher leftFisher;
     private Fisher rightFisher;
 
+    private EndState endState;
+
     // Test text object: draw the current act count in the top right corner of the world
     private Text actText;
 
     // GifImage for waves
     private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"), Layer.FOREGROUND);
+
     public SimulationWorld() {
         super(250, 160);
 
@@ -68,6 +71,8 @@ public class SimulationWorld extends PixelWorld {
         };
         addObject(actText, getWidth() / 2, 4);
 
+        triggerFadeIn(0.004);
+
         render();
     }
 
@@ -78,12 +83,18 @@ public class SimulationWorld extends PixelWorld {
 
         // If there are no more fish or eggs in the world, end the simulation
         if (getObjects(Fish.class).size() + getObjects(Egg.class).size() == 0) {
-            Greenfoot.setWorld(new EndWorld(this, EndState.EXTINCTION));
+            triggerFadeOut(0.004);
+            endState = EndState.EXTINCTION;
         }
 
         // Temporary test
         if (Greenfoot.isKeyDown("e")) {
-            Greenfoot.setWorld(new EndWorld(this, EndState.TEST));
+            triggerFadeOut(0.02);
+            endState = EndState.TEST;
+        }
+
+        if (isFadeOutComplete()) {
+            Greenfoot.setWorld(new EndWorld(this, endState));
         }
     }
 
