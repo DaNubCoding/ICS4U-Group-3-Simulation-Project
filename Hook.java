@@ -91,4 +91,13 @@ public class Hook extends PixelActor {
     public Fish getAttachedFish() {
         return attachedFish;
     }
+
+    /**
+     * Get the tier of the hook.
+     *
+     * @return The {@link HookTier} of the hook
+     */
+    public HookTier getTier() {
+        return hookTier;
+    }
 }

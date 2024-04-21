@@ -296,7 +296,7 @@ public abstract class Fish extends PixelActor {
      */
     protected final void biteIfMatchingTier(Hook hook) {
         // Unimplemented condition until rod tiers and fish tiers are implemented
-        if (true) {
+        if (hook.getTier().ordinal() + 1 >= settings.getTier()) {
             bittenHook = hook;
             hook.reelIn(this);
             // Set center of rotation (location of actor position) to catch point, relative to full image
