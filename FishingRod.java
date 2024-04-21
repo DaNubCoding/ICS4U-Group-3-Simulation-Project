@@ -58,7 +58,7 @@ public class FishingRod extends PixelActor {
     private FishingLine fishingLine;
     private Hook hook;
     private RodTier rodTier;
-    private RodBar rodBar;
+    private UIBar rodBar;
 
     private Timer castTimer;
 
@@ -73,7 +73,7 @@ public class FishingRod extends PixelActor {
         }
 
         castTimer = new Timer((int) (rodTier.castFrequency * Util.randDouble(0.8, 1.2)));
-        rodBar = new RodBar(30, 8);
+        rodBar = new UIBar(30, 8, 800, "Gold.jpg");
     }
 
     @Override
@@ -183,11 +183,11 @@ public class FishingRod extends PixelActor {
     }
 
     /**
-     * Get the RodBar object that represents the EXP of this fishing rod.
+     * Get the UIBar object that represents the EXP of this fishing rod.
      *
-     * @return The RodBar object
+     * @return The UIBar object
      */
-    public RodBar getRodBar() {
+    public UIBar getRodBar() {
         return rodBar;
     }
 }
