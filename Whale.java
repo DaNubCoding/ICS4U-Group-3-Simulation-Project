@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A 
+ * A
  *
  * @author Stanley Wang
  * @author Sandra Huang
@@ -25,8 +25,8 @@ public class Whale extends Fish {
         settings.setAverageTurnInterval(300);
         settings.setMaxTurnDegrees(20);
         // Evolution settings
-        settings.setEggSize(Egg.EggSize.GIGANTIC);
-        settings.setEggColor(Egg.EggColor.BLUE);
+        settings.setEggSize(Egg.Size.GIGANTIC);
+        settings.setEggColor(Egg.Color.BLUE);
         settings.setEggSpawnFrequency(1000);
         settings.setEvoPointGain(25);
         settings.setEvolutionChance(0.2);

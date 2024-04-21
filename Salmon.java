@@ -15,7 +15,7 @@ public class Salmon extends TierOneFish
     //sets this tier one fish's settings to basic settings, with specified body image and egg color
     static {
         settings = new FishSettings();
-        initialiseTierOneFishSettings(settings, "fishes/salmon.png", Egg.EggColor.PINK, Mollusk.class);
+        initialiseTierOneFishSettings(settings, "fishes/salmon.png", Egg.Color.PINK, Mollusk.class);
     }
 
     public Salmon(int evoPoints, FishFeature... features) {

@@ -25,8 +25,8 @@ public class Piranha extends Fish {
         settings.setAverageTurnInterval(300);
         settings.setMaxTurnDegrees(20);
         // Evolution settings
-        settings.setEggSize(Egg.EggSize.MEDIUM);
-        settings.setEggColor(Egg.EggColor.GREEN);
+        settings.setEggSize(Egg.Size.MEDIUM);
+        settings.setEggColor(Egg.Color.GREEN);
         settings.setEggSpawnFrequency(1000);
         settings.setEvoPointGain(30);
         settings.setEvolutionChance(0.4);

@@ -536,7 +536,7 @@ public abstract class Fish extends PixelActor {
         int numOfEggs = Util.randInt(1, 3);
         for (int i = 0; i < numOfEggs; i++) {
             // Determine whether the fish should evolve based on evolution chance
-            Egg.EggSize size;
+            Egg.Size size;
             Class<? extends Fish> hatchClass;
             int childEvoPoints = evoPoints;
             boolean canEvolve = evoPoints >= 100;

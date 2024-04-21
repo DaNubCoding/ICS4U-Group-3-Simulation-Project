@@ -16,7 +16,7 @@ public class Egg extends PixelActor {
      * @author Andrew Wang
      * @version April 2024
      */
-    public static enum EggSize {
+    public static enum Size {
         SMALL(300),
         MEDIUM(600),
         LARGE(900),
@@ -24,7 +24,7 @@ public class Egg extends PixelActor {
 
         public final int hatchTime;
 
-        private EggSize(int hatchingTime) {
+        private Size(int hatchingTime) {
             this.hatchTime = hatchingTime;
         }
 
@@ -33,9 +33,9 @@ public class Egg extends PixelActor {
          *
          * @return The egg size after this one
          */
-        public EggSize nextSize() {
+        public Size nextSize() {
             try {
-                return EggSize.values()[ordinal() + 1];
+                return Size.values()[ordinal() + 1];
             } catch (IndexOutOfBoundsException err) {
                 return this;
             }
@@ -48,12 +48,12 @@ public class Egg extends PixelActor {
      * @author Andrew Wang
      * @version April 2024
      */
-    public static enum EggColor {
+    public static enum Color {
         PINK, GREEN, BLUE, BLACK
     }
 
-    private final EggSize size;
-    private final EggColor color;
+    private final Size size;
+    private final Color color;
     private final Class<? extends Fish> hatchClass;
     private final int evoPoints;
     private double speed;
@@ -69,7 +69,7 @@ public class Egg extends PixelActor {
      * @param hatchClass The subclass of Fish to hatch from this egg
      * @param evoPoints The number of evolutionary points to hatch a fish with
      */
-    public Egg(Egg.EggSize size, Egg.EggColor color, Class<? extends Fish> hatchClass, int evoPoints) {
+    public Egg(Egg.Size size, Egg.Color color, Class<? extends Fish> hatchClass, int evoPoints) {
         super(constructImageString(size, color), Layer.FISH);
         this.size = size;
         this.color = color;
@@ -114,7 +114,7 @@ public class Egg extends PixelActor {
      * @param color The color of the egg image
      * @return The file name
      */
-    private static String constructImageString(Egg.EggSize size, Egg.EggColor color) {
+    private static String constructImageString(Egg.Size size, Egg.Color color) {
         String sizeStr = size.name().toLowerCase();
         String colorStr = color.name().toLowerCase();
         return "eggs/" + sizeStr + "_" + colorStr + ".png";

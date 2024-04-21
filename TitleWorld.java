@@ -22,6 +22,7 @@ public class TitleWorld extends PixelWorld
         super(250, 160);
         addObject(gif, 125, 80);
         render();
+        prepare();
     }
 
     public void act() {
@@ -37,5 +38,13 @@ public class TitleWorld extends PixelWorld
             Greenfoot.setWorld(new SettingsWorld());
         }
         keyPressed = Greenfoot.isKeyDown("Enter");
+    }
+    
+    /**
+     * Prepare the world for the start of the program.
+     * That is: create the initial objects and add them to the world.
+     */
+    private void prepare()
+    {
     }
 }

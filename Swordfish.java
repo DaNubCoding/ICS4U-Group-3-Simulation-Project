@@ -25,8 +25,8 @@ public class Swordfish extends Fish {
         settings.setAverageTurnInterval(300);
         settings.setMaxTurnDegrees(20);
         // Evolution settings
-        settings.setEggSize(Egg.EggSize.LARGE);
-        settings.setEggColor(Egg.EggColor.BLUE);
+        settings.setEggSize(Egg.Size.LARGE);
+        settings.setEggColor(Egg.Color.BLUE);
         settings.setEggSpawnFrequency(1000);
         settings.setEvoPointGain(25);
         settings.setEvolutionChance(0.2);

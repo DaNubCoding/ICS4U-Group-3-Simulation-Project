@@ -61,9 +61,9 @@ public class FishSettings {
     // The maximum degrees the fish can tilt
     private Integer maxTurnDegrees = null;
     // The size of the egg that the fish will spawn
-    private Egg.EggSize eggSize = null;
+    private Egg.Size eggSize = null;
     // The color of the egg that the fish will spawn
-    private Egg.EggColor eggColor = null;
+    private Egg.Color eggColor = null;
     // The frequency at which the Fish spawns eggs
     private Integer eggSpawnFrequency = null;
     // The average number of evo-points gained per generation
@@ -224,7 +224,7 @@ public class FishSettings {
      *
      * @param size The size of the egg spawned by the fish
      */
-    public void setEggSize(Egg.EggSize size) {
+    public void setEggSize(Egg.Size size) {
         eggSize = size;
     }
 
@@ -233,7 +233,7 @@ public class FishSettings {
      *
      * @param color The color of the egg spawned by the fish
      */
-    public void setEggColor(Egg.EggColor color) {
+    public void setEggColor(Egg.Color color) {
         eggColor = color;
     }
 
@@ -411,7 +411,7 @@ public class FishSettings {
      *
      * @return The size of the egg spawned by the fish
      */
-    public Egg.EggSize getEggSize() {
+    public Egg.Size getEggSize() {
         return eggSize;
     }
 
@@ -420,7 +420,7 @@ public class FishSettings {
      *
      * @return The color of the egg spawned by the fish
      */
-    public Egg.EggColor getEggColor() {
+    public Egg.Color getEggColor() {
         return eggColor;
     }
 

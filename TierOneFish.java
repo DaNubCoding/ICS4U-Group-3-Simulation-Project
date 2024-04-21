@@ -19,7 +19,7 @@ public abstract class TierOneFish extends Fish
      * @param eggColor the egg color, unique to each subclass
      * @param evolutions the possible evolutions, unique to each subclass
      */
-    public static void initialiseTierOneFishSettings(FishSettings settings, String bodyImage, Egg.EggColor eggColor, Class<? extends Fish>... evolutions){
+    public static void initialiseTierOneFishSettings(FishSettings settings, String bodyImage, Egg.Color eggColor, Class<? extends Fish>... evolutions){
         // Base settings
         settings.setTier(1);
         settings.setBaseValue(100);
@@ -33,7 +33,7 @@ public abstract class TierOneFish extends Fish
         settings.setAverageTurnInterval(200);
         settings.setMaxTurnDegrees(15);
         // Evolution settings
-        settings.setEggSize(Egg.EggSize.SMALL);
+        settings.setEggSize(Egg.Size.SMALL);
         settings.setEggColor(eggColor);
         settings.setEggSpawnFrequency(2000);
         settings.setEvoPointGain(30);

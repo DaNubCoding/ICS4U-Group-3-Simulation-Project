@@ -25,8 +25,8 @@ public class Barracuda extends Fish {
         settings.setAverageTurnInterval(300);
         settings.setMaxTurnDegrees(20);
         // Evolution settings
-        settings.setEggSize(Egg.EggSize.LARGE);
-        settings.setEggColor(Egg.EggColor.GREEN);
+        settings.setEggSize(Egg.Size.LARGE);
+        settings.setEggColor(Egg.Color.GREEN);
         settings.setEggSpawnFrequency(1000);
         settings.setEvoPointGain(40);
         settings.setEvolutionChance(0.2);

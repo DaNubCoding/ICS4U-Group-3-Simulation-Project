@@ -25,8 +25,8 @@ public class Mollusk extends Fish {
         settings.setAverageTurnInterval(300);
         settings.setMaxTurnDegrees(20);
         // Evolution settings
-        settings.setEggSize(Egg.EggSize.MEDIUM);
-        settings.setEggColor(Egg.EggColor.PINK);
+        settings.setEggSize(Egg.Size.MEDIUM);
+        settings.setEggColor(Egg.Color.PINK);
         settings.setEggSpawnFrequency(1000);
         settings.setEvoPointGain(25);
         settings.setEvolutionChance(0.2);
