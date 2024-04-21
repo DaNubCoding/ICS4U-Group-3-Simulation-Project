@@ -32,7 +32,6 @@ public class SimulationWorld extends PixelWorld {
 
     // Test text object: draw the current act count in the top right corner of the world
     private Text actText;
-    private RodBar rodBar;
 
     // GifImage for waves
     private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"), Layer.FOREGROUND);

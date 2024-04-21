@@ -19,7 +19,7 @@ public class Fisher extends PixelActor {
     private int rightBound;
 
     private BoatTier boatTier;
-    private BoatBar boatBar;
+    private UIBar boatBar;
 
     private Timer driftTimer;
     private double driftMagnitude;
@@ -46,7 +46,7 @@ public class Fisher extends PixelActor {
         initNextDrive();
 
         fishingRod = new FishingRod(this);
-        boatBar = new BoatBar(30, 8);
+        boatBar = new UIBar(30, 8, 1600, "Water.jpg");
     }
 
     @Override
