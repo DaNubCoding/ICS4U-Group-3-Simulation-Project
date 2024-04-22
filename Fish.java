@@ -359,15 +359,13 @@ public abstract class Fish extends PixelActor {
             setHeading(getHeading() + Util.randInt(-maxAngle, maxAngle));
             rotationTimer.restart(settings.getAverageTurnInterval());
         }
+        doBoidBehavior();
 
         checkBounds();
-
         setMirrorX(getHeading() > 90 && getHeading() < 270);
         // Heading with respect to mirrorX
         double realHeading = getHeading() + (getMirrorX() ? 180 : 0);
         setRotation(Util.interpolateAngle(getRotation(), realHeading, 0.05));
-
-        doBoidBehavior();
     }
 
     /**
@@ -446,10 +444,10 @@ public abstract class Fish extends PixelActor {
             setLocation(getDoubleX(), SimulationWorld.SEA_FLOOR_Y);
         } else if (getY() < settings.getMinDepth()) {
             // Try to get back to its depth range by slowly turning downwards
-            setHeading(Util.interpolateAngle(getHeading(), 90, 0.0075));
+            setHeading(Util.interpolateAngle(getHeading(), 90, 0.02));
         } else if (getY() > settings.getMaxDepth()) {
             // Try to get back to its depth range by slowly turning upwards
-            setHeading(Util.interpolateAngle(getHeading(), -90, 0.0075));
+            setHeading(Util.interpolateAngle(getHeading(), -90, 0.02));
         } else {
             // Try to return to going straight by slowly turning to be horizontal
             int forward = getMirrorX() ? 180 : 0;
