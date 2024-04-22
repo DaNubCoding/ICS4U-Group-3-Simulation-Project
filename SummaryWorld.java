@@ -34,6 +34,8 @@ public class SummaryWorld extends PixelWorld
 
     //simulation world from which SummaryWorld pulls information from
     private SimulationWorld simWorld;
+    //current background image of the summary screen
+    private GreenfootImage canvasBackground;
     //variable to keep track of which page you are on
     private int pageNumber;
     private boolean keyPressed;
@@ -56,11 +58,14 @@ public class SummaryWorld extends PixelWorld
         super(250, 160);
 
         this.simWorld = simWorld;
+        //save the background image (modified based on player number/fish) to redraw while fading
+        canvasBackground = new GreenfootImage(getWidth(), getHeight());
 
         pageNumber = 1;
+        displayPlayerSummary(1);
 
         triggerFadeIn(0.02);
-        displayPlayerSummary(1);
+        render();
     }
 
     /**
@@ -112,7 +117,6 @@ public class SummaryWorld extends PixelWorld
      */
     private void displayPlayerSummary(int playerNum){
         removeAllActors();
-        GreenfootImage canvas = getCanvas();
 
         int playerIndexNum = playerNum-1;
 
@@ -127,10 +131,12 @@ public class SummaryWorld extends PixelWorld
         Text rodsUnlocked = new Text("Rods Unlocked", Text.AnchorX.LEFT, Text.AnchorY.TOP);
         addObject(rodsUnlocked, 164, 65);
 
-        render(); //render first to render the text on the background
+        //render the background and title
+        canvasBackground.drawImage(BACKGROUND, 0, 0);
+        canvasBackground.drawImage(TITLE_TEXT, 52, 6);
 
         //draw player on the screen
-        canvas.drawImage(PLAYER_IMAGES[playerIndexNum], 0, 0);
+        canvasBackground.drawImage(PLAYER_IMAGES[playerIndexNum], 0, 0);
 
         //spacing for drawing boxes
         int ySpacing = 2;
@@ -141,8 +147,8 @@ public class SummaryWorld extends PixelWorld
         int boatXDrawPos = 9;
         int boatYDrawPos = 75;
         for(int i=0; i<= boatUnlocked; i++){
-            canvas.drawImage(BOAT_BACKGROUND, boatXDrawPos, boatYDrawPos);
-            canvas.drawImage(PLAYER_BOATS[playerIndexNum][i], boatXDrawPos, boatYDrawPos);
+            canvasBackground.drawImage(BOAT_BACKGROUND, boatXDrawPos, boatYDrawPos);
+            canvasBackground.drawImage(PLAYER_BOATS[playerIndexNum][i], boatXDrawPos, boatYDrawPos);
             if(i%2==0){
                 boatXDrawPos += BOAT_BACKGROUND.getWidth() + xSpacing;
             }else{
@@ -156,8 +162,8 @@ public class SummaryWorld extends PixelWorld
         int rodXDrawPos = 165;
         int rodYDrawPos = 75;
         for(int i=0; i<=rodUnlocked; i++){
-            canvas.drawImage(ROD_BACKGROUND, rodXDrawPos, rodYDrawPos);
-            canvas.drawImage(PLAYER_RODS[playerIndexNum][i], rodXDrawPos, rodYDrawPos);
+            canvasBackground.drawImage(ROD_BACKGROUND, rodXDrawPos, rodYDrawPos);
+            canvasBackground.drawImage(PLAYER_RODS[playerIndexNum][i], rodXDrawPos, rodYDrawPos);
             if(i%2==0){
                 rodXDrawPos += ROD_BACKGROUND.getWidth() + xSpacing;
             }else{
@@ -165,9 +171,6 @@ public class SummaryWorld extends PixelWorld
                 rodYDrawPos += ROD_BACKGROUND.getHeight() + ySpacing;
             }
         }
-
-        // Display new canvas image with all of the boats, rods drawn on
-        updateImage();
     }
 
     /**
@@ -175,6 +178,11 @@ public class SummaryWorld extends PixelWorld
      */
     private void displayFishSummary(){
         removeAllActors();
+
+        //render the background and title
+        canvasBackground.drawImage(BACKGROUND, 0, 0);
+        canvasBackground.drawImage(TITLE_TEXT, 52, 6);
+
         addObject(speedMultiplierSlider, 178, 46);
 
         Text fishDiscoveredText = new Text("Fish Discovered: ", Text.AnchorX.LEFT, Text.AnchorY.CENTER);
@@ -182,8 +190,6 @@ public class SummaryWorld extends PixelWorld
 
         Text speedText = new Text("Speed: ", Text.AnchorX.LEFT, Text.AnchorY.CENTER);
         addObject(speedText, 148, 46);
-
-        render();
 
         //sets variable default values to run the fish summary screen
         currentTier = 1;
@@ -218,8 +224,7 @@ public class SummaryWorld extends PixelWorld
      */
     private void render(){
         GreenfootImage canvas = getCanvas();
-        canvas.drawImage(BACKGROUND, 0, 0);
-        canvas.drawImage(TITLE_TEXT, 52, 6);
+        canvas.drawImage(canvasBackground, 0, 0);
         renderPixelActors();
         canvas.drawImage(FOREGROUND, 0, 0);
         canvas.drawImage(ENTER_TEXT, 36, 150);
