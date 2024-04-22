@@ -50,7 +50,7 @@ public class Slider<T extends Number> extends PixelActor {
             int mouseX = mouseInfo.getX() / PixelWorld.PIXEL_SCALE;
             int mouseY = mouseInfo.getY() / PixelWorld.PIXEL_SCALE;
             hovered = hovered(mouseX, mouseY);
-            setImage(hovered ? hoverImage : normalImage);
+            setImage(hovered || held ? hoverImage : normalImage);
 
             // Left mouse button pressed
             if (Greenfoot.mousePressed(null) && mouseInfo.getButton() == 1) {
