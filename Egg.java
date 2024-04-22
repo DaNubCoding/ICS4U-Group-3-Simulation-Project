@@ -125,26 +125,19 @@ public class Egg extends PixelActor {
      */
     private void hatch() {
         PixelWorld world = getWorld();
-        Fish child = constructChild();
-        // Add random allowed features to the child fish, according to their corresponding chances
-        for (FishFeature feature : child.getSettings().getAllowedFeatures()) {
-            if (Util.randDouble(0, 1) < feature.getChance()) {
-                child.addFeature(feature);
-            }
-        }
-        world.addObject(child, getX(), getY());
+        world.addObject(constructChild(), getX(), getY());
         world.removeObject(this);
     }
 
     /**
      * Construct and return a new instance of this egg's hatching fish class
-     * with no additional features.
+     * with defaultly random features.
      */
     private Fish constructChild() {
         Fish child;
         try {
             Constructor<? extends Fish> constructor = hatchClass.getDeclaredConstructor(Integer.TYPE, FishFeature[].class);
-            child = constructor.newInstance(evoPoints, null);
+            child = constructor.newInstance(evoPoints, new FishFeature[0]);
         } catch (ReflectiveOperationException e) {
             if (e.getCause() instanceof RuntimeException) {
                 throw (RuntimeException) e.getCause();

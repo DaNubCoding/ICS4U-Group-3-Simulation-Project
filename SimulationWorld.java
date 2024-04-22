@@ -57,9 +57,9 @@ public class SimulationWorld extends PixelWorld {
         addObject(leftFisher, 50, 31);
         addObject(rightFisher, 200, 31);
 
-        addObject(new Bass(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
-        addObject(new Salmon(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
-        addObject(new Tuna(0), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        addObject(new Bass(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        addObject(new Salmon(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        addObject(new Tuna(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
 
         waves.setLocation(125, SEA_SURFACE_Y - 5);
 

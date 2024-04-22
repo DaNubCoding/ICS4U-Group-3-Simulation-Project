@@ -45,20 +45,26 @@ public abstract class Fish extends PixelActor {
     private int bodyOffsetY;
 
     /**
-     * Create a new Fish with the given settings and features, as well as a
+     * Creates a new Fish with the given settings and features, as well as a
      * starting number of evolutionary points.
      * <p>
      * This constructor adds one random feature from each set of required
-     * features defined as per {@link FishSettings#addRequiredFeatureSet}, so
-     * there is no need to do so elsewhere.
+     * features defined as per {@link FishSettings#addRequiredFeatureSet},
+     * using {@link FishSettings#chooseRequiredFeatures}.
      * <p>
      * Pass any number of additional features to this constructor (including
-     * zero) or a FishFeature array and all of those features will be added to
-     * the new Fish.
+     * zero, see note below) and all of those features will be added to the new
+     * Fish.
+     * <p>
+     * If {@code features} is empty and not {@code null}, random features from
+     * the settings' defined set of allowed features will be chosen to add to
+     * the new Fish as well. To prevent random selection of additional features
+     * when constructing a Fish with no specific features, pass {@code null} as
+     * the third argument to this constructor.
      *
      * @param settings The settings of the Fish
      * @param evoPoints The number of evolutionary points to start with
-     * @param features Any FishFeatures to add to this Fish, or {@code null} for none
+     * @param features Any FishFeatures to specifically add to this Fish, or {@code null} for no features beyond what is required from {@code settings}
      * @throws IllegalArgumentException if any of the given features are not allowed on this Fish type
      */
     public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
@@ -70,12 +76,17 @@ public abstract class Fish extends PixelActor {
         this.features = EnumSet.noneOf(FishFeature.class);
         // Add required features
         for (FishFeature feature : settings.chooseRequiredFeatures()) {
-            addFeature(feature, false);
+            addFeature(feature);
         }
-        // Add specified features
+        // Add specified features and random additional features
         if (features != null) {
             for (FishFeature feature : features) {
-                addFeature(feature, false);
+                addFeature(feature);
+            }
+            for (FishFeature feature : settings.getAllowedFeatures()) {
+                if (Util.randDouble(0, 1) < feature.getChance()) {
+                    addFeature(feature);
+                }
             }
         }
         updateImage();
@@ -88,25 +99,15 @@ public abstract class Fish extends PixelActor {
     }
 
     /**
-     * Adds a FishFeature to this Fish and updates its image accordingly.
+     * Adds a FishFeature to this Fish.
+     * <p>
+     * This method is for use within the constructor only. It does not update
+     * the fish's image.
      *
      * @param feature the FishFeature to add
-     */
-    public void addFeature(FishFeature feature) {
-        addFeature(feature, true);
-    }
-
-    /**
-     * Adds a FishFeature to this Fish, optionally updating its image.
-     *
-     * @param feature the FishFeature to add
-     * @param updateImage whether or not this Fish's image should be updated
      * @throws IllegalArgumentException if the given feature is not allowed on this Fish type
      */
-    public void addFeature(FishFeature feature, boolean updateImage) {
-        if (getWorld() != null) {
-            throw new UnsupportedOperationException("Cannot handle adding any FishFeature to Fish after it has been added to a World");
-        }
+    private void addFeature(FishFeature feature) {
         if (!settings.isFeatureAllowed(feature)) {
             throw new IllegalArgumentException("FishFeature " + feature + " is not allowed on this Fish type");
         }
@@ -115,9 +116,7 @@ public abstract class Fish extends PixelActor {
             return;
         }
         features.add(feature);
-        if (updateImage) {
-            updateImage();
-        }
+        updateImage();
     }
 
     /**
