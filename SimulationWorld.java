@@ -11,6 +11,7 @@ import java.util.ArrayList;
  *
  * @author Martin Baldwin
  * @author Brandon Law
+ * @author Matthew Li
  * @version April 2024
  */
 public class SimulationWorld extends PixelWorld {
@@ -32,14 +33,17 @@ public class SimulationWorld extends PixelWorld {
 
     private EndState endState;
 
+    private SettingsWorld settingsWorld;
+
     // Test text object: draw the current act count in the top right corner of the world
     private Text actText;
 
     // GifImage for waves
     private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"), Layer.FOREGROUND);
 
-    public SimulationWorld() {
+    public SimulationWorld(SettingsWorld settingsWorld) {
         super(250, 160);
+        this.settingsWorld = settingsWorld;
 
         // Initialize fish record keeping structures
         discoveredFishesByTier = new ArrayList<Set<FishRecord>>();
@@ -57,9 +61,11 @@ public class SimulationWorld extends PixelWorld {
         addObject(leftFisher, 50, 31);
         addObject(rightFisher, 200, 31);
 
-        addObject(new Bass(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
-        addObject(new Salmon(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
-        addObject(new Tuna(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        for (int i = 0; i < settingsWorld.getNumOfStartFish(); i++) {
+            addObject(new Bass(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+            addObject(new Salmon(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+            addObject(new Tuna(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        }
 
         waves.setLocation(125, SEA_SURFACE_Y - 5);
 
@@ -204,5 +210,14 @@ public class SimulationWorld extends PixelWorld {
         default:
             throw new IllegalArgumentException("Player side value must be 1 or 2");
         }
+    }
+
+    /**
+     * Get the SettingsWorld that will determine the settings of this SimulationWorld.
+     *
+     * @return The SettingsWorld object of this SimulationWorld
+     */
+    public SettingsWorld getSettings() {
+        return settingsWorld;
     }
 }

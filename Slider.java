@@ -4,6 +4,7 @@ import greenfoot.*;
  * A slider used in the settings world.
  *
  * @author Andrew Wang
+ * @author Matthew Li
  * @version April 2024
  */
 public class Slider<T extends Number> extends PixelActor {
@@ -245,6 +246,24 @@ public class Slider<T extends Number> extends PixelActor {
         } else {
             throw new IllegalArgumentException("Unsupported number type");
         }
+    }
+
+    /**
+     * Get the Number value as an integer.
+     *
+     * @return The value as an int
+     */
+    public int getIntValue() {
+        return getValue().intValue();
+    }
+
+    /**
+     * Get the Number value as a double.
+     *
+     * @return The value as a double
+     */
+    public double getDoubleValue() {
+        return getValue().doubleValue();
     }
 
     /**
