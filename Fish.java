@@ -465,7 +465,8 @@ public abstract class Fish extends PixelActor {
         if (hasFeature(FishFeature.ANGLER_SOCK)) return;
 
         nearbyKinsCount = 0;
-        int averageAngle = 0;
+        double averageSin = 0;
+        double averageCos = 0;
         int averageX = 0;
         int averageY = 0;
         for (Fish other : getWorld().getObjects(getClass())) {
@@ -473,7 +474,8 @@ public abstract class Fish extends PixelActor {
             if (other.hasFeature(FishFeature.HAT_PARTY) || other.hasFeature(FishFeature.ANGLER_SOCK)) continue;
             double distance = getDistanceTo(other);
             if (distance < 40) {
-                averageAngle += other.getHeading();
+                averageSin += Math.sin(Math.toRadians(other.getHeading()));
+                averageCos += Math.cos(Math.toRadians(other.getHeading()));
                 averageX += other.getX();
                 averageY += other.getY();
                 nearbyKinsCount++;
@@ -484,11 +486,12 @@ public abstract class Fish extends PixelActor {
             }
         }
         if (nearbyKinsCount != 0) {
-            averageAngle /= nearbyKinsCount;
+            averageSin /= nearbyKinsCount;
+            averageCos /= nearbyKinsCount;
             averageX /= nearbyKinsCount;
             averageY /= nearbyKinsCount;
             // Alignment
-            setHeading(Util.interpolateAngle(getHeading(), averageAngle, 0.008));
+            setHeading(Util.interpolateAngle(getHeading(), Math.toDegrees(Math.atan2(averageSin, averageCos)), 0.008));
             // Cohesion
             setHeading(Util.interpolateAngle(getHeading(), getAngleTo(averageX, averageY), 0.005));
         }
