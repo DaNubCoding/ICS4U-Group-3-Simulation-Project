@@ -127,6 +127,9 @@ public enum FishFeature {
      * Kill the given fish and all fish around it at a random point in time.
      */
     private static void actBomb(Fish fish) {
+        if (fish.isProtected()) {
+            return;
+        }
         // Only explode at a random point after the fish has existed for some time
         if (fish.getAge() > 120 && Util.randDouble(0, 1) < 0.001) {
             blowUp(fish);
@@ -148,7 +151,7 @@ public enum FishFeature {
         List<Egg> eggsInRange = world.getObjectsInRange(32, (int) bombPos.x, (int) bombPos.y, Egg.class);
 
         for (Fish other : fishInRange) {
-            if (other.getWorld() == null) {
+            if (other.getWorld() == null || other.isProtected()) {
                 continue;
             }
             if (other.hasFeature(ANGLER_BOMB)) {

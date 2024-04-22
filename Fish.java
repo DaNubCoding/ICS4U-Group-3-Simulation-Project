@@ -6,9 +6,9 @@ import java.util.List;
 /**
  * An undersea actor and target of Fishers.
  * <p>
- * Each fish possesses a list of features, which may change as it evolves, each
- * adding a defined amount of XP value to a fish. A fish's features are drawn
- * onto its image on top of its body.
+ * Each fish possesses a unique list of features, each adding a defined amount
+ * of XP value to it when caught. A fish's features are drawn onto its image on
+ * top of its body.
  * <p>
  * A subclass of Fish must create a {@link FishSettings} object defining all of
  * its subclass-specific settings, and pass it to this class's constructor.
@@ -21,10 +21,18 @@ public abstract class Fish extends PixelActor {
     /** The distance from which a fish will bite a hook. */
     public static final double HOOK_BITE_DISTANCE = 8.0;
 
+    // When a fish is being protected from extinction, a circle of this color is drawn on top of it
+    private static final Color SHIELD_COLOR = new Color(0, 255, 255, 64);
+
     // Fish subclass-specific settings
     private final FishSettings settings;
+    // Whether or not this fish may become protected from extinction
+    private final boolean canProtect;
+
     // All features present on this fish
     private Set<FishFeature> features;
+    // Whether or not this fish is currently invincible, protected from extinction
+    private boolean isProtected;
     // Hook to follow once caught
     private Hook bittenHook;
     // Behaviour timers
@@ -48,6 +56,26 @@ public abstract class Fish extends PixelActor {
      * Creates a new Fish with the given settings and features, as well as a
      * starting number of evolutionary points.
      * <p>
+     * This constructor works just like {@link #Fish(FishSettings, int, boolean, FishFeature...)},
+     * except that the new Fish may not be protected from extinction.
+     *
+     * @param settings The settings of the Fish
+     * @param evoPoints The number of evolutionary points to start with
+     * @param features Any FishFeatures to specifically add to this Fish, or {@code null} for no features beyond what is required from {@code settings}
+     * @throws IllegalArgumentException if any of the given features are not allowed on this Fish type
+     */
+    public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
+        this(settings, evoPoints, false, features);
+    }
+
+    /**
+     * Creates a new Fish with the given settings, features, and starting number
+     * of evolutionary points, with the option to provide the ability to be
+     * protected from extinction.
+     * <p>
+     * If {@code protect} is true, the new Fish can become invincible when it is
+     * the only fish of its kind left swimming in the world.
+     * <p>
      * This constructor adds one random feature from each set of required
      * features defined as per {@link FishSettings#addRequiredFeatureSet},
      * using {@link FishSettings#chooseRequiredFeatures}.
@@ -64,14 +92,17 @@ public abstract class Fish extends PixelActor {
      *
      * @param settings The settings of the Fish
      * @param evoPoints The number of evolutionary points to start with
+     * @param protect Whether to allow the Fish to be protected from extinction
      * @param features Any FishFeatures to specifically add to this Fish, or {@code null} for no features beyond what is required from {@code settings}
      * @throws IllegalArgumentException if any of the given features are not allowed on this Fish type
      */
-    public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
+    public Fish(FishSettings settings, int evoPoints, boolean canProtect, FishFeature... features) {
         super(Layer.FISH);
         // Store fish subclass-specific settings
         this.settings = settings;
         this.evoPoints = evoPoints;
+        this.canProtect = canProtect;
+        isProtected = false;
 
         this.features = EnumSet.noneOf(FishFeature.class);
         // Add required features
@@ -170,6 +201,15 @@ public abstract class Fish extends PixelActor {
     }
 
     /**
+     * Tests if this fish is currently protected from extinction.
+     *
+     * @return true if this fish may not be caught, false for a normal fish
+     */
+    public boolean isProtected() {
+        return isProtected;
+    }
+
+    /**
      * Sets this Fish's image to a GreenfootImage with this Fish's body and
      * features drawn on it.
      * <p>
@@ -179,17 +219,27 @@ public abstract class Fish extends PixelActor {
     private void updateImage() {
         GreenfootImage bodyImage = settings.getBodyImage();
         // If there are no features, the existing body image is sufficient
-        if (features.isEmpty()) {
+        if (features.isEmpty() && !isProtected) {
             setImage(bodyImage);
             return;
         }
 
         // Create an image of appropriate size to fit this fish with all of its features
         // Keep track of the extreme locations of any feature relative to the body
-        int left = 0;
-        int right = bodyImage.getWidth();
-        int top = 0;
-        int bottom = bodyImage.getHeight();
+        int left, right, top, bottom;
+        int shieldSize = Math.max(bodyImage.getWidth(), bodyImage.getHeight()) + 4;
+        if (!isProtected) {
+            left = 0;
+            right = bodyImage.getWidth();
+            top = 0;
+            bottom = bodyImage.getHeight();
+        } else {
+            // Make room for shield
+            left = (bodyImage.getWidth() - shieldSize) / 2;
+            right = left + shieldSize;
+            top = (bodyImage.getHeight() - shieldSize) / 2;
+            bottom = top + shieldSize;
+        }
         for (FishFeature feature : features) {
             // Get the leftmost and rightmost pixel locations of this feature relative to the body
             IntPair point = settings.getFeaturePoint(feature);
@@ -216,6 +266,11 @@ public abstract class Fish extends PixelActor {
         for (FishFeature feature : features) {
             IntPair point = settings.getFeaturePoint(feature);
             image.drawImage(feature.getImage(), point.x - left, point.y - top);
+        }
+        if (isProtected) {
+            // Shield is a circle on top of the fish
+            image.setColor(SHIELD_COLOR);
+            image.fillOval(0, 0, shieldSize, shieldSize);
         }
         setImage(image);
         setCenterOfRotation(bodyImage.getWidth() / 2 - left, bodyImage.getHeight() / 2 - top);
@@ -262,8 +317,8 @@ public abstract class Fish extends PixelActor {
      * Call this in act(). Tests for hooks within the defined range.
      */
     public final void lookForHook() {
-        // If already bitten a hook, do nothing
-        if (bittenHook != null) {
+        // If already bitten a hook or protected from extinction, do nothing
+        if (bittenHook != null || isProtected) {
             return;
         }
         for (Hook hook : getWorld().getObjects(Hook.class)) {
@@ -318,12 +373,36 @@ public abstract class Fish extends PixelActor {
         setRotation((bittenHook.getRotation() + 90) * (getMirrorX() ? 1 : -1));
     }
 
+    /**
+     * Tests if this fish has been hooked by a fisher.
+     *
+     * @return true if this fish is currently on a hook, false otherwise
+     */
+    public boolean isHooked() {
+        return bittenHook != null;
+    }
+
     @Override
     public void act() {
         // Only move with hook and do nothing else if it has already bitten a hook
         if (bittenHook != null) {
             attachToHook();
             return;
+        }
+
+        // Protect this fish from extinction when it is the only fish of its kind left in the world
+        if (canProtect) {
+            boolean wasProtected = isProtected;
+            isProtected = true;
+            for (Fish other : getWorld().getObjects(getClass())) {
+                if (other != this && !other.isHooked()) {
+                    isProtected = false;
+                    break;
+                }
+            }
+            if (isProtected != wasProtected) {
+                updateImage();
+            }
         }
 
         // Feature-specific behaviour
