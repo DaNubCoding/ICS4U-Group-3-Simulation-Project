@@ -21,7 +21,7 @@ public class Anglerfish extends Fish {
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
         settings.addRequiredFeatureSet(
             new FishFeature[] {FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK},
-            new int[] {8, 1, 1}
+            new int[] {16, 3, 1}
         );
         // Movement settings
         settings.setSwimSpeed(0.1);
