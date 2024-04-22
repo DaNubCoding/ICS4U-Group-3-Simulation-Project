@@ -13,15 +13,6 @@ public class RightFisher extends Fisher {
     }
 
     @Override
-    public void addedToWorld(World world) {
-        setAnchor(getX(), getY());
-
-        world.addObject(getBoatBar(), world.getWidth() - 32, 2);
-        setBounds(world.getWidth() / 2 + 40, world.getWidth() - 30);
-        world.addObject(getFishingRod(), getX(), getY());
-    }
-
-    @Override
     public int getSide() {
         return 2;
     }
