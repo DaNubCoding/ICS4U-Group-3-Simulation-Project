@@ -25,7 +25,6 @@ public class TitleWorld extends PixelWorld
 
         if (fade) triggerFadeIn(0.02);
         render();
-        prepare();
     }
 
     /**
@@ -53,13 +52,5 @@ public class TitleWorld extends PixelWorld
         gif.updateImage();
         gif.render(getCanvas());
         updateImage();
-    }
-
-    /**
-     * Prepare the world for the start of the program.
-     * That is: create the initial objects and add them to the world.
-     */
-    private void prepare()
-    {
     }
 }
