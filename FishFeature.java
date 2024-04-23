@@ -29,11 +29,11 @@ import java.util.function.Consumer;
  * @version April 2024
  */
 public enum FishFeature {
-    ANGLER_LIGHT(0.1, 5, null),
-    ANGLER_BOMB(0.05, 15, FishFeature::actBomb),
-    ANGLER_SOCK(0.005, 15, null), // Behaviour implemented from other Fish
-    BIG_EYE(0.1, 10, null),
-    HAT_BROWN(0.1, 5, null),
+    ANGLER_LIGHT(0.075, 5, null),
+    ANGLER_BOMB(0.05, 50, FishFeature::actBomb),
+    ANGLER_SOCK(0.005, 25, null), // Behaviour implemented from other Fish
+    BIG_EYE(0.1, 10, FishFeature::actBigEye),
+    HAT_BROWN(0.1, 5, FishFeature::actHatBrown),
     HAT_PARTY(0.05, 5, FishFeature::actHatParty),
     ;
 
@@ -164,6 +164,46 @@ public enum FishFeature {
             world.removeObject(egg);
         }
         world.addObject(new Explosion(), (int) bombPos.x, (int) bombPos.y);
+    }
+
+    /**
+     * Turn away from hooks that are close and in the fish's field of view.
+     */
+    private static void actBigEye(Fish fish) {
+        for (Hook hook : fish.getWorld().getObjects(Hook.class)) {
+            if (hook.isOccupied()) {
+                continue;
+            }
+            double angleToHook = fish.getAngleTo(hook);
+            int difference = Math.abs(Math.floorMod((int) (angleToHook - fish.getHeading() + 180), 360) - 180);
+            if (fish.getDistanceTo(hook) < 24 && difference < 90) {
+                fish.setHeading(Util.interpolateAngle(fish.getHeading(), -angleToHook, 0.5));
+            }
+        }
+    }
+
+    /**
+     * Turn towards the closest hook.
+     */
+    private static void actHatBrown(Fish fish) {
+        // Find the closest hook to this fish
+        Hook closestHook = null;
+        double minDist = 0.0;
+        for (Hook hook : fish.getWorld().getObjects(Hook.class)) {
+            if (hook.isOccupied()) {
+                continue;
+            }
+            double dist = fish.getDistanceTo(hook);
+            if (closestHook == null || dist < minDist) {
+                minDist = dist;
+                closestHook = hook;
+            }
+        }
+        if (closestHook == null) {
+            return;
+        }
+        // Turn towards the hook
+        fish.setHeading(Util.interpolateAngle(fish.getHeading(), fish.getAngleTo(closestHook), 0.035));
     }
 
     /**
