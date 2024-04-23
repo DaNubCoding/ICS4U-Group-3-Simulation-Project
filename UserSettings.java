@@ -16,6 +16,9 @@ public class UserSettings {
     private int tunaCount;
     private Set<Class<? extends Fish>> protectedFish = new HashSet<>();
 
+    // Fisher settings
+    private double[] expPercentage = new double[2];
+
     /**
      * Set the maximum number of eggs that spawn from a fish.
      *
@@ -80,6 +83,24 @@ public class UserSettings {
     }
 
     /**
+     * Set the percentage of EXP that goes to the boat. (Fisher 1)
+     *
+     * @param value the percentage of EXP that goes to the boat
+     */
+    public void setExpPercentage1(double value) {
+        expPercentage[0] = value;
+    }
+
+    /**
+     * Set the percentage of EXP that goes to the boat. (Fisher 2)
+     *
+     * @param value the percentage of EXP that goes to the boat
+     */
+    public void setExpPercentage2(double value) {
+        expPercentage[1] = value;
+    }
+
+    /**
      * Get the maximum number of eggs that spawn from a fish.
      *
      * @return the maximum number of eggs
@@ -131,5 +152,15 @@ public class UserSettings {
      */
     public boolean isFishTypeProtected(Class<? extends Fish> type) {
         return protectedFish.contains(type);
+    }
+
+    /**
+     * Get the percentage of EXP that goes to the boat.
+     *
+     * @param fisher the side-number of the fisher (1 for left and 2 for right)
+     * @return the percentage of EXP that goes to the boat
+     */
+    public double getExpPercentage(int fisher) {
+        return expPercentage[fisher - 1];
     }
 }

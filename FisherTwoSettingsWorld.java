@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class FisherOneSettingsWorld extends SettingsWorld {
+public class FisherTwoSettingsWorld extends SettingsWorld {
     /** @see UserSettings */
     private UserSettingSlider<Double> expPercentageSlider;
 
@@ -9,7 +9,7 @@ public class FisherOneSettingsWorld extends SettingsWorld {
      *
      * @param userSettings The partial UserSettings from the GeneralSettingsWorld
      */
-    public FisherOneSettingsWorld(UserSettings userSettings) {
+    public FisherTwoSettingsWorld(UserSettings userSettings) {
         super(userSettings);
     }
 
@@ -17,13 +17,13 @@ public class FisherOneSettingsWorld extends SettingsWorld {
     public void constructSliders() {
         UserSettings userSettings = getUserSettings();
 
-        expPercentageSlider = new UserSettingSlider<Double>(0.0, 1.0, 0.5, 100, new Color(76, 45, 23), userSettings::setExpPercentage1);
+        expPercentageSlider = new UserSettingSlider<Double>(0.0, 1.0, 0.5, 100, new Color(76, 45, 23), userSettings::setExpPercentage2);
 
         addSlider("EXP percentage", expPercentageSlider);
     }
 
     @Override
     public void goToNextWorld() {
-        Greenfoot.setWorld(new FisherTwoSettingsWorld(getUserSettings()));
+        Greenfoot.setWorld(new SimulationWorld(getUserSettings()));
     }
 }
