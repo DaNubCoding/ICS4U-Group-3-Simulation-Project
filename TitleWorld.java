@@ -39,7 +39,7 @@ public class TitleWorld extends PixelWorld
         Timer.incrementAct();
 
         if (Greenfoot.isKeyDown("enter") && !keyPressed){
-            triggerFadeOut(0.02);
+            triggerFadeOut(0.04);
         }
         keyPressed = Greenfoot.isKeyDown("Enter");
 

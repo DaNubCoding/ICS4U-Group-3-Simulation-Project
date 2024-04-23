@@ -40,9 +40,9 @@ public abstract class SettingsWorld extends PixelWorld {
             addObject(slider.getValue(), align + 6, 10 + i++ * 18);
         }
 
-        addObject(new Button("Start!", () -> triggerFadeOut(0.02)), getWidth() / 2, 140);
+        addObject(new Button("Start!", () -> triggerFadeOut(0.05)), getWidth() / 2, 140);
 
-        triggerFadeIn(0.02);
+        triggerFadeIn(0.05);
         render();
     }
 
@@ -65,7 +65,7 @@ public abstract class SettingsWorld extends PixelWorld {
         Timer.incrementAct();
 
         if (Greenfoot.isKeyDown("Enter") && !keyPressed) {
-            triggerFadeOut(0.02);
+            triggerFadeOut(0.05);
         }
         keyPressed = Greenfoot.isKeyDown("Enter");
 
