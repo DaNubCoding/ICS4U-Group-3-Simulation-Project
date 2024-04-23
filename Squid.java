@@ -14,7 +14,7 @@ public class Squid extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(4);
-        settings.setBaseValue(100);
+        settings.setBaseValue(300);
         settings.setBodyImage("fishes/squid.png");
         settings.setCatchOffset(15, 6);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -28,8 +28,8 @@ public class Squid extends Fish {
         settings.setEggSize(Egg.Size.GIGANTIC);
         settings.setEggColor(Egg.Color.PINK);
         settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(25);
-        settings.setEvolutionChance(0.5);
+        settings.setEvoPointGain(35);
+        settings.setEvolutionChance(0.3);
         settings.setEvolutions(null);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 15, 3);

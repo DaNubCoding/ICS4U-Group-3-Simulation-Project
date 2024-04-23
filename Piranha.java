@@ -14,7 +14,7 @@ public class Piranha extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(2);
-        settings.setBaseValue(100);
+        settings.setBaseValue(200);
         settings.setBodyImage("fishes/piranha.png");
         settings.setCatchOffset(11, 7);
         settings.setAllowedFeatures(FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -28,7 +28,7 @@ public class Piranha extends Fish {
         settings.setEggSize(Egg.Size.MEDIUM);
         settings.setEggColor(Egg.Color.GREEN);
         settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(30);
+        settings.setEvoPointGain(50);
         settings.setEvolutionChance(0.4);
         settings.setEvolutions(Barracuda.class);
         // Feature image offsets

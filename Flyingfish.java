@@ -14,7 +14,7 @@ public class Flyingfish extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(2);
-        settings.setBaseValue(100);
+        settings.setBaseValue(200);
         settings.setBodyImage("fishes/flyingfish.png");
         settings.setCatchOffset(20, 7);
         settings.setAllowedFeatures(FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -28,8 +28,8 @@ public class Flyingfish extends Fish {
         settings.setEggSize(Egg.Size.MEDIUM);
         settings.setEggColor(Egg.Color.BLUE);
         settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(25);
-        settings.setEvolutionChance(0.2);
+        settings.setEvoPointGain(50);
+        settings.setEvolutionChance(0.4);
         settings.setEvolutions(Swordfish.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.ANGLER_LIGHT, 18, -3);

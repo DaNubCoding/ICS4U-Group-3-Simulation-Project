@@ -14,13 +14,13 @@ public class Whale extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(4);
-        settings.setBaseValue(100);
+        settings.setBaseValue(300);
         settings.setBodyImage("fishes/whale.png");
         settings.setCatchOffset(28, 6);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
         // Movement settings
         settings.setSwimSpeed(0.1);
-        settings.setMinDepth(90);
+        settings.setMinDepth(50);
         settings.setMaxDepth(SimulationWorld.SEA_FLOOR_Y - 5);
         settings.setAverageTurnInterval(300);
         settings.setMaxTurnDegrees(20);
@@ -28,8 +28,8 @@ public class Whale extends Fish {
         settings.setEggSize(Egg.Size.GIGANTIC);
         settings.setEggColor(Egg.Color.BLUE);
         settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(25);
-        settings.setEvolutionChance(0.2);
+        settings.setEvoPointGain(35);
+        settings.setEvolutionChance(0.3);
         settings.setEvolutions(null);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 35, 4);

@@ -14,7 +14,7 @@ public class Mollusk extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(2);
-        settings.setBaseValue(100);
+        settings.setBaseValue(200);
         settings.setBodyImage("fishes/mollusk.png");
         settings.setCatchOffset(10, 6);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -28,9 +28,9 @@ public class Mollusk extends Fish {
         settings.setEggSize(Egg.Size.MEDIUM);
         settings.setEggColor(Egg.Color.PINK);
         settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(25);
-        settings.setEvolutionChance(0.2);
-        settings.setEvolutions(Jellyfish.class);
+        settings.setEvoPointGain(50);
+        settings.setEvolutionChance(0.4);
+        settings.setEvolutions(Jellyfish.class, Lionfish.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 8, 2);
         settings.setFeaturePoint(FishFeature.HAT_BROWN, 6, -3);

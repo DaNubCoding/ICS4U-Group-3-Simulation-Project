@@ -1,13 +1,13 @@
 import greenfoot.*;
 
 /**
- * A large and ferocious predatory fish.
+ * A
  *
  * @author Stanley Wang
  * @author Sandra Huang
  * @version April 2024
  */
-public class Barracuda extends Fish {
+public class Lionfish extends Fish {
     // Collection of all settings that define this subclass of Fish
     private static final FishSettings settings;
     static {
@@ -15,8 +15,8 @@ public class Barracuda extends Fish {
         // Base settings
         settings.setTier(3);
         settings.setBaseValue(250);
-        settings.setBodyImage("fishes/barracuda.png");
-        settings.setCatchOffset(28, 6);
+        settings.setBodyImage("fishes/lionfish.png");
+        settings.setCatchOffset(29, 16);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
         // Movement settings
         settings.setSwimSpeed(0.1);
@@ -26,24 +26,24 @@ public class Barracuda extends Fish {
         settings.setMaxTurnDegrees(20);
         // Evolution settings
         settings.setEggSize(Egg.Size.LARGE);
-        settings.setEggColor(Egg.Color.GREEN);
+        settings.setEggColor(Egg.Color.PINK);
         settings.setEggSpawnFrequency(1000);
         settings.setEvoPointGain(40);
-        settings.setEvolutionChance(0.4);
-        settings.setEvolutions(Anglerfish.class);
+        settings.setEvolutionChance(0.0);
+        settings.setEvolutions(null);
         // Feature image offsets
-        settings.setFeaturePoint(FishFeature.BIG_EYE, 20, 1);
-        settings.setFeaturePoint(FishFeature.ANGLER_LIGHT, 26, -4);
-        settings.setFeaturePoint(FishFeature.ANGLER_BOMB, 26, -4);
-        settings.setFeaturePoint(FishFeature.ANGLER_SOCK, 26, -4);
-        settings.setFeaturePoint(FishFeature.HAT_BROWN, 18, -1);
-        settings.setFeaturePoint(FishFeature.HAT_PARTY, 19, -4);
+        settings.setFeaturePoint(FishFeature.BIG_EYE, 21, 10);
+        settings.setFeaturePoint(FishFeature.ANGLER_LIGHT, 25, 4);
+        settings.setFeaturePoint(FishFeature.ANGLER_BOMB, 25, 4);
+        settings.setFeaturePoint(FishFeature.ANGLER_SOCK, 25, 4);
+        settings.setFeaturePoint(FishFeature.HAT_BROWN, 15, 4);
+        settings.setFeaturePoint(FishFeature.HAT_PARTY, 16, 2);
 
         // Sanity check to ensure all settings have been defined
         settings.validate();
     }
 
-    public Barracuda(int evoPoints, FishFeature... features) {
+    public Lionfish(int evoPoints, FishFeature... features) {
         super(settings, evoPoints, features);
     }
 }

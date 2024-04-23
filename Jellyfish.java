@@ -14,7 +14,7 @@ public class Jellyfish extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(3);
-        settings.setBaseValue(100);
+        settings.setBaseValue(250);
         settings.setBodyImage("fishes/jellyfish.png");
         settings.setCatchOffset(15, 8);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -28,8 +28,8 @@ public class Jellyfish extends Fish {
         settings.setEggSize(Egg.Size.LARGE);
         settings.setEggColor(Egg.Color.PINK);
         settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(25);
-        settings.setEvolutionChance(0.2);
+        settings.setEvoPointGain(40);
+        settings.setEvolutionChance(0.4);
         settings.setEvolutions(Squid.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 12, 3);
