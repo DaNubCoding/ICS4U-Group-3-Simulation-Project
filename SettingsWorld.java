@@ -84,11 +84,6 @@ public abstract class SettingsWorld extends PixelWorld {
         render();
         Timer.incrementAct();
 
-        if (Greenfoot.isKeyDown("Enter") && !keyPressed) {
-            triggerFadeOut(0.05);
-        }
-        keyPressed = Greenfoot.isKeyDown("Enter");
-
         if (isFadeOutComplete()) {
             if (next) { // Next is clicked
                 // In case the next world needs to come back to this world
