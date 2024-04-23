@@ -68,12 +68,12 @@ public class Text extends PixelActor {
      * text image.
      * <ul>
      * <li>{@code LEFT}: The actor position is found at the left edge. Text extends to the right from there.
-     * <li>{@code RIGHT}: The actor position is found at the right edge. Text extends to the left from there.
      * <li>{@code CENTER}: The actor position is found at the horizontal center. Text extends equally left and right from there.
+     * <li>{@code RIGHT}: The actor position is found at the right edge. Text extends to the left from there.
      * </ul>
      */
     public enum AnchorX {
-        LEFT, RIGHT, CENTER;
+        LEFT, CENTER, RIGHT;
     }
 
     /**
@@ -83,12 +83,12 @@ public class Text extends PixelActor {
      * text image.
      * <ul>
      * <li>{@code TOP}: The actor position is found at the top edge. Text extends downwards from there.
-     * <li>{@code BOTTOM}: The actor position is found at the bottom edge. Text extends upwards from there.
      * <li>{@code CENTER}: The actor position is found at the horizontal center. Text extends equally upwards and downwards from there.
+     * <li>{@code BOTTOM}: The actor position is found at the bottom edge. Text extends upwards from there.
      * </ul>
      */
     public enum AnchorY {
-        TOP, BOTTOM, CENTER;
+        TOP, CENTER, BOTTOM;
     }
 
     private final AnchorX anchorX;
@@ -101,12 +101,25 @@ public class Text extends PixelActor {
      * @param content the string to render to this text object
      * @param anchorX a {@link AnchorX} value describing horizontal alignment
      * @param anchorY a {@link AnchorY} value describing vertical alignment
+     * @param bgColor the background color of the text
      */
-    public Text(String content, AnchorX anchorX, AnchorY anchorY) {
-        super(createStringImage(content), Layer.UI);
+    public Text(String content, AnchorX anchorX, AnchorY anchorY, Color bgColor) {
+        super(createStringImage(content, bgColor), Layer.UI);
         this.anchorX = anchorX;
         this.anchorY = anchorY;
         updatePosition();
+    }
+
+    /**
+     * Creates a displayable text object from the given string with the
+     * specified alignment.
+     *
+     * @param content the string to render to this text object
+     * @param anchorX a {@link AnchorX} value describing horizontal alignment
+     * @param anchorY a {@link AnchorY} value describing vertical alignment
+     */
+    public Text(String content, AnchorX anchorX, AnchorY anchorY) {
+        this(content, anchorX, anchorY, new Color(0, 0, 0, 0));
     }
 
     /**
@@ -121,6 +134,21 @@ public class Text extends PixelActor {
      */
     public Text(String content, AnchorX anchorX, AnchorY anchorY, int maxWidth) {
         this(reflowToWidth(content, maxWidth), anchorX, anchorY);
+    }
+
+    /**
+     * Creates a displayable text object from the given string with the
+     * specified alignment and desired maximum render width.
+     *
+     * @param content the string to render to this text object
+     * @param anchorX a {@link AnchorX} value describing horizontal alignment
+     * @param anchorY a {@link AnchorY} value describing vertical alignment
+     * @param maxWidth the desired maximum width of the rendered content
+     * @param bgColor the background color of the text
+     * @see #reflowToWidth
+     */
+    public Text(String content, AnchorX anchorX, AnchorY anchorY, int maxWidth, Color bgColor) {
+        this(reflowToWidth(content, maxWidth), anchorX, anchorY, bgColor);
     }
 
     /**
@@ -143,7 +171,7 @@ public class Text extends PixelActor {
      * @param content the string to render to this text object
      */
     public void setContent(String content) {
-        setImage(createStringImage(content));
+        setImage(createStringImage(content, new Color(0, 0, 0, 0)));
         updatePosition();
     }
 
@@ -193,9 +221,10 @@ public class Text extends PixelActor {
      * representation one after another on the x-axis.
      *
      * @param content the string to render to an image
+     * @param bgColor the color to fill the background of the text with
      * @return a new {@link GreenfootImage} containing a representation of the given content
      */
-    public static GreenfootImage createStringImage(String content) {
+    public static GreenfootImage createStringImage(String content, Color bgColor) {
         if (content == null) {
             throw new IllegalArgumentException("String content must not be null");
         } else if (content.length() < 1) {
@@ -228,6 +257,8 @@ public class Text extends PixelActor {
         }
         // Draw the characters to an image
         GreenfootImage result = new GreenfootImage(maxWidth, height);
+        result.setColor(bgColor);
+        result.fill();
         for (int i = 0, x = 0, y = 0; i < charImages.length; i++) {
             // A new line is reached
             if (charImages[i] == null) {
@@ -285,5 +316,23 @@ public class Text extends PixelActor {
             }
         }
         return result.toString();
+    }
+
+    /**
+     * Get the x-anchor of the Text.
+     *
+     * @return The {@link AnchorX} object of this Text
+     */
+    public AnchorX getAnchorX() {
+        return anchorX;
+    }
+
+    /**
+     * Get the y-anchor of the Text.
+     *
+     * @return The {@link AnchorY} object of this Text
+     */
+    public AnchorY getAnchorY() {
+        return anchorY;
     }
 }

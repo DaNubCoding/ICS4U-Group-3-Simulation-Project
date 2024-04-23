@@ -29,7 +29,7 @@ public class Button extends PixelActor {
      * @param method The method that is ran when the button is clicked
      */
     public Button(String text, Runnable method) {
-        this(Text.createStringImage(text), method);
+        this(Text.createStringImage(text, new Color(0, 0, 0, 0)), method);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Button extends PixelActor {
      * @param text The text string to display on the button
      */
     public void setText(String text) {
-        setIcon(Text.createStringImage(text));
+        setIcon(Text.createStringImage(text, new Color(0, 0, 0, 0)));
     }
 
     /**

@@ -19,7 +19,7 @@ public class FisherOneSettingsWorld extends SettingsWorld {
 
         expPercentageSlider = new UserSettingSlider<Double>(0.0, 1.0, 0.5, 100, new Color(76, 45, 23), userSettings::setExpPercentage1);
 
-        addSlider("EXP percentage", expPercentageSlider);
+        addSlider("EXP percentage", "The percentage of EXP from a fish granted to the boat, the rest goes to the fishing rod.", expPercentageSlider);
     }
 
     @Override

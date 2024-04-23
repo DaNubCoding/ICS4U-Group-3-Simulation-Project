@@ -1,6 +1,7 @@
 import greenfoot.*;
 import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.ArrayList;
 
 /**
  * The superclass to all worlds that lets the user initialize settings of the simulation.
@@ -15,6 +16,7 @@ public abstract class SettingsWorld extends PixelWorld {
 
     private UserSettings userSettings;
     private LinkedHashMap<String, Slider<?>> sliders;
+    private ArrayList<String> tooltips;
 
     /**
      * Create a SettingsWorld and supply a partially initialized UserSettings
@@ -26,12 +28,14 @@ public abstract class SettingsWorld extends PixelWorld {
         super(250, 160);
         this.userSettings = userSettings;
         this.sliders = new LinkedHashMap<String, Slider<?>>();
+        this.tooltips = new ArrayList<String>();
         constructSliders();
 
         int align = getWidth() / 2;
         int i = 0;
         for (Map.Entry<String, Slider<?>> slider : sliders.entrySet()) {
-            Text text = new Text(slider.getKey(), Text.AnchorX.RIGHT, Text.AnchorY.CENTER);
+            TextWithTooltip text = new TextWithTooltip(slider.getKey(), Text.AnchorX.RIGHT, Text.AnchorY.CENTER);
+            text.setTooltipString(tooltips.get(i));
             addObject(text, align - 6, 10 + i * 18);
             addObject(slider.getValue(), align + 6, 10 + i++ * 18);
         }
@@ -104,9 +108,11 @@ public abstract class SettingsWorld extends PixelWorld {
      * SettingsWorld.
      *
      * @param label The label displayed next to the Slider
+     * @param description The description that will appear on the tooltip
      * @param slider The Slider object
      */
-    public void addSlider(String label, Slider<?> slider) {
+    public void addSlider(String label, String tooltipString, Slider<?> slider) {
         sliders.put(label, slider);
+        tooltips.add(tooltipString);
     }
 }
