@@ -27,7 +27,7 @@ public class CutscenesWorld extends PixelWorld
         super(250, 160);
         addObject(f1, 125, 80);
         t1 = new AnimatedText("Have you heard? There's new fish in the reef!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 75);
-        addObject(t1, 130, 70);
+        addObject(t1, 135, 67);
 
         triggerFadeIn(0.02);
         render();
@@ -56,21 +56,21 @@ public class CutscenesWorld extends PixelWorld
                 removeObject(t1);
                 addObject(f2, 125, 80);
                 t1 = new AnimatedText("New Fish? Can't wait to go fishing!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 90);
-                addObject(t1, 30, 75);
+                addObject(t1, 35, 72);
             }
 
             if (cutsceneNum == 3) {
                 removeObject(t1);
                 addObject(f1, 125, 80);
                 t1 = new AnimatedText("As a sushi chef, I can't wait to eat them!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 75);
-                addObject(t1, 130, 70);
+                addObject(t1, 135, 67);
             }
 
             if (cutsceneNum == 4) {
                 removeObject(t1);
                 addObject(f2, 125, 80);
                 t1 = new AnimatedText("As a marine biologist, I can write a paper on this!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 100);
-                addObject(t1, 30, 70);
+                addObject(t1, 29, 67);
             }
 
             if (cutsceneNum == 5) {
