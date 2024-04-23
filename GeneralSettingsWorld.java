@@ -18,20 +18,16 @@ public class GeneralSettingsWorld extends PixelWorld {
     private static UserSettings userSettings = new UserSettings();
 
     /** @see UserSettings */
-    private static UserSettingSlider<Integer> expThresholdSlider = new UserSettingSlider<Integer>(1, 5, 1, new Color(76, 45, 23), userSettings::setEvoPointThreshold);
-    private static UserSettingSlider<Integer> eggSpawnAmountSlider = new UserSettingSlider<Integer>(1, 5, 3, new Color(76, 45, 23), userSettings::setEggSpawnAmount);
-    private static UserSettingSlider<Integer> numOfStartFishSlider = new UserSettingSlider<Integer>(1, 10, 1, new Color(76, 45, 23), userSettings::setNumOfStartFish);
+    private UserSettingSlider<Integer> expThresholdSlider;
+    private UserSettingSlider<Integer> eggSpawnAmountSlider;
+    private UserSettingSlider<Integer> numOfStartFishSlider;
 
-    private static LinkedHashMap<String, Slider<?>> sliders = new LinkedHashMap<String, Slider<?>>();
-
-    static {
-        sliders.put("EXP Threshold", expThresholdSlider);
-        sliders.put("Max # of Eggs", eggSpawnAmountSlider);
-        sliders.put("# of Starting Fish", numOfStartFishSlider);
-    }
+    private LinkedHashMap<String, Slider<?>> sliders;
 
     public GeneralSettingsWorld() {
         super(250, 160);
+
+        constructSliders();
 
         int align = getWidth() / 2;
         int i = 0;
@@ -45,6 +41,22 @@ public class GeneralSettingsWorld extends PixelWorld {
 
         triggerFadeIn(0.02);
         render();
+    }
+
+    /**
+     * Initialize the sliders.
+     */
+    private void constructSliders() {
+        /** @see UserSettings */
+        expThresholdSlider = new UserSettingSlider<Integer>(1, 5, 1, new Color(76, 45, 23), userSettings::setEvoPointThreshold);
+        eggSpawnAmountSlider = new UserSettingSlider<Integer>(1, 5, 3, new Color(76, 45, 23), userSettings::setEggSpawnAmount);
+        numOfStartFishSlider = new UserSettingSlider<Integer>(1, 10, 1, new Color(76, 45, 23), userSettings::setNumOfStartFish);
+
+        sliders = new LinkedHashMap<String, Slider<?>>();
+
+        sliders.put("EXP Threshold", expThresholdSlider);
+        sliders.put("Max # of Eggs", eggSpawnAmountSlider);
+        sliders.put("# of Starting Fish", numOfStartFishSlider);
     }
 
     @Override
