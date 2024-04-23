@@ -33,7 +33,7 @@ public class SimulationWorld extends PixelWorld {
 
     private EndState endState;
 
-    private SettingsWorld settingsWorld;
+    private UserSettings userSettings;
 
     // Test text object: draw the current act count in the top right corner of the world
     private Text actText;
@@ -41,9 +41,9 @@ public class SimulationWorld extends PixelWorld {
     // GifImage for waves
     private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"), Layer.FOREGROUND);
 
-    public SimulationWorld(SettingsWorld settingsWorld) {
+    public SimulationWorld(UserSettings userSettings) {
         super(250, 160);
-        this.settingsWorld = settingsWorld;
+        this.userSettings = userSettings;
 
         // Initialize fish record keeping structures
         discoveredFishesByTier = new ArrayList<Set<FishRecord>>();
@@ -61,7 +61,7 @@ public class SimulationWorld extends PixelWorld {
         addObject(leftFisher, 50, 31);
         addObject(rightFisher, 200, 31);
 
-        for (int i = 0; i < settingsWorld.getNumOfStartFish(); i++) {
+        for (int i = 0; i < userSettings.getNumOfStartFish(); i++) {
             addObject(new Bass(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
             addObject(new Salmon(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
             addObject(new Tuna(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
@@ -213,11 +213,12 @@ public class SimulationWorld extends PixelWorld {
     }
 
     /**
-     * Get the SettingsWorld that will determine the settings of this SimulationWorld.
+     * Get the UserSettings that contains all the user settings used in the
+     * SimulationWorld.
      *
-     * @return The SettingsWorld object of this SimulationWorld
+     * @return The UserSettings object of this SimulationWorld
      */
-    public SettingsWorld getSettings() {
-        return settingsWorld;
+    public UserSettings getUserSettings() {
+        return userSettings;
     }
 }

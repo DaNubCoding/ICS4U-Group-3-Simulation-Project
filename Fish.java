@@ -612,15 +612,15 @@ public abstract class Fish extends PixelActor {
         int gain = settings.getEvoPointGain();
         evoPoints += Util.randInt((int) (gain * Util.randDouble(0.8, 1.2)));
 
-        SettingsWorld settingsWorld = ((SimulationWorld) getWorld()).getSettings();
-        int numOfEggs = Util.randInt(1, settingsWorld.getEggSpawnAmount());
+        UserSettings userSettings = ((SimulationWorld) getWorld()).getUserSettings();
+        int numOfEggs = Util.randInt(1, userSettings.getEggSpawnAmount());
 
         for (int i = 0; i < numOfEggs; i++) {
             // Determine whether the fish should evolve based on evolution chance
             Egg.Size size;
             Class<? extends Fish> hatchClass;
             int childEvoPoints = evoPoints;
-            boolean canEvolve = evoPoints >= 100 * settingsWorld.getExpThreshold();
+            boolean canEvolve = evoPoints >= 100 * userSettings.getExpThreshold();
             boolean willEvolve = Util.randDouble(0, 1) < settings.getEvolutionChance();
             if (canEvolve && willEvolve) {
                 // Increase egg size and hatch a random evolution of this fish type
@@ -641,15 +641,5 @@ public abstract class Fish extends PixelActor {
             Egg egg = new Egg(size, settings.getEggColor(), hatchClass, childEvoPoints);
             getWorld().addObject(egg, getX(), getY());
         }
-    }
-
-    /**
-     * Get the number of evolutionary points this Fish has.
-     *
-     * @return The number of evolutionary points
-     */
-    public int getEvoPoints() {
-        SettingsWorld settingsWorld = ((SimulationWorld) getWorld()).getSettings();
-        return (int) (evoPoints * settingsWorld.getEvoPointMultiplier());
     }
 }

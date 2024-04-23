@@ -44,7 +44,7 @@ public class TitleWorld extends PixelWorld
         keyPressed = Greenfoot.isKeyDown("Enter");
 
         if (isFadeOutComplete()) {
-            Greenfoot.setWorld(new SettingsWorld());
+            Greenfoot.setWorld(new GeneralSettingsWorld());
         }
     }
 
