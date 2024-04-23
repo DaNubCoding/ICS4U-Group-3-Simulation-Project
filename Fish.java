@@ -185,11 +185,24 @@ public abstract class Fish extends PixelActor {
 
     /**
      * Tests if this fish is currently protected from extinction.
+     * <p>
+     * A fish may be protected when it is an instance of a subclass of Fish that
+     * was added with {@link UserSettings#addFishTypeProtection} and it is the
+     * only instance of that subclass left swimming in the world.
      *
-     * @return true if this fish may not be caught, false for a normal fish
+     * @return true if this fish may not be caught or killed, false otherwise
      */
     public boolean isProtected() {
-        return isProtected;
+        SimulationWorld world = (SimulationWorld) getWorld();
+        if (!world.getUserSettings().isFishTypeProtected(getClass())) {
+            return false;
+        }
+        for (Fish other : world.getObjects(getClass())) {
+            if (other != this && !other.isHooked()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -374,18 +387,10 @@ public abstract class Fish extends PixelActor {
         }
 
         // Protect this fish from extinction when it is the only fish of its kind left in the world
-        if (((SimulationWorld) getWorld()).getUserSettings().isFishTypeProtected(getClass())) {
-            boolean wasProtected = isProtected;
-            isProtected = true;
-            for (Fish other : getWorld().getObjects(getClass())) {
-                if (other != this && !other.isHooked()) {
-                    isProtected = false;
-                    break;
-                }
-            }
-            if (isProtected != wasProtected) {
-                updateImage();
-            }
+        boolean wasProtected = isProtected;
+        isProtected = isProtected();
+        if (isProtected != wasProtected) {
+            updateImage();
         }
 
         // Feature-specific behaviour
