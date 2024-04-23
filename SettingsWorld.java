@@ -13,6 +13,9 @@ public abstract class SettingsWorld extends PixelWorld {
     private static final GreenfootImage background = new GreenfootImage("settings_world_background.png");
 
     private boolean keyPressed = true;
+    private boolean next;
+    private SettingsWorld previousWorld;
+    private SettingsWorld nextWorld;
 
     private UserSettings userSettings;
     private LinkedHashMap<String, Slider<?>> sliders;
@@ -22,11 +25,14 @@ public abstract class SettingsWorld extends PixelWorld {
      * Create a SettingsWorld and supply a partially initialized UserSettings
      * from the previous SettingsWorld.
      *
+     * @param previousWorld The SettingsWorld that came before this one
      * @param userSettings The UserSettings object from the previous SettingsWorld
      */
-    public SettingsWorld(UserSettings userSettings) {
+    public SettingsWorld(SettingsWorld previousWorld, UserSettings userSettings) {
         super(250, 160);
         this.userSettings = userSettings;
+        this.previousWorld = previousWorld;
+
         this.sliders = new LinkedHashMap<String, Slider<?>>();
         this.tooltips = new ArrayList<String>();
         constructSliders();
@@ -40,7 +46,12 @@ public abstract class SettingsWorld extends PixelWorld {
             addObject(slider.getValue(), align + 6, 10 + i++ * 18);
         }
 
-        addObject(new Button("Start!", () -> triggerFadeOut(0.05)), getWidth() / 2, 140);
+        if (previousWorld != null) {
+            addObject(new Button("Next", () -> {triggerFadeOut(0.05); next = true;}), getWidth() / 2 + 20, 140);
+            addObject(new Button("Back", () -> {triggerFadeOut(0.05); next = false;}), getWidth() / 2 - 20, 140);
+        } else {
+            addObject(new Button("Next", () -> {triggerFadeOut(0.05); next = true;}), getWidth() / 2, 140);
+        }
 
         triggerFadeIn(0.05);
         render();
@@ -51,7 +62,16 @@ public abstract class SettingsWorld extends PixelWorld {
      * UserSettings from the previous SettingsWorld.
      */
     public SettingsWorld() {
-        this(new UserSettings());
+        this(null, new UserSettings());
+    }
+
+    /**
+     * Set the next world to be a pre-existing world.
+     *
+     * @param nextWorld The next SettingsWorld
+     */
+    public void setNextWorld(SettingsWorld nextWorld) {
+        this.nextWorld = nextWorld;
     }
 
     /**
@@ -70,7 +90,21 @@ public abstract class SettingsWorld extends PixelWorld {
         keyPressed = Greenfoot.isKeyDown("Enter");
 
         if (isFadeOutComplete()) {
-            goToNextWorld();
+            if (next) { // Next is clicked
+                // In case the next world needs to come back to this world
+                // prepare it to fade in
+                triggerFadeIn(0.05);
+                if (nextWorld == null) {
+                    goToNextWorld();
+                } else {
+                    Greenfoot.setWorld(nextWorld);
+                }
+            } else { // Back is clicked
+                // Prepare it to fade in
+                triggerFadeIn(0.05);
+                previousWorld.setNextWorld(this);
+                Greenfoot.setWorld(previousWorld);
+            }
         }
     }
 

@@ -11,10 +11,11 @@ public class FisherTwoSettingsWorld extends SettingsWorld {
     /**
      * Create the world with the UserSettings from the FisherOneSettingsWorld.
      *
+     * @param previousWorld The previous world (FisherOneSettingsWorld)
      * @param userSettings The partial UserSettings from the FisherOneSettingsWorld
      */
-    public FisherTwoSettingsWorld(UserSettings userSettings) {
-        super(userSettings);
+    public FisherTwoSettingsWorld(SettingsWorld previousWorld, UserSettings userSettings) {
+        super(previousWorld, userSettings);
     }
 
     @Override

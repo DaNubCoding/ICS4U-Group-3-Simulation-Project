@@ -11,10 +11,11 @@ public class FisherOneSettingsWorld extends SettingsWorld {
     /**
      * Create the world with the UserSettings from the GeneralSettingsWorld.
      *
+     * @param previousWorld The previous world (GeneralSettingsWorld)
      * @param userSettings The partial UserSettings from the GeneralSettingsWorld
      */
-    public FisherOneSettingsWorld(UserSettings userSettings) {
-        super(userSettings);
+    public FisherOneSettingsWorld(SettingsWorld previousWorld, UserSettings userSettings) {
+        super(previousWorld, userSettings);
     }
 
     @Override
@@ -32,6 +33,6 @@ public class FisherOneSettingsWorld extends SettingsWorld {
 
     @Override
     public void goToNextWorld() {
-        Greenfoot.setWorld(new FisherTwoSettingsWorld(getUserSettings()));
+        Greenfoot.setWorld(new FisherTwoSettingsWorld(this, getUserSettings()));
     }
 }

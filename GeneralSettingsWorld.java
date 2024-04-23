@@ -54,7 +54,7 @@ public class GeneralSettingsWorld extends SettingsWorld {
 
     @Override
     public void goToNextWorld() {
-        Greenfoot.setWorld(new FisherOneSettingsWorld(getUserSettings()));
+        Greenfoot.setWorld(new FisherOneSettingsWorld(this, getUserSettings()));
     }
 
     private void toggleSalmonProtect() {
