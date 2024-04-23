@@ -23,7 +23,7 @@ public class FishingRod extends PixelActor {
 
         setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
 
-        castTimer = new Timer((int) (rodTier.castFrequency * Util.randDouble(0.8, 1.2)));
+        castTimer = new Timer(100);
         rodBar = new UIBar(30, 8, 800, "ui_bar_gold.jpg");
     }
 
@@ -45,7 +45,7 @@ public class FishingRod extends PixelActor {
         // Check if the previous hook has been pulled back
         if (castTimer.ended() && hook == null) {
             cast();
-            castTimer.restart(rodTier.castFrequency);
+            castTimer.restart(getNextCastDelay());
         }
     }
 
@@ -62,6 +62,17 @@ public class FishingRod extends PixelActor {
         PixelWorld world = getWorld();
         world.addObject(hook, (int) hookPos.x, (int) hookPos.y);
         world.addObject(fishingLine, 0, 0);
+    }
+
+    /**
+     * Get the number of acts before the next time the rod is casted.
+     *
+     * @return The number of acts before next cast
+     */
+    private int getNextCastDelay() {
+        UserSettings userSettings = ((SimulationWorld) getWorld()).getUserSettings();
+        double multiplier = userSettings.getRodDelayMultiplier(fisher.getSide());
+        return (int) (rodTier.castFrequency * Util.randDouble(0.8, 1.2) * multiplier);
     }
 
     /**
@@ -140,5 +151,14 @@ public class FishingRod extends PixelActor {
      */
     public UIBar getRodBar() {
         return rodBar;
+    }
+
+    /**
+     * Get the Fisher that this FishingRod belongs to.
+     *
+     * @return The Fisher this FishingRod belongs to
+     */
+    public Fisher getFisher() {
+        return fisher;
     }
 }

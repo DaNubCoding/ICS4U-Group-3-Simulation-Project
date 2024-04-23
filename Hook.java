@@ -27,18 +27,21 @@ public class Hook extends PixelActor {
     }
 
     public void act() {
+        UserSettings userSettings = ((SimulationWorld) getWorld()).getUserSettings();
+        double speedMultiplier = userSettings.getHookSpeedMultiplier(fishingRod.getFisher().getSide());
+
         if (reelingIn) {
             // Move back towards tip of rod if reeling in
             DoublePair rodTip = fishingRod.getTipPosition();
             setHeading(rodTip.x, rodTip.y);
-            move(fishingRod.getReelInSpeed());
+            move(fishingRod.getReelInSpeed() * speedMultiplier);
             // Remove hook and fishing line when it gets pulled above the surface
             if (getDoubleY() <= rodTip.y + 5) {
                 fishingRod.reelIn();
                 return;
             }
         } else {
-            setLocation(getDoubleX(), getDoubleY() + 0.4);
+            setLocation(getDoubleX(), getDoubleY() + 0.4 * speedMultiplier);
         }
 
         // Reel in if reached max depth

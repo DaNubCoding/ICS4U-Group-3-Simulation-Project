@@ -18,6 +18,8 @@ public class UserSettings {
 
     // Fisher settings
     private double[] expPercentage = new double[2];
+    private double[] hookSpeedMultiplier = new double[2];
+    private double[] rodDelayMultiplier = new double[2];
 
     /**
      * Set the maximum number of eggs that spawn from a fish.
@@ -101,6 +103,42 @@ public class UserSettings {
     }
 
     /**
+     * Set the factor to multiply the speed of the fishing hook by. (Fisher 1)
+     *
+     * @param value the factor to multiply the speed of the hook by
+     */
+    public void setHookSpeedMultiplier1(double value) {
+        hookSpeedMultiplier[0] = value;
+    }
+
+    /**
+     * Set the factor to multiply the speed of the fishing hook by. (Fisher 2)
+     *
+     * @param value the factor to multiply the speed of the hook by
+     */
+    public void setHookSpeedMultiplier2(double value) {
+        hookSpeedMultiplier[1] = value;
+    }
+
+    /**
+     * Set the factor to multiply the delay before the fishing rod is casted by. (Fisher 1)
+     *
+     * @param value the factor to multiply the delay by
+     */
+    public void setRodDelayMultiplier1(double value) {
+        rodDelayMultiplier[0] = value;
+    }
+
+    /**
+     * Set the factor to multiply the delay before the fishing rod is casted by. (Fisher 2)
+     *
+     * @param value the factor to multiply the delay by
+     */
+    public void setRodDelayMultiplier2(double value) {
+        rodDelayMultiplier[1] = value;
+    }
+
+    /**
      * Get the maximum number of eggs that spawn from a fish.
      *
      * @return the maximum number of eggs
@@ -162,5 +200,25 @@ public class UserSettings {
      */
     public double getExpPercentage(int fisher) {
         return expPercentage[fisher - 1];
+    }
+
+    /**
+     * Get the factor to multiply the speed of the fishing hook by.
+     *
+     * @param fisher the side-number of the fisher (1 for left and 2 for right)
+     * @return the factor to multiply the speed of the hook by
+     */
+    public double getHookSpeedMultiplier(int fisher) {
+        return hookSpeedMultiplier[fisher - 1];
+    }
+
+    /**
+     * Get the factor to multiply the delay before the fishing rod is casted by.
+     *
+     * @param fisher the side-number of the fisher (1 for left and 2 for right)
+     * @return the factor to multiply the delay by
+     */
+    public double getRodDelayMultiplier(int fisher) {
+        return rodDelayMultiplier[fisher - 1];
     }
 }
