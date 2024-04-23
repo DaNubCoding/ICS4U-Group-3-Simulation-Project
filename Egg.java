@@ -49,7 +49,7 @@ public class Egg extends PixelActor {
      * @version April 2024
      */
     public static enum Color {
-        PINK, GREEN, BLUE, BLACK
+        PINK, GREEN, BLUE
     }
 
     private final Size size;
