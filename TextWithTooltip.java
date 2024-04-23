@@ -1,5 +1,11 @@
 import greenfoot.*;
 
+/**
+ * A type of Text that can be hovered and produces a tooltip.
+ *
+ * @author Andrew Wang
+ * @version April 2024
+ */
 public class TextWithTooltip extends Text {
     private Timer hoverTimer;
     private boolean hovering;
