@@ -620,7 +620,7 @@ public abstract class Fish extends PixelActor {
             Egg.Size size;
             Class<? extends Fish> hatchClass;
             int childEvoPoints = evoPoints;
-            boolean canEvolve = evoPoints >= 100 * userSettings.getExpThreshold();
+            boolean canEvolve = evoPoints >= 100 * userSettings.getEvoPointThreshold();
             boolean willEvolve = Util.randDouble(0, 1) < settings.getEvolutionChance();
             if (canEvolve && willEvolve) {
                 // Increase egg size and hatch a random evolution of this fish type

@@ -7,8 +7,8 @@ public class UserSettingSlider<T extends Number> extends Slider {
 
     private Setter<T> setter;
 
-    public UserSettingSlider(T minValue, T maxValue, T defaultValue, Color color, Setter<T> setter) {
-        super(minValue, maxValue, defaultValue, 100, color);
+    public UserSettingSlider(T minValue, T maxValue, T defaultValue, int length, Color color, Setter<T> setter) {
+        super(minValue, maxValue, defaultValue, length, color);
         this.setter = setter;
     }
 

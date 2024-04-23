@@ -32,8 +32,8 @@ public abstract class SettingsWorld extends PixelWorld {
         int i = 0;
         for (Map.Entry<String, Slider<?>> slider : sliders.entrySet()) {
             Text text = new Text(slider.getKey(), Text.AnchorX.RIGHT, Text.AnchorY.CENTER);
-            addObject(text, align - 4, 10 + i * 18);
-            addObject(slider.getValue(), align + 4, 10 + i++ * 18);
+            addObject(text, align - 6, 10 + i * 18);
+            addObject(slider.getValue(), align + 6, 10 + i++ * 18);
         }
 
         addObject(new Button("Start!", () -> triggerFadeOut(0.02)), getWidth() / 2, 140);

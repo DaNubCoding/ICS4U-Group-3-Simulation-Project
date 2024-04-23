@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
  */
 public class GeneralSettingsWorld extends SettingsWorld {
     /** @see UserSettings */
-    private UserSettingSlider<Integer> expThresholdSlider;
+    private UserSettingSlider<Double> evoThresholdSlider;
     private UserSettingSlider<Integer> eggSpawnAmountSlider;
     private UserSettingSlider<Integer> numOfStartFishSlider;
 
@@ -24,12 +24,12 @@ public class GeneralSettingsWorld extends SettingsWorld {
     public void constructSliders() {
         UserSettings userSettings = getUserSettings();
 
-        expThresholdSlider = new UserSettingSlider<Integer>(1, 5, 1, new Color(76, 45, 23), userSettings::setEvoPointThreshold);
-        eggSpawnAmountSlider = new UserSettingSlider<Integer>(1, 5, 3, new Color(76, 45, 23), userSettings::setEggSpawnAmount);
-        numOfStartFishSlider = new UserSettingSlider<Integer>(1, 10, 1, new Color(76, 45, 23), userSettings::setNumOfStartFish);
+        evoThresholdSlider = new UserSettingSlider<Double>(0.0, 5.0, 1.0, 100, new Color(76, 45, 23), userSettings::setEvoPointThreshold);
+        eggSpawnAmountSlider = new UserSettingSlider<Integer>(1, 5, 3, 100, new Color(76, 45, 23), userSettings::setEggSpawnAmount);
+        numOfStartFishSlider = new UserSettingSlider<Integer>(1, 10, 1, 100, new Color(76, 45, 23), userSettings::setNumOfStartFish);
 
-        addSlider("EXP Threshold", expThresholdSlider);
-        addSlider("Max # of Eggs", eggSpawnAmountSlider);
+        addSlider("Evolution Threshold", evoThresholdSlider);
+        addSlider("Max Egg Spawn Count", eggSpawnAmountSlider);
         addSlider("# of Starting Fish", numOfStartFishSlider);
     }
 

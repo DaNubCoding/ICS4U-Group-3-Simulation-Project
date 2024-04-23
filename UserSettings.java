@@ -6,7 +6,7 @@
  */
 public class UserSettings {
     private int eggSpawnAmount;
-    private int expThreshold;
+    private double evoPointThreshold;
     private int numOfStartFish;
 
     /**
@@ -23,8 +23,8 @@ public class UserSettings {
      *
      * @param value the number of evo-points needed before having a chance of evolving
      */
-    public void setEvoPointThreshold(int value) {
-        expThreshold = value;
+    public void setEvoPointThreshold(double value) {
+        evoPointThreshold = value;
     }
 
     /**
@@ -50,8 +50,8 @@ public class UserSettings {
      *
      * @return the number of evo-points needed before having a chance of evolving
      */
-    public int getExpThreshold() {
-        return expThreshold;
+    public double getEvoPointThreshold() {
+        return evoPointThreshold;
     }
 
     /**
