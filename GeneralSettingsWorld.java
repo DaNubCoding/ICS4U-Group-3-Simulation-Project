@@ -3,7 +3,7 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 
 /**
- * Settings World subclass
+ * SettingsWorld that allows the user to set the general settings of the simulation.
  *
  * @author Brandon Law
  * @author Andrew Wang
@@ -31,5 +31,10 @@ public class GeneralSettingsWorld extends SettingsWorld {
         addSlider("EXP Threshold", expThresholdSlider);
         addSlider("Max # of Eggs", eggSpawnAmountSlider);
         addSlider("# of Starting Fish", numOfStartFishSlider);
+    }
+
+    @Override
+    public void goToNextWorld() {
+        Greenfoot.setWorld(new FisherOneSettingsWorld(getUserSettings()));
     }
 }

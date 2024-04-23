@@ -66,7 +66,7 @@ public abstract class SettingsWorld extends PixelWorld {
         keyPressed = Greenfoot.isKeyDown("Enter");
 
         if (isFadeOutComplete()) {
-            Greenfoot.setWorld(new SimulationWorld(userSettings));
+            goToNextWorld();
         }
     }
 
@@ -83,6 +83,11 @@ public abstract class SettingsWorld extends PixelWorld {
         // Display new canvas image
         updateImage();
     }
+
+    /**
+     * Go to the world after this world.
+     */
+    public abstract void goToNextWorld();
 
     /**
      * Get the UserSettings object of this SettingsWorld, containing all settings
