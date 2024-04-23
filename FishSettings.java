@@ -496,10 +496,10 @@ public class FishSettings {
             int chooseWeight = Util.randInt(0, totalWeight - 1);
             // Find the feature that corresponds to the chosen value
             int accWeight = 0;
-            for (FishFeature feature : map.keySet()) {
-                accWeight += map.get(feature);
+            for (Map.Entry<FishFeature, Integer> entry : map.entrySet()) {
+                accWeight += entry.getValue();
                 if (accWeight > chooseWeight) {
-                    result.add(feature);
+                    result.add(entry.getKey());
                     break;
                 }
             }
