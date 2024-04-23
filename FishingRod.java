@@ -24,7 +24,7 @@ public class FishingRod extends PixelActor {
         setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
 
         castTimer = new Timer((int) (rodTier.castFrequency * Util.randDouble(0.8, 1.2)));
-        rodBar = new UIBar(30, 8, 800, "Gold.jpg");
+        rodBar = new UIBar(30, 8, 800, "ui_bar_gold.jpg");
     }
 
     @Override

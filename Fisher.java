@@ -40,7 +40,7 @@ public abstract class Fisher extends PixelActor {
         initNextDrive();
 
         fishingRod = new FishingRod(this);
-        boatBar = new UIBar(30, 8, 1600, "Water.jpg");
+        boatBar = new UIBar(30, 8, 1600, "ui_bar_water.jpg");
     }
 
     @Override
