@@ -557,12 +557,8 @@ public abstract class Fish extends PixelActor {
             // Minimum angle of 40 degrees above and below horizontal
             avoidanceAngle = Math.max(avoidanceAngle, 40);
             avoidanceAngle = Math.min(avoidanceAngle, 320);
-            // How much the Fish wants to avoid the sock as a percentage
-            // i.e. how close it is to the sock
-            // Clamp it to avoid too extreme values
-            double eagerness = Math.min(Math.max(1 - distance / 32, 0.2), 0.8);
             // Interpolate towards this new angle
-            setHeading(Util.interpolateAngle(getHeading(), avoidanceAngle, 0.24 * eagerness));
+            setHeading(Util.interpolateAngle(getHeading(), avoidanceAngle, 0.19));
             // Prevent the fish from turning too vertical while avoiding the sock
             double heading = getHeading() % 360;
             if (heading <= 90) {
@@ -574,8 +570,8 @@ public abstract class Fish extends PixelActor {
             } else {
                 setHeading(Math.max(heading, 300));
             }
-            // Finally move the fish based on how eager it is to get away
-            move(settings.getSwimSpeed() * 3 * eagerness);
+            // Finally move the fish faster to get away
+            move(settings.getSwimSpeed() * 2.4);
         }
     }
 
