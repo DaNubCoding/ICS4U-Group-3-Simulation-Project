@@ -69,12 +69,14 @@ public class UIBar extends PixelActor
     }
 
     public void gainExp(int amount){
-        if(exp < maxExp){
-            exp += amount;
-        }
-        if(exp >= maxExp && level < maxLevel){
-            level++;
-            exp = 0;
+        exp += amount;
+        if(exp >= maxExp){
+            if(level < maxLevel){
+                level++;
+                exp = 0;
+            }else{
+                exp = maxExp;
+            }
         }
 
         double barPercentage = (double) exp / (double)maxExp;
