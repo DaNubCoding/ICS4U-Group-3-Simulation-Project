@@ -102,6 +102,7 @@ public class Button extends PixelActor {
     /**
      * Determine if the mouse is hovering over the button.
      *
+     * @param mouseInfo The MouseInfo object obtained from Greenfoot
      * @return True if mouse is hovering over the button, false otherwise
      */
     private boolean mouseOver(MouseInfo mouseInfo) {
