@@ -61,9 +61,13 @@ public class SimulationWorld extends PixelWorld {
         addObject(leftFisher, 50, 31);
         addObject(rightFisher, 200, 31);
 
-        for (int i = 0; i < userSettings.getNumOfStartFish(); i++) {
+        for (int i = 0; i < userSettings.getBassCount(); i++) {
             addObject(new Bass(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        }
+        for (int i = 0; i < userSettings.getSalmonCount(); i++) {
             addObject(new Salmon(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
+        }
+        for (int i = 0; i < userSettings.getTunaCount(); i++) {
             addObject(new Tuna(0, null), Util.randInt(0, getWidth()), Util.randInt(SEA_SURFACE_Y, SEA_FLOOR_Y));
         }
 

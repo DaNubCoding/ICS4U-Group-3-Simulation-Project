@@ -6,28 +6,33 @@ import java.util.List;
 /**
  * An undersea actor and target of Fishers.
  * <p>
- * Each fish possesses a unique list of features, each adding a defined amount
- * of XP value to it when caught. A fish's features are drawn onto its image on
- * top of its body.
+ * Each fish possesses a unique set of features, each adding a defined amount of
+ * XP value to it when caught. A fish's features are drawn onto its image on top
+ * of its body.
  * <p>
  * A subclass of Fish must create a {@link FishSettings} object defining all of
  * its subclass-specific settings, and pass it to this class's constructor.
+ * <p>
+ * Fish can be protected from extinction by acquiring a shield when they are the
+ * last fish of their type swimming in the world, making them invincible. In
+ * order for a fish type to have the ability to become protected, the class
+ * representing the fish type must be added with {@link UserSettings#addFishTypeProtection}.
  *
  * @author Martin Baldwin
  * @author Andrew Wang
  * @version April 2024
+ * @see FishFeature
+ * @see FishSettings
  */
 public abstract class Fish extends PixelActor {
     /** The distance from which a fish will bite a hook. */
     public static final double HOOK_BITE_DISTANCE = 8.0;
 
     // When a fish is being protected from extinction, a circle of this color is drawn on top of it
-    private static final Color SHIELD_COLOR = new Color(0, 255, 255, 64);
+    public static final Color SHIELD_COLOR = new Color(0, 255, 255, 64);
 
     // Fish subclass-specific settings
     private final FishSettings settings;
-    // Whether or not this fish may become protected from extinction
-    private final boolean canProtect;
 
     // All features present on this fish
     private Set<FishFeature> features;
@@ -56,26 +61,6 @@ public abstract class Fish extends PixelActor {
      * Creates a new Fish with the given settings and features, as well as a
      * starting number of evolutionary points.
      * <p>
-     * This constructor works just like {@link #Fish(FishSettings, int, boolean, FishFeature...)},
-     * except that the new Fish may not be protected from extinction.
-     *
-     * @param settings The settings of the Fish
-     * @param evoPoints The number of evolutionary points to start with
-     * @param features Any FishFeatures to specifically add to this Fish, or {@code null} for no features beyond what is required from {@code settings}
-     * @throws IllegalArgumentException if any of the given features are not allowed on this Fish type
-     */
-    public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
-        this(settings, evoPoints, false, features);
-    }
-
-    /**
-     * Creates a new Fish with the given settings, features, and starting number
-     * of evolutionary points, with the option to provide the ability to be
-     * protected from extinction.
-     * <p>
-     * If {@code protect} is true, the new Fish can become invincible when it is
-     * the only fish of its kind left swimming in the world.
-     * <p>
      * This constructor adds one random feature from each set of required
      * features defined as per {@link FishSettings#addRequiredFeatureSet},
      * using {@link FishSettings#chooseRequiredFeatures}.
@@ -92,16 +77,14 @@ public abstract class Fish extends PixelActor {
      *
      * @param settings The settings of the Fish
      * @param evoPoints The number of evolutionary points to start with
-     * @param protect Whether to allow the Fish to be protected from extinction
      * @param features Any FishFeatures to specifically add to this Fish, or {@code null} for no features beyond what is required from {@code settings}
      * @throws IllegalArgumentException if any of the given features are not allowed on this Fish type
      */
-    public Fish(FishSettings settings, int evoPoints, boolean canProtect, FishFeature... features) {
+    public Fish(FishSettings settings, int evoPoints, FishFeature... features) {
         super(Layer.FISH);
         // Store fish subclass-specific settings
         this.settings = settings;
         this.evoPoints = evoPoints;
-        this.canProtect = canProtect;
         isProtected = false;
 
         this.features = EnumSet.noneOf(FishFeature.class);
@@ -391,7 +374,7 @@ public abstract class Fish extends PixelActor {
         }
 
         // Protect this fish from extinction when it is the only fish of its kind left in the world
-        if (canProtect) {
+        if (((SimulationWorld) getWorld()).getUserSettings().isFishTypeProtected(getClass())) {
             boolean wasProtected = isProtected;
             isProtected = true;
             for (Fish other : getWorld().getObjects(getClass())) {

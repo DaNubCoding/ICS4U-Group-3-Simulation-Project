@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A button that displays text.
+ * A button that displays text or an image.
  * <p>When passing in the method, it must be in the following format:</p>
  * {@code new Button("TEXT", CLASS_NAME::METHOD_NAME)}
  * <p>Where {@code CLASS_NAME} is the name of the class that contains the method
@@ -10,10 +10,11 @@ import greenfoot.*;
  * {@code new Button("Start Simulation", SettingsWorld::startSimulation)}</p>
  *
  * @author Andrew Wang
+ * @author Martin Baldwin
  * @version April 2024
  */
 public class Button extends PixelActor {
-    private Text text;
+    private GreenfootImage icon;
     private Runnable method;
     private boolean mouseDownOnThis;
     private boolean hovering;
@@ -28,14 +29,47 @@ public class Button extends PixelActor {
      * @param method The method that is ran when the button is clicked
      */
     public Button(String text, Runnable method) {
-        super(Layer.UI);
-        this.text = new Text(text, Text.AnchorX.CENTER, Text.AnchorY.CENTER);
-        this.method = method;
+        this(Text.createStringImage(text), method);
+    }
 
+    /**
+     * Create a button that displays an image and runs a method when clicked.
+     *
+     * @param icon The GreenfootImage to display on the button
+     * @param method The method that is ran when the button is clicked
+     */
+    public Button(GreenfootImage icon, Runnable method) {
+        super(Layer.UI);
+        setIcon(icon);
+        this.method = method;
+    }
+
+    /**
+     * Set the text label of the button to the given string.
+     *
+     * @param text The text string to display on the button
+     */
+    public void setText(String text) {
+        setIcon(Text.createStringImage(text));
+    }
+
+    /**
+     * Set the icon of the button to the given image.
+     *
+     * @param icon The GreenfootImage to display on the button
+     */
+    public void setIcon(GreenfootImage icon) {
+        this.icon = icon;
         idleImage = getIdleImage();
         hoverImage = getHoverImage();
         clickImage = getClickImage();
-        setImage(idleImage);
+        if (mouseDownOnThis) {
+            setImage(clickImage);
+        } else if (hovering) {
+            setImage(hoverImage);
+        } else {
+            setImage(idleImage);
+        }
     }
 
     public void act() {
@@ -56,10 +90,11 @@ public class Button extends PixelActor {
                 setImage(clickImage);
             } else if (Greenfoot.mouseClicked(null)) { // mouse up
                 if (hovering && mouseDownOnThis) {
+                    mouseDownOnThis = false;
+                    setImage(idleImage);
                     method.run();
                 }
                 mouseDownOnThis = false;
-                setImage(idleImage);
             }
         }
     }
@@ -84,9 +119,8 @@ public class Button extends PixelActor {
      * @return The image of the button when idle
      */
     private GreenfootImage getIdleImage() {
-        GreenfootImage textImage = text.getOriginalImage();
-        // Create the button image a bit larger than the text image
-        GreenfootImage image = new GreenfootImage((int) (textImage.getWidth() * 1.6), (int) (textImage.getHeight() * 1.6));
+        // Create the button image a bit larger than the icon image
+        GreenfootImage image = new GreenfootImage((int) (icon.getWidth() * 1.6), (int) (icon.getHeight() * 1.6));
 
         // Fill background and draw border
         image.setColor(new Color(255, 255, 255, 100));
@@ -94,8 +128,8 @@ public class Button extends PixelActor {
         image.setColor(new Color(0, 0, 0));
         image.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
 
-        // Draw the text at the center
-        image.drawImage(textImage, (int) (textImage.getWidth() * 0.3), (int) (textImage.getHeight() * 0.3));
+        // Draw the icon at the center
+        image.drawImage(icon, (int) (icon.getWidth() * 0.3), (int) (icon.getHeight() * 0.3));
         return image;
     }
 
@@ -105,9 +139,8 @@ public class Button extends PixelActor {
      * @return The image of the button when hovering
      */
     private GreenfootImage getHoverImage() {
-        GreenfootImage textImage = text.getOriginalImage();
-        // Create the button image a bit larger than the text image
-        GreenfootImage image = new GreenfootImage((int) (textImage.getWidth() * 1.6 + 2), (int) (textImage.getHeight() * 1.6 + 2));
+        // Create the button image a bit larger than the icon image
+        GreenfootImage image = new GreenfootImage((int) (icon.getWidth() * 1.6 + 2), (int) (icon.getHeight() * 1.6 + 2));
 
         // Fill background and draw border
         image.setColor(new Color(255, 255, 240, 100));
@@ -115,8 +148,8 @@ public class Button extends PixelActor {
         image.setColor(new Color(0, 0, 0));
         image.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
 
-        // Draw the text at the center
-        image.drawImage(textImage, (int) (textImage.getWidth() * 0.3 + 1), (int) (textImage.getHeight() * 0.3) + 1);
+        // Draw the icon at the center
+        image.drawImage(icon, (int) (icon.getWidth() * 0.3 + 1), (int) (icon.getHeight() * 0.3) + 1);
         return image;
     }
 
@@ -126,9 +159,8 @@ public class Button extends PixelActor {
      * @return The image of the button when clicked
      */
     private GreenfootImage getClickImage() {
-        GreenfootImage textImage = text.getOriginalImage();
-        // Create the button image a bit larger than the text image
-        GreenfootImage image = new GreenfootImage((int) (textImage.getWidth() * 1.6), (int) (textImage.getHeight() * 1.6));
+        // Create the button image a bit larger than the icon image
+        GreenfootImage image = new GreenfootImage((int) (icon.getWidth() * 1.6), (int) (icon.getHeight() * 1.6));
 
         // Fill background and draw border
         image.setColor(new Color(255, 255, 255, 200));
@@ -136,8 +168,8 @@ public class Button extends PixelActor {
         image.setColor(new Color(0, 0, 0));
         image.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
 
-        // Draw the text at the center
-        image.drawImage(textImage, (int) (textImage.getWidth() * 0.3), (int) (textImage.getHeight() * 0.3));
+        // Draw the icon at the center
+        image.drawImage(icon, (int) (icon.getWidth() * 0.3), (int) (icon.getHeight() * 0.3));
         return image;
     }
 }
