@@ -30,7 +30,7 @@ public class Squid extends Fish {
         settings.setEggSpawnFrequency(2000);
         settings.setEvoPointGain(35);
         settings.setEvolutionChance(0.3);
-        settings.setEvolutions(null);
+        settings.setEvolutions(Kraken.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 15, 3);
         settings.setFeaturePoint(FishFeature.HAT_BROWN, 20, -1);
