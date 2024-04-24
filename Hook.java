@@ -32,7 +32,7 @@ public class Hook extends PixelActor {
         IntPair center = hookTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
         setMirrorX(!fishingRod.getMirrorX());
-        horizontalSpeed = (Util.randInt(0, 1) * 2 - 1) * Util.randDouble(0.15, 0.3) * dispersion;
+        horizontalSpeed = (Util.randInt(0, 1) * 2 - 1) * Util.randDouble(0.0, 0.3) * dispersion;
         localSpeedMultiplier = Util.randDouble(0.8, 1.2);
 
         reelingIn = false;
