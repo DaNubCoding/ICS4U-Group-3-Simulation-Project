@@ -14,7 +14,7 @@ public class Mollusk extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(2);
-        settings.setBaseValue(200);
+        settings.setBaseValue(400);
         settings.setBodyImage("fishes/mollusk.png");
         settings.setCatchOffset(10, 6);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);

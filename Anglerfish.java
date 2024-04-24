@@ -15,7 +15,7 @@ public class Anglerfish extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(4);
-        settings.setBaseValue(300);
+        settings.setBaseValue(600);
         settings.setBodyImage("fishes/anglerfish.png");
         settings.setCatchOffset(27, 18);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -32,7 +32,7 @@ public class Anglerfish extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.GIGANTIC);
         settings.setEggColor(Egg.Color.GREEN);
-        settings.setEggSpawnFrequency(1000);
+        settings.setEggSpawnFrequency(2000);
         settings.setEvoPointGain(35);
         settings.setEvolutionChance(0.3);
         settings.setEvolutions(null);

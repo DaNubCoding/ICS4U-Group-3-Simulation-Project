@@ -22,7 +22,7 @@ public abstract class TierOneFish extends Fish
     public static void initialiseTierOneFishSettings(FishSettings settings, String bodyImage, Egg.Color eggColor, Class<? extends Fish>... evolutions){
         // Base settings
         settings.setTier(1);
-        settings.setBaseValue(100);
+        settings.setBaseValue(300);
         settings.setBodyImage(bodyImage);
         settings.setCatchOffset(13, 5);
         settings.setAllowedFeatures(FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -35,7 +35,7 @@ public abstract class TierOneFish extends Fish
         // Evolution settings
         settings.setEggSize(Egg.Size.SMALL);
         settings.setEggColor(eggColor);
-        settings.setEggSpawnFrequency(2000);
+        settings.setEggSpawnFrequency(800);
         settings.setEvoPointGain(30);
         settings.setEvolutionChance(0.8);
         settings.setEvolutions(evolutions);

@@ -14,7 +14,7 @@ public class Piranha extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(2);
-        settings.setBaseValue(200);
+        settings.setBaseValue(400);
         settings.setBodyImage("fishes/piranha.png");
         settings.setCatchOffset(11, 7);
         settings.setAllowedFeatures(FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);

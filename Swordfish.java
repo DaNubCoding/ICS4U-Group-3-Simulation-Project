@@ -14,7 +14,7 @@ public class Swordfish extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(3);
-        settings.setBaseValue(250);
+        settings.setBaseValue(500);
         settings.setBodyImage("fishes/swordfish.png");
         settings.setCatchOffset(28, 6);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -27,7 +27,7 @@ public class Swordfish extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.LARGE);
         settings.setEggColor(Egg.Color.BLUE);
-        settings.setEggSpawnFrequency(1000);
+        settings.setEggSpawnFrequency(1200);
         settings.setEvoPointGain(40);
         settings.setEvolutionChance(0.4);
         settings.setEvolutions(Whale.class);

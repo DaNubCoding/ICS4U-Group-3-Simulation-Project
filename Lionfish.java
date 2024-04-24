@@ -14,7 +14,7 @@ public class Lionfish extends Fish {
         settings = new FishSettings();
         // Base settings
         settings.setTier(3);
-        settings.setBaseValue(250);
+        settings.setBaseValue(550);
         settings.setBodyImage("fishes/lionfish.png");
         settings.setCatchOffset(29, 16);
         settings.setAllowedFeatures(FishFeature.BIG_EYE, FishFeature.ANGLER_LIGHT, FishFeature.ANGLER_BOMB, FishFeature.ANGLER_SOCK, FishFeature.HAT_BROWN, FishFeature.HAT_PARTY);
@@ -27,7 +27,7 @@ public class Lionfish extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.LARGE);
         settings.setEggColor(Egg.Color.PINK);
-        settings.setEggSpawnFrequency(1000);
+        settings.setEggSpawnFrequency(1200);
         settings.setEvoPointGain(40);
         settings.setEvolutionChance(0.0);
         settings.setEvolutions(null);
