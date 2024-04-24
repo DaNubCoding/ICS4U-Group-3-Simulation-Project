@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @version April 2024
  */
 public abstract class SettingsWorld extends PixelWorld {
-    private static final GreenfootImage background = new GreenfootImage("settings_world_background.png");
+    private GreenfootImage background;
 
     private boolean keyPressed = true;
     private boolean next;
@@ -29,10 +29,11 @@ public abstract class SettingsWorld extends PixelWorld {
      * @param previousWorld The SettingsWorld that came before this one
      * @param userSettings The UserSettings object from the previous SettingsWorld
      */
-    public SettingsWorld(SettingsWorld previousWorld, UserSettings userSettings) {
+    public SettingsWorld(SettingsWorld previousWorld, UserSettings userSettings, String backgroundPath) {
         super(250, 160);
         this.userSettings = userSettings;
         this.previousWorld = previousWorld;
+        this.background = new GreenfootImage(backgroundPath);
 
         this.sliders = new LinkedHashMap<String, Slider<?>>();
         this.tooltips = new ArrayList<String>();
@@ -56,14 +57,6 @@ public abstract class SettingsWorld extends PixelWorld {
 
         triggerFadeIn(0.05);
         render();
-    }
-
-    /**
-     * Create a SettingsWorld without supplying a partially initialized
-     * UserSettings from the previous SettingsWorld.
-     */
-    public SettingsWorld() {
-        this(null, new UserSettings());
     }
 
     /**

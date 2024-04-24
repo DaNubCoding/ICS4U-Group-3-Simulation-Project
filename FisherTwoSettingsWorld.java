@@ -15,7 +15,7 @@ public class FisherTwoSettingsWorld extends SettingsWorld {
      * @param userSettings The partial UserSettings from the FisherOneSettingsWorld
      */
     public FisherTwoSettingsWorld(SettingsWorld previousWorld, UserSettings userSettings) {
-        super(previousWorld, userSettings);
+        super(previousWorld, userSettings, "fisher2_settings_background.png");
 
         // Add title and fisher sprite
         int midx = getWidth() / 2;

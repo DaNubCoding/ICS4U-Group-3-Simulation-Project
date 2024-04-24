@@ -22,7 +22,7 @@ public class GeneralSettingsWorld extends SettingsWorld {
     private Button tunaButton;
 
     public GeneralSettingsWorld() {
-        super();
+        super(null, new UserSettings(), "general_settings_background.png");
 
         // Add starting fish labels, buttons, and sliders
         UserSettings userSettings = getUserSettings();
