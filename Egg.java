@@ -93,7 +93,7 @@ public class Egg extends PixelActor {
         setLocation(getDoubleX(), getDoubleY() + sinkSpeed);
 
         // Move it into the seafloor a bit
-        int maxY = SimulationWorld.SEA_FLOOR_Y + getOriginalHeight() / 2;
+        int maxY = SimulationWorld.SEA_FLOOR_Y + 5;
         if (getDoubleY() > maxY) {
             setLocation(getDoubleX(), maxY);
         }
