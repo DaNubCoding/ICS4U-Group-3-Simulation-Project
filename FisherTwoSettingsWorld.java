@@ -21,7 +21,9 @@ public class FisherTwoSettingsWorld extends SettingsWorld {
         int midx = getWidth() / 2;
         int top = 15;
         addObject(new Text("~ Fisher 2 ~", Text.AnchorX.CENTER, Text.AnchorY.CENTER, new Color(240, 178, 171)), midx, top);
-        addObject(new PixelActor("images/fisher2.png", Layer.UI), midx, top + 15);
+        PixelActor littlePerson = new PixelActor("images/fisher2.png", Layer.UI);
+        littlePerson.setMirrorX(true);
+        addObject(littlePerson, midx, top + 15);
     }
 
     @Override
