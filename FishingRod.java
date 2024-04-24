@@ -83,11 +83,7 @@ public class FishingRod extends PixelActor {
         PixelWorld world = getWorld();
         Fish caughtFish = hook.getAttachedFish();
         if (caughtFish != null) {
-            int fishValue = caughtFish.getValue();
-            UserSettings userSettings = ((SimulationWorld) getWorld()).getUserSettings();
-            double percentage = userSettings.getExpPercentage(fisher.getSide());
-            fisher.gainExp((int) Math.floor(fishValue * percentage));
-            rodBar.gainExp((int) Math.ceil(fishValue * (1 - percentage)));
+            fisher.gainExp(caughtFish.getValue());
             world.removeObject(caughtFish);
         }
         world.removeObject(fishingLine);

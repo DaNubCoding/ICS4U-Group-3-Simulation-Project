@@ -14,7 +14,6 @@ public class SummaryWorld extends PixelWorld
     private static final GreenfootImage BACKGROUND = new GreenfootImage("background.png");
     private static final GreenfootImage FOREGROUND = new GreenfootImage("foreground.png");
     private static final GreenfootImage TITLE_TEXT = new GreenfootImage("summary/title_text.png");
-    private static final GreenfootImage ENTER_TEXT = new GreenfootImage("summary/press_enter_text.png");
 
     //player images
     private static final GreenfootImage[] PLAYER_IMAGES = {new GreenfootImage("summary/player_1.png"), new GreenfootImage("summary/player_2.png")};
@@ -79,14 +78,7 @@ public class SummaryWorld extends PixelWorld
      */
     public void act(){
         if(Greenfoot.isKeyDown("enter") && !keyPressed){
-            pageNumber++;
-            if(pageNumber == 2){
-                displayPlayerSummary(2);
-            }else if(pageNumber == 3){
-                displayFishSummary();
-            }else if(pageNumber == 4){
-                triggerFadeOut(0.01);
-            }
+            displayNextPage();
         }
         keyPressed = Greenfoot.isKeyDown("enter");
 
@@ -110,7 +102,20 @@ public class SummaryWorld extends PixelWorld
             Greenfoot.setWorld(new TitleWorld(true));
         }
     }
-
+    /**
+     * Displays the next page
+     */
+    public void displayNextPage(){
+        pageNumber++;
+        if(pageNumber ==2){
+            displayPlayerSummary(2);
+        }else if(pageNumber == 3){
+            displayFishSummary();
+        }else if(pageNumber == 4){
+            triggerFadeOut(0.01);
+        }
+        return;
+    }
     /**
      * Displays the player summary pages
      * @param playerNum the player identifier (player 1 or 2)
@@ -120,8 +125,11 @@ public class SummaryWorld extends PixelWorld
 
         int playerIndexNum = playerNum-1;
 
+        Button nextPageButton = new Button("Continue", this::displayNextPage);
+        addObject(nextPageButton, 125, 140);
+
         Fisher fisher = simWorld.getFisher(playerNum);
-        int expEarned = 12497; //simWorld.get____(playerNum);
+        int expEarned = fisher.getTotalExp();
         Text expText = new Text("Total EXP: " + expEarned, Text.AnchorX.LEFT, Text.AnchorY.TOP);
         addObject(expText, 9, 54);
 
@@ -146,7 +154,8 @@ public class SummaryWorld extends PixelWorld
         int boatUnlocked = fisher.getBoatTier().ordinal();
         int boatXDrawPos = 9;
         int boatYDrawPos = 75;
-        for(int i=0; i<= boatUnlocked; i++){
+
+        for(int i=0; i<=boatUnlocked; i++){
             canvasBackground.drawImage(BOAT_BACKGROUND, boatXDrawPos, boatYDrawPos);
             canvasBackground.drawImage(PLAYER_BOATS[playerIndexNum][i], boatXDrawPos, boatYDrawPos);
             if(i%2==0){
@@ -179,6 +188,9 @@ public class SummaryWorld extends PixelWorld
     private void displayFishSummary(){
         removeAllActors();
 
+        Button nextPageButton = new Button("Back to Title", this::displayNextPage);
+        addObject(nextPageButton, 125, 140);
+
         //render the background and title
         canvasBackground.drawImage(BACKGROUND, 0, 0);
         canvasBackground.drawImage(TITLE_TEXT, 52, 6);
@@ -208,7 +220,7 @@ public class SummaryWorld extends PixelWorld
             curFish = null;
             return;
         }
-        if(fishesIndex >= fishesToDisplay.size()){
+        if(fishesIndex>=fishesToDisplay.size()){
             currentTier++;
             fishesToDisplay = new ArrayList(simWorld.getDiscoveredFishesOfTier(currentTier));
             fishesIndex = 0;
@@ -227,7 +239,6 @@ public class SummaryWorld extends PixelWorld
         canvas.drawImage(canvasBackground, 0, 0);
         renderPixelActors();
         canvas.drawImage(FOREGROUND, 0, 0);
-        canvas.drawImage(ENTER_TEXT, 36, 150);
         updateImage();
     }
 

@@ -18,6 +18,7 @@ public abstract class Fisher extends PixelActor {
 
     private BoatTier boatTier;
     private UIBar boatBar;
+    private int totalExp;
 
     private Timer driftTimer;
     private double driftMagnitude;
@@ -205,11 +206,22 @@ public abstract class Fisher extends PixelActor {
      * @param exp The amount of exp to gain
      */
     public void gainExp(int exp) {
-        boatBar.gainExp(exp);
+        totalExp += exp;
+        UserSettings userSettings = ((SimulationWorld) getWorld()).getUserSettings();
+        double percentage = userSettings.getExpPercentage(getSide());
+        boatBar.gainExp((int) Math.floor(exp * percentage));
+        fishingRod.getRodBar().gainExp((int) Math.ceil(exp * (1 - percentage)));
     }
 
     /**
-     * Get the UIBar that shows the EXP of the boat.
+     * Get the total amount of exp a player has earned
+     */
+    public int getTotalExp() {
+        return totalExp;
+    }
+
+    /**
+     * Get the UIBar that shows the exp of the boat.
      *
      * @return The UIBar object of the Fisher
      */
