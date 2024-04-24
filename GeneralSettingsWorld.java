@@ -48,7 +48,7 @@ public class GeneralSettingsWorld extends SettingsWorld {
         evoThresholdSlider = new UserSettingSlider<Double>(0.0, 5.0, 1.0, 100, new Color(76, 45, 23), userSettings::setEvoPointThreshold);
         eggSpawnAmountSlider = new UserSettingSlider<Integer>(1, 5, 3, 100, new Color(76, 45, 23), userSettings::setEggSpawnAmount);
 
-        setSliderTop(100);
+        setSliderTop(97);
         addSlider("Evolution Threshold", "The number of evolutionary points needed before a fish has a chance of evolving.", evoThresholdSlider);
         addSlider("Max Egg Spawn Count", "The maximum number of eggs a fish can lay at once.", eggSpawnAmountSlider);
     }
