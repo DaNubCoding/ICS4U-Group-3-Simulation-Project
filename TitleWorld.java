@@ -25,6 +25,10 @@ public class TitleWorld extends PixelWorld
 
         if (fade) triggerFadeIn(0.02);
         render();
+
+        Greenfoot.setSpeed(50);
+        // TODO: add music
+        Music.stop();
     }
 
     /**

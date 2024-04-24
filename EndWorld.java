@@ -26,6 +26,9 @@ public class EndWorld extends PixelWorld {
         triggerFadeIn(0.01);
 
         render();
+
+        // TODO: add music
+        Music.stop();
     }
 
     @Override

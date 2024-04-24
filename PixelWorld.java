@@ -117,6 +117,24 @@ public abstract class PixelWorld extends World {
     }
 
     /**
+     * Pause any background sounds and any currently playing sound effects.
+     */
+    @Override
+    public void stopped() {
+        Music.pause();
+        SoundEffect.pauseAllSounds();
+    }
+
+    /**
+     * Resume any background sounds and any previously paused sound effects.
+     */
+    @Override
+    public void started() {
+        Music.play();
+        SoundEffect.resumeAllSounds();
+    }
+
+    /**
      * Adds an Actor to this world, storing it for efficient access.
      *
      * @param object the object to add

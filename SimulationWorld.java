@@ -85,6 +85,7 @@ public class SimulationWorld extends PixelWorld {
         triggerFadeIn(0.004);
 
         render();
+        Music.play("background_music.wav");
     }
 
     @Override
