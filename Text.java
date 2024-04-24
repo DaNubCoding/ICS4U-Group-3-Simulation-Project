@@ -32,6 +32,12 @@ public class Text extends PixelActor {
      */
     public static final int LINE_SPACING = 1;
 
+    /**
+     * The number of pixels of padding to add to text images when a background
+     * color is used.
+     */
+    private static final int BACKGROUND_PADDING = 2;
+
     // Map characters to their image representations
     // A character's image is found at the index of the ASCII value minus 0x20 so that it starts at space
     private static final GreenfootImage[] charmap;
@@ -93,20 +99,22 @@ public class Text extends PixelActor {
 
     private final AnchorX anchorX;
     private final AnchorY anchorY;
+    private final Color bgColor;
 
     /**
      * Creates a displayable text object from the given string with the
-     * specified alignment.
+     * specified alignment, using the given background color.
      *
      * @param content the string to render to this text object
      * @param anchorX a {@link AnchorX} value describing horizontal alignment
      * @param anchorY a {@link AnchorY} value describing vertical alignment
-     * @param bgColor the background color of the text
+     * @param bgColor the background color of the text, or {@code null} for no background
      */
     public Text(String content, AnchorX anchorX, AnchorY anchorY, Color bgColor) {
         super(createStringImage(content, bgColor), Layer.UI);
         this.anchorX = anchorX;
         this.anchorY = anchorY;
+        this.bgColor = bgColor;
         updatePosition();
     }
 
@@ -119,7 +127,7 @@ public class Text extends PixelActor {
      * @param anchorY a {@link AnchorY} value describing vertical alignment
      */
     public Text(String content, AnchorX anchorX, AnchorY anchorY) {
-        this(content, anchorX, anchorY, new Color(0, 0, 0, 0));
+        this(content, anchorX, anchorY, null);
     }
 
     /**
@@ -144,7 +152,7 @@ public class Text extends PixelActor {
      * @param anchorX a {@link AnchorX} value describing horizontal alignment
      * @param anchorY a {@link AnchorY} value describing vertical alignment
      * @param maxWidth the desired maximum width of the rendered content
-     * @param bgColor the background color of the text
+     * @param bgColor the background color of the text, or {@code null} for no background
      * @see #reflowToWidth
      */
     public Text(String content, AnchorX anchorX, AnchorY anchorY, int maxWidth, Color bgColor) {
@@ -171,7 +179,7 @@ public class Text extends PixelActor {
      * @param content the string to render to this text object
      */
     public void setContent(String content) {
-        setImage(createStringImage(content, new Color(0, 0, 0, 0)));
+        setImage(createStringImage(content, bgColor));
         updatePosition();
     }
 
@@ -213,7 +221,7 @@ public class Text extends PixelActor {
     }
 
     /**
-     * Creates an image with a readable representation the given string.
+     * Creates an image with a readable representation of the given string.
      * <p>
      * If content is an empty string, this method returns {@code null}.
      * <p>
@@ -221,10 +229,9 @@ public class Text extends PixelActor {
      * representation one after another on the x-axis.
      *
      * @param content the string to render to an image
-     * @param bgColor the color to fill the background of the text with
      * @return a new {@link GreenfootImage} containing a representation of the given content
      */
-    public static GreenfootImage createStringImage(String content, Color bgColor) {
+    public static GreenfootImage createStringImage(String content) {
         if (content == null) {
             throw new IllegalArgumentException("String content must not be null");
         } else if (content.length() < 1) {
@@ -257,8 +264,6 @@ public class Text extends PixelActor {
         }
         // Draw the characters to an image
         GreenfootImage result = new GreenfootImage(maxWidth, height);
-        result.setColor(bgColor);
-        result.fill();
         for (int i = 0, x = 0, y = 0; i < charImages.length; i++) {
             // A new line is reached
             if (charImages[i] == null) {
@@ -270,6 +275,34 @@ public class Text extends PixelActor {
             x += charImages[i].getWidth() + CHARACTER_SPACING;
         }
         return result;
+    }
+
+    /**
+     * Creates an image with a readable representation of the given string, with
+     * in a container of the given color.
+     * <p>
+     * The text is padded so that it does not reach the edge of the returned
+     * image, unless {@code bgColor} is {@code null}, in which case this method
+     * is equivalent to {@link #createStringImage(String)}.
+     *
+     * @param content the string to render to an image
+     * @param bgColor the color to fill the background of the text with
+     * @return a new {@link GreenfootImage} containing a representation of the given content
+     * @see #createStringImage(String)
+     */
+    public static GreenfootImage createStringImage(String content, Color bgColor) {
+        GreenfootImage textImage = createStringImage(content);
+        if (bgColor == null) {
+            return textImage;
+        }
+        // Add padding so the text doesn't reach the edge of the colored box
+        int containerWidth = textImage.getWidth() + BACKGROUND_PADDING * 2;
+        int containerHeight = textImage.getHeight() + BACKGROUND_PADDING * 2;
+        GreenfootImage container = new GreenfootImage(containerWidth, containerHeight);
+        container.setColor(bgColor);
+        container.fill();
+        container.drawImage(textImage, BACKGROUND_PADDING, BACKGROUND_PADDING);
+        return container;
     }
 
     /**
