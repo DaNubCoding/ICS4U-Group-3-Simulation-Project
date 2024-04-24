@@ -14,6 +14,8 @@ import greenfoot.*;
  * @version April 2024
  */
 public class Button extends PixelActor {
+    private static final SoundEffect CLICK_SOUND = new SoundEffect("click.wav", 1);
+
     private GreenfootImage icon;
     private Runnable method;
     private boolean mouseDownOnThis;
@@ -93,6 +95,7 @@ public class Button extends PixelActor {
                     mouseDownOnThis = false;
                     setImage(idleImage);
                     method.run();
+                    CLICK_SOUND.play();
                 }
                 mouseDownOnThis = false;
             }

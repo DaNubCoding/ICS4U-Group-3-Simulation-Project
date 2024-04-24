@@ -9,6 +9,8 @@ import java.util.ArrayList;
  * @version April 2024
  */
 public class FishingRod extends PixelActor {
+    private static final SoundEffect CATCH_SOUND = new SoundEffect("catch.wav");
+
     private Fisher fisher;
     private ArrayList<FishingLine> fishingLines;
     private ArrayList<Hook> hooks;
@@ -105,6 +107,7 @@ public class FishingRod extends PixelActor {
         if (caughtFish != null) {
             fisher.gainExp(caughtFish.getValue());
             world.removeObject(caughtFish);
+            CATCH_SOUND.play();
         }
         fishingLines.remove(hook.getFishingLine());
         hooks.remove(hook);
