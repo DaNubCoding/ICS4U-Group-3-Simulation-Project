@@ -15,7 +15,7 @@ import java.util.List;
  * @author Martin Baldwin
  * @version April 2024
  */
-public abstract class PixelActor extends Actor {
+public class PixelActor extends Actor {
     // Fill all images used to transform all actors with translucent backgrounds and show their positions with a point
     private static final boolean DEBUG_SHOW_IMAGE_BOUNDS = false;
 

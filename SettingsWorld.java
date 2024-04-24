@@ -20,6 +20,7 @@ public abstract class SettingsWorld extends PixelWorld {
     private UserSettings userSettings;
     private LinkedHashMap<String, Slider<?>> sliders;
     private ArrayList<String> tooltips;
+    private int sliderTop;
 
     /**
      * Create a SettingsWorld and supply a partially initialized UserSettings
@@ -42,8 +43,8 @@ public abstract class SettingsWorld extends PixelWorld {
         for (Map.Entry<String, Slider<?>> slider : sliders.entrySet()) {
             TextWithTooltip text = new TextWithTooltip(slider.getKey(), Text.AnchorX.RIGHT, Text.AnchorY.CENTER);
             text.setTooltipString(tooltips.get(i));
-            addObject(text, align - 6, 10 + i * 18);
-            addObject(slider.getValue(), align + 6, 10 + i++ * 18);
+            addObject(text, align - 6, sliderTop + i * 18);
+            addObject(slider.getValue(), align + 6, sliderTop + i++ * 18);
         }
 
         if (previousWorld != null) {
@@ -130,6 +131,16 @@ public abstract class SettingsWorld extends PixelWorld {
      */
     public UserSettings getUserSettings() {
         return userSettings;
+    }
+
+    /**
+     * Set the actor y-coordinate to begin from when adding slider actors to
+     * this world.
+     *
+     * @param top The first y-coordinate to add sliders from
+     */
+    public void setSliderTop(int top) {
+        sliderTop = top;
     }
 
     /**
