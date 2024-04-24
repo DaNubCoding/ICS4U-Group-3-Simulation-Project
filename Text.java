@@ -36,7 +36,8 @@ public class Text extends PixelActor {
      * The number of pixels of padding to add to text images when a background
      * color is used.
      */
-    private static final int BACKGROUND_PADDING = 2;
+    private static final int BACKGROUND_PADDING_X = 4;
+    private static final int BACKGROUND_PADDING_Y = 2;
 
     // Map characters to their image representations
     // A character's image is found at the index of the ASCII value minus 0x20 so that it starts at space
@@ -296,12 +297,12 @@ public class Text extends PixelActor {
             return textImage;
         }
         // Add padding so the text doesn't reach the edge of the colored box
-        int containerWidth = textImage.getWidth() + BACKGROUND_PADDING * 2;
-        int containerHeight = textImage.getHeight() + BACKGROUND_PADDING * 2;
+        int containerWidth = textImage.getWidth() + BACKGROUND_PADDING_X * 2;
+        int containerHeight = textImage.getHeight() + BACKGROUND_PADDING_Y * 2;
         GreenfootImage container = new GreenfootImage(containerWidth, containerHeight);
         container.setColor(bgColor);
         container.fill();
-        container.drawImage(textImage, BACKGROUND_PADDING, BACKGROUND_PADDING);
+        container.drawImage(textImage, BACKGROUND_PADDING_X, BACKGROUND_PADDING_Y);
         return container;
     }
 
