@@ -54,7 +54,7 @@ public class TextWithTooltip extends Text {
      * @param content The content of the tooltip
      */
     public void setTooltipString(String content) {
-        tooltip = new Text(content, Text.AnchorX.LEFT, Text.AnchorY.TOP, 100, new Color(255, 255, 255, 180));
+        tooltip = new Text(content, Text.AnchorX.LEFT, Text.AnchorY.TOP, 100, new Color(248, 248, 248));
     }
 
     @Override

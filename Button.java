@@ -124,7 +124,7 @@ public class Button extends PixelActor {
         GreenfootImage image = new GreenfootImage((int) (icon.getWidth() * 1.6), (int) (icon.getHeight() * 1.6));
 
         // Fill background and draw border
-        image.setColor(new Color(255, 255, 255, 100));
+        image.setColor(new Color(228, 228, 228, 200));
         image.fill();
         image.setColor(new Color(0, 0, 0));
         image.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
@@ -144,7 +144,7 @@ public class Button extends PixelActor {
         GreenfootImage image = new GreenfootImage((int) (icon.getWidth() * 1.6 + 2), (int) (icon.getHeight() * 1.6 + 2));
 
         // Fill background and draw border
-        image.setColor(new Color(255, 255, 240, 100));
+        image.setColor(new Color(240, 240, 228, 200));
         image.fill();
         image.setColor(new Color(0, 0, 0));
         image.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
@@ -164,7 +164,7 @@ public class Button extends PixelActor {
         GreenfootImage image = new GreenfootImage((int) (icon.getWidth() * 1.6), (int) (icon.getHeight() * 1.6));
 
         // Fill background and draw border
-        image.setColor(new Color(255, 255, 255, 200));
+        image.setColor(new Color(255, 255, 255, 248));
         image.fill();
         image.setColor(new Color(0, 0, 0));
         image.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
