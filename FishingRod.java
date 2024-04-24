@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.ArrayList;
 
 /**
  * The fishing rod, the thing that is upgraded.
@@ -9,8 +10,8 @@ import greenfoot.*;
  */
 public class FishingRod extends PixelActor {
     private Fisher fisher;
-    private FishingLine fishingLine;
-    private Hook hook;
+    private ArrayList<FishingLine> fishingLines;
+    private ArrayList<Hook> hooks;
     private RodTier rodTier;
     private UIBar rodBar;
 
@@ -22,6 +23,9 @@ public class FishingRod extends PixelActor {
         setRodTier(RodTier.WOODEN);
 
         setCenterOfRotation(0, getOriginalImage().getHeight() - 1);
+
+        hooks = new ArrayList<Hook>();
+        fishingLines = new ArrayList<FishingLine>();
 
         castTimer = new Timer(100);
         rodBar = new UIBar(30, 8, 800, "ui_bar_gold.jpg");
@@ -43,7 +47,7 @@ public class FishingRod extends PixelActor {
         setRotation(fisher.getRotation());
 
         // Check if the previous hook has been pulled back
-        if (castTimer.ended() && hook == null) {
+        if (castTimer.ended() && hooks.isEmpty()) {
             cast();
             castTimer.restart(getNextCastDelay());
         }
@@ -53,15 +57,29 @@ public class FishingRod extends PixelActor {
      * Cast the fishing rod.
      */
     public void cast() {
-        hook = new Hook(this);
-        fishingLine = new FishingLine(this, hook);
-
-        // Spawn the hook at the tip of the fishing rod
+        // Spawn the hooks at the tip of the fishing rod
         DoublePair hookPos = getTipPosition();
 
-        PixelWorld world = getWorld();
-        world.addObject(hook, (int) hookPos.x, (int) hookPos.y);
-        world.addObject(fishingLine, 0, 0);
+        UserSettings userSettings = ((SimulationWorld) getWorld()).getUserSettings();
+        int hookCount = 1;
+        double p = Util.randDouble(0, 1);
+        double multicastProbability = userSettings.getMulticastProbability(fisher.getSide());
+        if (p < multicastProbability) {
+            hookCount = (int) (Math.log(p / multicastProbability) / Math.log(0.5)) + 2;
+            hookCount = Math.min(hookCount, rodTier.maxMulticast);
+        }
+
+        for (int i = 0; i < hookCount; i++) {
+            FishingLine fishingLine = new FishingLine(this);
+            Hook hook = new Hook(this, fishingLine, hookCount - 1);
+            fishingLines.add(fishingLine);
+            hooks.add(hook);
+            fishingLine.setHook(hook);
+
+            PixelWorld world = getWorld();
+            world.addObject(hook, (int) hookPos.x, (int) hookPos.y);
+            world.addObject(fishingLine, 0, 0);
+        }
     }
 
     /**
@@ -78,18 +96,20 @@ public class FishingRod extends PixelActor {
     /**
      * Reel in the fishing rod when the hook returns to the surface.
      * <p>Effectively gains the fish's XP value and removes the fish, hook, and fishing line.</p>
+     *
+     * @param hook The hook that is being reeled in
      */
-    public void reelIn() {
+    public void reelIn(Hook hook) {
         PixelWorld world = getWorld();
         Fish caughtFish = hook.getAttachedFish();
         if (caughtFish != null) {
             fisher.gainExp(caughtFish.getValue());
             world.removeObject(caughtFish);
         }
-        world.removeObject(fishingLine);
+        fishingLines.remove(hook.getFishingLine());
+        hooks.remove(hook);
+        world.removeObject(hook.getFishingLine());
         world.removeObject(hook);
-        fishingLine = null;
-        hook = null;
     }
 
     /**

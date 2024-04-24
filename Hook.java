@@ -8,19 +8,25 @@ import greenfoot.*;
  */
 public class Hook extends PixelActor {
     private FishingRod fishingRod;
+    private FishingLine fishingLine;
     private HookTier hookTier;
     // Change this to true to start the reel-in process
     private boolean reelingIn;
     private Fish attachedFish;
+    private double horizontalSpeed;
+    private double localSpeedMultiplier;
 
-    public Hook(FishingRod fishingRod) {
+    public Hook(FishingRod fishingRod, FishingLine fishingLine, double dispersion) {
         super(fishingRod.getRodTier().hookTier.image, Layer.HOOK);
         this.fishingRod = fishingRod;
+        this.fishingLine = fishingLine;
 
         hookTier = fishingRod.getRodTier().hookTier;
         IntPair center = hookTier.centerOfRotation;
         setCenterOfRotation(center.x, center.y);
         setMirrorX(!fishingRod.getMirrorX());
+        horizontalSpeed = (Util.randInt(0, 1) * 2 - 1) * Util.randDouble(0.15, 0.3) * dispersion;
+        localSpeedMultiplier = Util.randDouble(0.8, 1.2);
 
         reelingIn = false;
         attachedFish = null;
@@ -30,6 +36,10 @@ public class Hook extends PixelActor {
         UserSettings userSettings = ((SimulationWorld) getWorld()).getUserSettings();
         double speedMultiplier = userSettings.getHookSpeedMultiplier(fishingRod.getFisher().getSide());
 
+        // A bit of horizontal velocity
+        setLocation(getDoubleX() + horizontalSpeed, getDoubleY());
+        horizontalSpeed *= 0.98;
+
         if (reelingIn) {
             // Move back towards tip of rod if reeling in
             DoublePair rodTip = fishingRod.getTipPosition();
@@ -37,11 +47,11 @@ public class Hook extends PixelActor {
             move(fishingRod.getReelInSpeed() * speedMultiplier);
             // Remove hook and fishing line when it gets pulled above the surface
             if (getDoubleY() <= rodTip.y + 5) {
-                fishingRod.reelIn();
+                fishingRod.reelIn(this);
                 return;
             }
         } else {
-            setLocation(getDoubleX(), getDoubleY() + 0.4 * speedMultiplier);
+            setLocation(getDoubleX(), getDoubleY() + 0.4 * speedMultiplier * localSpeedMultiplier);
         }
 
         // Reel in if reached max depth
@@ -102,5 +112,14 @@ public class Hook extends PixelActor {
      */
     public HookTier getTier() {
         return hookTier;
+    }
+
+    /**
+     * Get the fishing line attached to this hook.
+     *
+     * @return The fishing line attached to this hook
+     */
+    public FishingLine getFishingLine() {
+        return fishingLine;
     }
 }

@@ -7,6 +7,7 @@ public class FisherOneSettingsWorld extends SettingsWorld {
     private UserSettingSlider<Double> expPercentageSlider;
     private UserSettingSlider<Double> hookSpeedMultiplierSlider;
     private UserSettingSlider<Double> rodDelayMultiplierSlider;
+    private UserSettingSlider<Double> multicastProbabilitySlider;
 
     /**
      * Create the world with the UserSettings from the GeneralSettingsWorld.
@@ -31,11 +32,14 @@ public class FisherOneSettingsWorld extends SettingsWorld {
         expPercentageSlider = new UserSettingSlider<Double>(0.0, 1.0, 0.5, 100, COLOR, userSettings::setExpPercentage1);
         hookSpeedMultiplierSlider = new UserSettingSlider<Double>(0.5, 3.0, 1.0, 100, COLOR, userSettings::setHookSpeedMultiplier1);
         rodDelayMultiplierSlider = new UserSettingSlider<Double>(0.5, 3.0, 1.0, 100, COLOR, userSettings::setRodDelayMultiplier1);
+        multicastProbabilitySlider = new UserSettingSlider<Double>(0.0, 1.0, 0.2, 100, COLOR, userSettings::setMulticastProbability1);
 
         addSlider("Boat/Rod EXP Split", "The percentage of EXP from a fish granted to the boat, the rest goes to the fishing rod.", expPercentageSlider);
         addSlider("Hook Speed", "The factor to multiply the speed of the fishing hook by.", hookSpeedMultiplierSlider);
         addSlider("Fishing Rod Delay", "The factor to multiply the delay before the fishers cast their hooks again by.", rodDelayMultiplierSlider);
-        setSliderTop(56);
+        addSlider("Multicast Probability", "The probability of a multicast occurring. Higher tiers of rods have a more powerful multicast.", multicastProbabilitySlider);
+
+        setSliderTop(50);
     }
 
     @Override

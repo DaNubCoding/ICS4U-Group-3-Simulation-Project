@@ -20,6 +20,7 @@ public class UserSettings {
     private double[] expPercentage = new double[2];
     private double[] hookSpeedMultiplier = new double[2];
     private double[] rodDelayMultiplier = new double[2];
+    private double[] multicastProbability = new double[2];
 
     /**
      * Set the maximum number of eggs that spawn from a fish.
@@ -139,6 +140,24 @@ public class UserSettings {
     }
 
     /**
+     * Set the probability of a multicast occurring. (Fisher 1)
+     *
+     * @param value the probability of a multicast
+     */
+    public void setMulticastProbability1(double value) {
+        multicastProbability[0] = value;
+    }
+
+    /**
+     * Set the probability of a multicast occurring. (Fisher 2)
+     *
+     * @param value the probability of a multicast
+     */
+    public void setMulticastProbability2(double value) {
+        multicastProbability[1] = value;
+    }
+
+    /**
      * Get the maximum number of eggs that spawn from a fish.
      *
      * @return the maximum number of eggs
@@ -220,5 +239,15 @@ public class UserSettings {
      */
     public double getRodDelayMultiplier(int fisher) {
         return rodDelayMultiplier[fisher - 1];
+    }
+
+    /**
+     * Get the probability of a multicast occurring.
+     *
+     * @param fisher the side-number of the fisher (1 for left and 2 for right)
+     * @return the probability of a multicast
+     */
+    public double getMulticastProbability(int fisher) {
+        return multicastProbability[fisher - 1];
     }
 }
