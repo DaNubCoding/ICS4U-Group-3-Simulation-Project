@@ -16,6 +16,13 @@ public class Hook extends PixelActor {
     private double horizontalSpeed;
     private double localSpeedMultiplier;
 
+    /**
+     * Initialize the hook given fishing rod and fishing line.
+     *
+     * @param fishingRod The fishing rod the hook belongs to
+     * @param fishingLine The fishing line the hook is attached to
+     * @param dispersion The amount to disperse the hook's horizontal speed, used for casting multiple hooks
+     */
     public Hook(FishingRod fishingRod, FishingLine fishingLine, double dispersion) {
         super(fishingRod.getRodTier().hookTier.image, Layer.HOOK);
         this.fishingRod = fishingRod;
