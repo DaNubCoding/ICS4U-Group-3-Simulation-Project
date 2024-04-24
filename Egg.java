@@ -20,7 +20,8 @@ public class Egg extends PixelActor {
         SMALL(300),
         MEDIUM(600),
         LARGE(900),
-        GIGANTIC(1200);
+        GIGANTIC(1200),
+        COLOSSAL(1500);
 
         public final int hatchTime;
 

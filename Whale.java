@@ -30,7 +30,7 @@ public class Whale extends Fish {
         settings.setEggSpawnFrequency(1000);
         settings.setEvoPointGain(35);
         settings.setEvolutionChance(0.3);
-        settings.setEvolutions(null);
+        settings.setEvolutions(Bloop.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 35, 4);
         settings.setFeaturePoint(FishFeature.ANGLER_LIGHT, 41, -4);

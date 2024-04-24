@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author Martin Baldwin
  * @author Brandon Law
  * @author Matthew Li
+ * @author Stanley Wang
  * @version April 2024
  */
 public class SimulationWorld extends PixelWorld {
@@ -224,5 +225,26 @@ public class SimulationWorld extends PixelWorld {
      */
     public UserSettings getUserSettings() {
         return userSettings;
+    }
+
+    /**
+     * Triggers fish (bad) endings.
+     *
+     * @param type The type of ending (1: Bloop, 2: Kraken, 3: Leviathan)
+     */
+    public void fishEnd(int type)
+    {
+        triggerFadeOut(0.004);
+        if (type == 0) {
+            triggerFadeOut(0.004);
+            endState = EndState.BLOOP;
+        }
+        if (type == 1) {
+            endState = EndState.KRAKEN;
+        }
+        if (type == 2) {
+            triggerFadeOut(0.004);
+            endState = EndState.LEVIATHAN;
+        }
     }
 }
