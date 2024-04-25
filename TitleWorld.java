@@ -10,6 +10,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class TitleWorld extends PixelWorld
 {
+    private static final GreenfootSound titleMusic = new GreenfootSound("title_music.wav");
+
     private GifPixelActor gif = new GifPixelActor(new GifImage("TitleScreenRedux.gif"), Layer.BACKGROUND);
     private boolean keyPressed = true;
 
@@ -28,8 +30,7 @@ public class TitleWorld extends PixelWorld
 
         Greenfoot.setSpeed(50);
         SoundEffect.resetState();
-        // TODO: add music
-        Music.stop();
+        Music.set(titleMusic);
     }
 
     /**
