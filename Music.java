@@ -14,13 +14,18 @@ public final class Music {
     private static GreenfootSound sound = null;
 
     /**
-     * Pause the currently playing background music, if any.
+     * Set the current background music to the given sound. Any currently
+     * playing background music will be stopped. The next call to {@link #play}
+     * will play the given sound on loop from the beginning.
+     *
+     * @param sound a GreenfootSound to play as background music
      */
-    public static void pause() {
-        if (sound == null) {
-            return;
+    public static void set(GreenfootSound newSound) {
+        if (sound != null) {
+            sound.stop();
         }
-        sound.pause();
+        sound = newSound;
+        sound.stop();
     }
 
     /**
@@ -34,27 +39,13 @@ public final class Music {
     }
 
     /**
-     * Begin playing the given sound on loop. Any currently playing background
-     * music will be stopped.
-     *
-     * @param sound a GreenfootSound to play as background music
+     * Pause the currently playing background music, if any.
      */
-    public static void play(GreenfootSound newSound) {
-        if (sound != null) {
-            sound.stop();
+    public static void pause() {
+        if (sound == null) {
+            return;
         }
-        sound = newSound;
-        play();
-    }
-
-    /**
-     * Begin playing the sound using the specified file path on loop. Any
-     * currently playing background music will be stopped.
-     *
-     * @param soundPath the file path of a sound file to play as background music
-     */
-    public static void play(String soundPath) {
-        play(new GreenfootSound(soundPath));
+        sound.pause();
     }
 
     /**

@@ -19,6 +19,8 @@ public class SimulationWorld extends PixelWorld {
     private static final GreenfootImage background = new GreenfootImage("background.png");
     private static final GreenfootImage foreground = new GreenfootImage("foreground.png");
 
+    private static final GreenfootSound backgroundMusic = new GreenfootSound("background_music.wav");
+
     /** The y coordinate of the surface of the water, in canvas pixels, relative to the top of this world. */
     public static final int SEA_SURFACE_Y = 37;
     /** The y coordinate of the sea floor, in canvas pixels, relative to the top of this world. */
@@ -85,7 +87,7 @@ public class SimulationWorld extends PixelWorld {
         triggerFadeIn(0.004);
 
         render();
-        Music.play("background_music.wav");
+        Music.set(backgroundMusic);
     }
 
     @Override
