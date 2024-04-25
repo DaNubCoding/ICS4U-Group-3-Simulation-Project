@@ -17,7 +17,7 @@ public class Bloop extends EndingFish
     static {
         settings = new FishSettings();
         settings.setEggColor(Egg.Color.GREEN); // unused
-        settings.setEggSpawnFrequency(0);
+        settings.setEggSpawnFrequency(999999);
         settings.setBodyImage("endFish/Bloop/bloop-young.png");
         settings.setSwimSpeed(0.3);
         initializeEndingFish(settings);

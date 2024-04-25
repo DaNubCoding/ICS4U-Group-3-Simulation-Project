@@ -16,7 +16,7 @@ public class Kraken extends EndingFish
     static {
         settings = new FishSettings();
         settings.setEggColor(Egg.Color.PINK); // unused
-        settings.setEggSpawnFrequency(0);
+        settings.setEggSpawnFrequency(999999);
         settings.setBodyImage("endFish/Kraken/kraken.png");
         settings.setSwimSpeed(0.2);
         initializeEndingFish(settings);
