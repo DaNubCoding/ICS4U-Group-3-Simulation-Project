@@ -84,6 +84,12 @@ public abstract class Fisher extends PixelActor {
             fishingRod.setRodTier(RodTier.values()[fishingRod.getRodBar().getLevel() - 1]);
         }
 
+        if (boatBar.getLevel() == BoatTier.values().length && boatBar.getExp() == boatBar.getMaxExp()) {
+            SimulationWorld world = (SimulationWorld) getWorld();
+            world.triggerFadeOut(0.02);
+            world.setEndState(getSide() == 1 ? EndState.FISHER1 : EndState.FISHER2);
+        }
+
         fadeOutBars();
     }
 

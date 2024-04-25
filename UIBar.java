@@ -82,7 +82,30 @@ public class UIBar extends PixelActor
         setCenterOfRotation(0, 0);
     }
 
+    /**
+     * Get the current level of the UIBar.
+     *
+     * @return The current level of the UIBar
+     */
     public int getLevel() {
         return level;
+    }
+
+    /**
+     * Get the current exp of the UIBar.
+     *
+     * @return The current exp of the UIBar
+     */
+    public int getExp() {
+        return exp;
+    }
+
+    /**
+     * Get the maximum exp of the UIBar.
+     *
+     * @return The maximum exp of the UIBar
+     */
+    public int getMaxExp() {
+        return maxExp;
     }
 }

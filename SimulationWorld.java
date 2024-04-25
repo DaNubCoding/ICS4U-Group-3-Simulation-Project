@@ -255,4 +255,13 @@ public class SimulationWorld extends PixelWorld {
             endState = EndState.LEVIATHAN;
         }
     }
+
+    /**
+     * Set the end state of the simulation.
+     *
+     * @param endState The {@link EndState} of the simulation
+     */
+    public void setEndState(EndState endState) {
+        this.endState = endState;
+    }
 }
