@@ -34,17 +34,22 @@ public final class Music {
     }
 
     /**
-     * Begin playing the given sound on loop.
+     * Begin playing the given sound on loop. Any currently playing background
+     * music will be stopped.
      *
      * @param sound a GreenfootSound to play as background music
      */
-    public static void play(GreenfootSound sound) {
-        Music.sound = sound;
+    public static void play(GreenfootSound newSound) {
+        if (sound != null) {
+            sound.stop();
+        }
+        sound = newSound;
         play();
     }
 
     /**
-     * Begin playing the sound using the specified file path on loop.
+     * Begin playing the sound using the specified file path on loop. Any
+     * currently playing background music will be stopped.
      *
      * @param soundPath the file path of a sound file to play as background music
      */
