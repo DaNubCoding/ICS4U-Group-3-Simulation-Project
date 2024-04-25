@@ -43,7 +43,7 @@ public class CutscenesWorld extends PixelWorld
         Timer.incrementAct();
 
         if (Greenfoot.isKeyDown("Enter") && !keyPressed){
-            if (cutsceneNum < 5) {
+            if (cutsceneNum <= 5) {
                 triggerFadeOut(0.04);
             }
         }
@@ -90,7 +90,7 @@ public class CutscenesWorld extends PixelWorld
             savedNum++;
         }
 
-        if (endTime != null && endTime.ended()){
+        if (cutsceneNum > 5 || (endTime != null && endTime.ended())){
             Greenfoot.setWorld(new GeneralSettingsWorld());
         }
     }
