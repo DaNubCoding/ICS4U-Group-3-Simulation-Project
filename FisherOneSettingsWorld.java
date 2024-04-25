@@ -22,7 +22,7 @@ public class FisherOneSettingsWorld extends SettingsWorld {
         int midx = getWidth() / 2;
         int top = 15;
         addObject(new Text("~ Fisher 1 ~", Text.AnchorX.CENTER, Text.AnchorY.CENTER, new Color(127, 219, 223)), midx, top);
-        addObject(new PixelActor("images/fisher1.png", Layer.UI), midx, top + 15);
+        addObject(new StillActor("images/fisher1.png", Layer.UI), midx, top + 15);
     }
 
     @Override
