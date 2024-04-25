@@ -27,6 +27,7 @@ public class TitleWorld extends PixelWorld
         render();
 
         Greenfoot.setSpeed(50);
+        SoundEffect.resetState();
         // TODO: add music
         Music.stop();
     }

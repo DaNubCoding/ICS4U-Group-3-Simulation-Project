@@ -3,12 +3,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * A manager of multiple GreenfootSound objects in order to allow many instances
- * of the same sound to be played concurrently. Also provides a means to pause
- * and resume all sounds that exist.
+ * A manager of multiple GreenfootSound objects, for allowing many instances of
+ * the same sound to be played concurrently. Also provides a means to pause and
+ * resume all sounds that exist.
  *
  * @author Martin Baldwin
- * @version March 2024
+ * @version April 2024
  */
 public class SoundEffect {
     // Default maximum number of instances of a sound that can be played at once for each instance of SoundEffect
@@ -25,7 +25,7 @@ public class SoundEffect {
     private int nextSoundIndex;
 
     /**
-     * Create a new sound effect to play the given sound file, allowing a
+     * Creates a new sound effect to play the given sound file, allowing a
      * maximum number of instances of it to be played at once.
      *
      * @param filename the name of the sound file to play
@@ -48,8 +48,8 @@ public class SoundEffect {
     }
 
     /**
-     * Create a new sound effect to play the given sound file.
-     *
+     * Creates a new sound effect to play the given sound file.
+     * <p>
      * The maximum number of instances that can be played at once is determined
      * by the SoundEffect.DEFAULT_CONCURRENT_COUNT constant.
      *
@@ -60,7 +60,7 @@ public class SoundEffect {
     }
 
     /**
-     * Play this sound effect from the beginning, on top of other instances of
+     * Plays this sound effect from the beginning, on top of other instances of
      * this sound effect when possible.
      */
     public void play() {
@@ -74,7 +74,16 @@ public class SoundEffect {
     }
 
     /**
-     * Pause all currently playing sounds that exist.
+     * Stops all instances of this sound effect.
+     */
+    public void stop() {
+        for (GreenfootSound sound : sounds) {
+            sound.stop();
+        }
+    }
+
+    /**
+     * Pauses all currently playing sounds that exist.
      */
     public static void pauseAllSounds() {
         for (GreenfootSound sound : allSounds) {
@@ -86,12 +95,19 @@ public class SoundEffect {
     }
 
     /**
-     * Resume all sounds that were previously paused by a call to pauseAllSounds().
+     * Resumes all sounds that were previously paused by a call to {@link #pauseAllSounds}.
      */
     public static void resumeAllSounds() {
         for (GreenfootSound sound : pausedSounds) {
             sound.play();
         }
+        pausedSounds.clear();
+    }
+
+    /**
+     * Resets the state of all sound effects to clear any record of paused sounds.
+     */
+    public static void resetState() {
         pausedSounds.clear();
     }
 }
