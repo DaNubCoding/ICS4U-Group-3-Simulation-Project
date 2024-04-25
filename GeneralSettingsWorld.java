@@ -40,8 +40,7 @@ public class GeneralSettingsWorld extends SettingsWorld {
         addObject(tunaButton, midx + 40, top + 35);
         addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(46, 92, 107), userSettings::setTunaCount), midx + 25, top + 55);
 
-        // TODO: add music
-        Music.stop();
+        Music.play("settings_music.wav");
     }
 
     @Override
