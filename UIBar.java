@@ -22,11 +22,8 @@ public class UIBar extends PixelActor
     private GreenfootImage fill;
 
     //if you are chaging the pictures of the wrap, update these numbers. they are the pixel widths of your image
-    //origonal width being how many pixels wide is your entire wrap, and origionalOffset is how many pixels of
-    //offset to push the bar filling
-    private static int originalWidth = 30;
-    private static int originalOffset = 1;
-    private static double barOffsetScalingFactor = ((double) originalOffset / (double) originalWidth);
+    //borderWidth is how many pixels of offset to push the bar filling
+    private static int borderWidth = 1;
 
     //given all the parameters generate the new sprite image
     //this is based on your update() method but with all the varialbes passed in via parameters as this is a static method
@@ -53,17 +50,14 @@ public class UIBar extends PixelActor
         GreenfootImage barBackground = new GreenfootImage(width, height);
         barBackground.drawImage(wrap, 0, 0);
 
-        int borderWidth = 1;
-
-        int barOffset = (int) (width * UIBar.barOffsetScalingFactor);
         //calculate how wide the "actual bar" can be (if fully filled)
-        int filledSectionWidth = width - barOffset - 2;
+        int filledSectionWidth = width - borderWidth * 2;
         //multiply by how much to fill
         int barWidth  = (int) (filledSectionWidth * percentageFilled);
 
         if (barWidth > 0 ){
             GreenfootImage filledSection = Util.croppedImage(fill, barWidth, height - borderWidth *2 );
-            barBackground.drawImage(filledSection, barOffset , borderWidth);
+            barBackground.drawImage(filledSection, borderWidth , borderWidth);
         }
 
         //instead of drawing it directly, RETURN the image
