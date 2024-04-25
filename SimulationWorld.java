@@ -101,6 +101,11 @@ public class SimulationWorld extends PixelWorld {
             endState = EndState.EXTINCTION;
         }
 
+        // If there are way too many Leviathans in the ocean
+        if (getObjects(Leviathan.class).size() > 35) {
+            fishEnd(2);
+        }
+
         // Temporary test
         if (Greenfoot.isKeyDown("e")) {
             triggerFadeOut(0.02);

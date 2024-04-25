@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
  *
  * @author Andrew Wang
  * @author Martin Baldwin
+ * @author Stanley Wang
  * @version April 2024
  */
 public class Egg extends PixelActor {
@@ -146,5 +147,14 @@ public class Egg extends PixelActor {
             throw new UnsupportedOperationException("Egg was supplied with an invalid hatching fish class", e);
         }
         return child;
+    }
+
+    /**
+     * Get whether the egg is a leviathan egg.
+     *
+     * @return True if the egg is a leviathan egg, false otherwise
+     */
+    public boolean isLeviathanEgg() {
+        return (constructImageString(size, color).equals("eggs/colossal_green.png"));
     }
 }

@@ -437,7 +437,7 @@ public abstract class Fish extends PixelActor {
     /**
      * Attempt to spawn eggs.
      */
-    private void reproduce() {
+    protected void reproduce() {
         if (eggSpawnTimer.ended() && nearbyKinsCount < 8) {
             spawnEgg();
             eggSpawnTimer.restart((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));

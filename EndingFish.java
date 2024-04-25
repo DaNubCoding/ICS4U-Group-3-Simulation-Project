@@ -13,24 +13,29 @@ public class EndingFish extends Fish
         super(settings, 0, features);
     }
 
-    public static void initializeEndingFish(FishSettings settings, String bodyImage, double speed, int type) {
+    public static void initializeEndingFish(FishSettings settings) {
         // Base settings
         settings.setTier(5);
         settings.setBaseValue(100);
-        settings.setBodyImage(bodyImage);
-        // Movement settings
-        settings.setSwimSpeed(speed);
         settings.setMinDepth(90);
         settings.setMaxDepth(SimulationWorld.SEA_FLOOR_Y - 5);
         settings.setAverageTurnInterval(300);
         settings.setMaxTurnDegrees(10);
         settings.setEggSize(Egg.Size.COLOSSAL);
-        settings.setEggColor(Egg.Color.GREEN);
-        settings.setEggSpawnFrequency(300);
+
+        // Unused
+        settings.setEvoPointGain(0);
+        settings.setEvolutionChance(0);
+        settings.setCatchOffset(0, 0);
+        settings.setEvolutions(null);
+        settings.setAllowedFeatures(null);
+
+        settings.validate();
     }
 
     public void act()
     {
         swim();
+        reproduce();
     }
 }

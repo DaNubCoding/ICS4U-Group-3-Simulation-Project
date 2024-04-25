@@ -16,7 +16,11 @@ public class Bloop extends EndingFish
     //sets this ending fish's settings to basic settings, with specified body image and egg color
     static {
         settings = new FishSettings();
-        initializeEndingFish(settings, "endFish/Bloop/bloop-young.png", 0.3, 1);
+        settings.setEggColor(Egg.Color.GREEN); // unused
+        settings.setEggSpawnFrequency(0);
+        settings.setBodyImage("endFish/Bloop/bloop-young.png");
+        settings.setSwimSpeed(0.3);
+        initializeEndingFish(settings);
     }
 
     public Bloop(int _evoPoints, FishFeature... _features) {

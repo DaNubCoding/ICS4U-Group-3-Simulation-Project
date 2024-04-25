@@ -35,7 +35,7 @@ public class Anglerfish extends Fish {
         settings.setEggSpawnFrequency(1500);
         settings.setEvoPointGain(60);
         settings.setEvolutionChance(0.6);
-        settings.setEvolutions(null);
+        settings.setEvolutions(Leviathan.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 19, 4);
         settings.setFeaturePoint(FishFeature.ANGLER_LIGHT, 22, -4);
