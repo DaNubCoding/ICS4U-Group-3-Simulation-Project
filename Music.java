@@ -13,10 +13,14 @@ public final class Music {
     // The current sound used as background music
     private static GreenfootSound sound = null;
 
+    // Whether or not to be handling the background music, corresponding to
+    // whether or not the program is running.
+    private static boolean isRunning = false;
+
     /**
      * Set the current background music to the given sound. Any currently
-     * playing background music will be stopped. The next call to {@link #play}
-     * will play the given sound on loop from the beginning.
+     * playing background music will be stopped. If the program is running, the
+     * sound will automatically be started.
      *
      * @param sound a GreenfootSound to play as background music
      */
@@ -25,13 +29,20 @@ public final class Music {
             sound.stop();
         }
         sound = newSound;
+        if (sound == null) {
+            return;
+        }
         sound.stop();
+        if (isRunning) {
+            sound.playLoop();
+        }
     }
 
     /**
      * Continue playing the current background music, if any.
      */
     public static void play() {
+        isRunning = true;
         if (sound == null) {
             return;
         }
@@ -42,6 +53,7 @@ public final class Music {
      * Pause the currently playing background music, if any.
      */
     public static void pause() {
+        isRunning = false;
         if (sound == null) {
             return;
         }
