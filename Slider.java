@@ -12,9 +12,13 @@ public class Slider<T extends Number> extends PixelActor {
      * The draggable thumb on the slider.
      *
      * @author Andrew Wang
+     * @author Sandra Huang
      * @version April 2024
      */
     private static class Thumb extends PixelActor {
+        private static final SoundEffect clickSound = new SoundEffect("click_down.wav", 1);
+        private static final SoundEffect releaseClickSound = new SoundEffect("click_up.wav", 1);
+
         private int leftBound;
         private int rightBound;
         private Color color;
@@ -22,6 +26,7 @@ public class Slider<T extends Number> extends PixelActor {
         private GreenfootImage hoverImage;
         private boolean hovered;
         private boolean held;
+        private boolean previouslyHeld;
         private int mouseOffsetX;
 
         /**
@@ -40,6 +45,7 @@ public class Slider<T extends Number> extends PixelActor {
             this.normalImage = getOriginalImage();
             this.hoverImage = createThumbImage(color.darker());
             held = false;
+            previouslyHeld = false;
         }
 
         @Override
@@ -58,10 +64,17 @@ public class Slider<T extends Number> extends PixelActor {
                 // Whether mouse is on top of the thumb
                 if (hovered) {
                     held = true;
+                    previouslyHeld = true;
                     mouseOffsetX = mouseX - getX();
+                    clickSound.play();
                 }
             } else if (Greenfoot.mouseClicked(null)) {
                 held = false;
+            }
+
+            if (previouslyHeld && !held) {
+                previouslyHeld = false;
+                releaseClickSound.play();
             }
 
             if (held) {

@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class UIBar extends PixelActor
 {
-    private static final SoundEffect UPGRADE_SOUND = new SoundEffect("upgrade.wav", 4);
+    private static final SoundEffect upgradeSound = new SoundEffect("upgrade.wav", 4);
 
     private int level = 1;
     private int maxLevel = 3;
@@ -75,7 +75,7 @@ public class UIBar extends PixelActor
         if(exp >= maxExp){
             if(level < maxLevel){
                 level++;
-                UPGRADE_SOUND.play();
+                upgradeSound.play();
                 exp = 0;
             }else{
                 exp = maxExp;
