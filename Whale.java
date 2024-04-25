@@ -27,9 +27,9 @@ public class Whale extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.GIGANTIC);
         settings.setEggColor(Egg.Color.BLUE);
-        settings.setEggSpawnFrequency(2000);
-        settings.setEvoPointGain(35);
-        settings.setEvolutionChance(0.3);
+        settings.setEggSpawnFrequency(1500);
+        settings.setEvoPointGain(60);
+        settings.setEvolutionChance(0.6);
         settings.setEvolutions(Bloop.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 35, 4);

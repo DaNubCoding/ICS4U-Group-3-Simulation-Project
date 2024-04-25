@@ -27,9 +27,9 @@ public class Barracuda extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.LARGE);
         settings.setEggColor(Egg.Color.GREEN);
-        settings.setEggSpawnFrequency(1200);
-        settings.setEvoPointGain(40);
-        settings.setEvolutionChance(0.4);
+        settings.setEggSpawnFrequency(1100);
+        settings.setEvoPointGain(65);
+        settings.setEvolutionChance(0.65);
         settings.setEvolutions(Anglerfish.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 20, 1);

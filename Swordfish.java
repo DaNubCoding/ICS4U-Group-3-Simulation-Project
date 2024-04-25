@@ -27,9 +27,9 @@ public class Swordfish extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.LARGE);
         settings.setEggColor(Egg.Color.BLUE);
-        settings.setEggSpawnFrequency(1200);
-        settings.setEvoPointGain(40);
-        settings.setEvolutionChance(0.4);
+        settings.setEggSpawnFrequency(1100);
+        settings.setEvoPointGain(70);
+        settings.setEvolutionChance(0.7);
         settings.setEvolutions(Whale.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 18, 4);

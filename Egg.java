@@ -17,11 +17,11 @@ public class Egg extends PixelActor {
      * @version April 2024
      */
     public static enum Size {
-        SMALL(300),
-        MEDIUM(600),
-        LARGE(900),
-        GIGANTIC(1200),
-        COLOSSAL(1500);
+        SMALL(200),
+        MEDIUM(300),
+        LARGE(400),
+        GIGANTIC(500),
+        COLOSSAL(600);
 
         public final int hatchTime;
 

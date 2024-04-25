@@ -27,8 +27,8 @@ public class Lionfish extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.LARGE);
         settings.setEggColor(Egg.Color.PINK);
-        settings.setEggSpawnFrequency(1200);
-        settings.setEvoPointGain(40);
+        settings.setEggSpawnFrequency(1100);
+        settings.setEvoPointGain(60);
         settings.setEvolutionChance(0.0);
         settings.setEvolutions(null);
         // Feature image offsets

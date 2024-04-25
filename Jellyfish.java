@@ -27,9 +27,9 @@ public class Jellyfish extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.LARGE);
         settings.setEggColor(Egg.Color.PINK);
-        settings.setEggSpawnFrequency(1200);
-        settings.setEvoPointGain(40);
-        settings.setEvolutionChance(0.4);
+        settings.setEggSpawnFrequency(1100);
+        settings.setEvoPointGain(65);
+        settings.setEvolutionChance(0.65);
         settings.setEvolutions(Squid.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 12, 3);

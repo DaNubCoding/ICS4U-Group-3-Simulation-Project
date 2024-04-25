@@ -36,7 +36,7 @@ public abstract class TierOneFish extends Fish
         settings.setEggSize(Egg.Size.SMALL);
         settings.setEggColor(eggColor);
         settings.setEggSpawnFrequency(800);
-        settings.setEvoPointGain(30);
+        settings.setEvoPointGain(80);
         settings.setEvolutionChance(0.8);
         settings.setEvolutions(evolutions);
         // Feature image offsets

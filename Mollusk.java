@@ -27,9 +27,9 @@ public class Mollusk extends Fish {
         // Evolution settings
         settings.setEggSize(Egg.Size.MEDIUM);
         settings.setEggColor(Egg.Color.PINK);
-        settings.setEggSpawnFrequency(1000);
-        settings.setEvoPointGain(50);
-        settings.setEvolutionChance(0.4);
+        settings.setEggSpawnFrequency(900);
+        settings.setEvoPointGain(70);
+        settings.setEvolutionChance(0.7);
         settings.setEvolutions(Jellyfish.class, Lionfish.class);
         // Feature image offsets
         settings.setFeaturePoint(FishFeature.BIG_EYE, 8, 2);
