@@ -13,9 +13,9 @@ import java.util.Collections;
  */
 public class FishRecord extends PixelActor implements Comparable<FishRecord> {
     private static final List<Class<? extends Fish>> typeOrder = List.of(
-        Salmon.class, Mollusk.class, Jellyfish.class, Squid.class,
-        Bass.class, Piranha.class, Barracuda.class, Anglerfish.class,
-        Tuna.class, Flyingfish.class, Swordfish.class, Whale.class
+        Salmon.class, Mollusk.class, Jellyfish.class, Lionfish.class, Squid.class, Kraken.class,
+        Bass.class, Piranha.class, Barracuda.class, Anglerfish.class, Leviathan.class,
+        Tuna.class, Flyingfish.class, Swordfish.class, Whale.class, Bloop.class
     );
 
     // The class object representing the fish's class
@@ -48,8 +48,8 @@ public class FishRecord extends PixelActor implements Comparable<FishRecord> {
 
     @Override
     public void addedToWorld(World world) {
-        world.addObject(name, getX(), getY() + getOriginalImage().getHeight());
-        world.addObject(tierStars, getX(), getY() + getOriginalImage().getHeight() + 14);
+        world.addObject(name, getX(), getY() + getOriginalImage().getHeight() / 2 + 5);
+        world.addObject(tierStars, getX(), getY() + getOriginalImage().getHeight() / 2 + 19);
     }
 
     @Override

@@ -219,19 +219,18 @@ public class SummaryWorld extends PixelWorld
      * Adds the next discovered fish to the world, organised by tier
      */
     private void addNextFishToWorld(){
-        if(currentTier>4){
-            curFish = null;
-            return;
-        }
-        if(fishesIndex>=fishesToDisplay.size()){
+        while(fishesIndex>=fishesToDisplay.size()){
             currentTier++;
+            if(currentTier>FishSettings.MAX_TIER){
+                curFish = null;
+                return;
+            }
             fishesToDisplay = new ArrayList(simWorld.getDiscoveredFishesOfTier(currentTier));
             fishesIndex = 0;
-        }else{
-            curFish = fishesToDisplay.get(fishesIndex);
-            addObject(curFish, 0, getHeight()/2);
-            fishesIndex++;
         }
+        curFish = fishesToDisplay.get(fishesIndex);
+        addObject(curFish, 0, getHeight()/2);
+        fishesIndex++;
     }
 
     /**
