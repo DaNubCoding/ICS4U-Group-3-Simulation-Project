@@ -8,6 +8,10 @@ import greenfoot.*;
  * @version April 2024
  */
 public class Util {
+    private Util() {
+        // Prevent instantiation
+    }
+
     /**
      * Scale an image by a factor and return a copy of it.
      * <p>A copy is returned in order to not modify the orignal image,
@@ -90,7 +94,7 @@ public class Util {
     /**
      * Interpolate from an angle to another angle multiplied by a factor.
      * <p>Will handle any angle in degrees, negative or >360.</p>
-     * 
+     *
      * @param currentAngle The angle to start from
      * @param endAngle The angle to move towards
      * @param factor The factor to multiply the difference by, in order
