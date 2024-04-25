@@ -9,10 +9,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Explosion extends GifPixelActor
 {
+    private static final SoundEffect explosionSound = new SoundEffect("explosion.wav");
+
     private int timer = 48;
 
     public Explosion() {
         super(new GifImage("explode.gif"), Layer.EFFECT);
+        explosionSound.play();
     }
 
     public void act()
