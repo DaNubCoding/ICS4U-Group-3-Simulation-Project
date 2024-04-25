@@ -24,7 +24,7 @@ public class UIBar extends PixelActor
     //if you are chaging the pictures of the wrap, update these numbers. they are the pixel widths of your image
     //origonal width being how many pixels wide is your entire wrap, and origionalOffset is how many pixels of
     //offset to push the bar filling
-    private static int originalWidth = 20;
+    private static int originalWidth = 30;
     private static int originalOffset = 1;
     private static double barOffsetScalingFactor = ((double) originalOffset / (double) originalWidth);
 

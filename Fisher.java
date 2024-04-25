@@ -41,7 +41,7 @@ public abstract class Fisher extends PixelActor {
         initNextDrive();
 
         fishingRod = new FishingRod(this);
-        boatBar = new UIBar(30, 8, 1600, "ui_bar_water.jpg");
+        boatBar = new UIBar(30, 8, 1600, "ui_bar_water.png");
     }
 
     @Override
@@ -211,6 +211,7 @@ public abstract class Fisher extends PixelActor {
         double percentage = userSettings.getExpPercentage(getSide());
         boatBar.gainExp((int) Math.floor(exp * percentage));
         fishingRod.getRodBar().gainExp((int) Math.ceil(exp * (1 - percentage)));
+        fadeOutBars();
     }
 
     /**
