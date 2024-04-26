@@ -229,7 +229,7 @@ public class SummaryWorld extends PixelWorld
             fishesIndex = 0;
         }
         curFish = fishesToDisplay.get(fishesIndex);
-        addObject(curFish, 0, getHeight()/2);
+        addObject(curFish, -curFish.getOriginalImage().getWidth()/2, getHeight()/2);
         fishesIndex++;
     }
 

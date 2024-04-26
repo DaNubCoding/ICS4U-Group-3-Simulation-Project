@@ -58,7 +58,7 @@ public class FishRecord extends PixelActor implements Comparable<FishRecord> {
         name.move(SPEED * speedMultiplier);
         tierStars.move(SPEED * speedMultiplier);
         World w = getWorld();
-        if (getX() > w.getWidth()) {
+        if (getX() - getOriginalImage().getWidth() / 2 > w.getWidth()) {
             w.removeObject(name);
             w.removeObject(tierStars);
             w.removeObject(this);
