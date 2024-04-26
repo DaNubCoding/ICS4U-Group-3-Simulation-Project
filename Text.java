@@ -293,7 +293,7 @@ public class Text extends PixelActor {
      */
     public static GreenfootImage createStringImage(String content, Color bgColor) {
         GreenfootImage textImage = createStringImage(content);
-        if (bgColor == null) {
+        if (textImage == null || bgColor == null) {
             return textImage;
         }
         // Add padding so the text doesn't reach the edge of the colored box
