@@ -8,9 +8,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class CutscenesWorld extends PixelWorld
 {
-    private static final GreenfootSound cutsceneMusic = new GreenfootSound("cutscene_music.wav");
-    private static final GreenfootSound fishGodMusic = new GreenfootSound("fish_god_music.wav");
-
     private GifPixelActor f1 = new GifPixelActor(new GifImage("fishercutscene1.gif"), Layer.BACKGROUND);
     private GifPixelActor f2 = new GifPixelActor(new GifImage("fishercutscene2.gif"), Layer.BACKGROUND);
     private GifPixelActor god;
@@ -35,7 +32,7 @@ public class CutscenesWorld extends PixelWorld
         triggerFadeIn(0.02);
         render();
 
-        Music.set(cutsceneMusic);
+        Music.set("cutscene_music.wav");
     }
 
     public void act() {
@@ -84,7 +81,7 @@ public class CutscenesWorld extends PixelWorld
                 god = new GifPixelActor(godMod, Layer.BACKGROUND);
                 addObject(god, 125, 80);
                 endTime = new Timer(850);
-                Music.set(fishGodMusic);
+                Music.set("fish_god_music.wav");
             }
 
             savedNum++;

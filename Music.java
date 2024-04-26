@@ -18,17 +18,17 @@ public final class Music {
     private static boolean isRunning = false;
 
     /**
-     * Set the current background music to the given sound. Any currently
+     * Set the current background music to the given sound file. Any currently
      * playing background music will be stopped. If the program is running, the
      * sound will automatically be started.
      *
-     * @param sound a GreenfootSound to play as background music
+     * @param soundPath the file path of a sound file to play as background music
      */
-    public static void set(GreenfootSound newSound) {
+    public static void set(String soundPath) {
         if (sound != null) {
             sound.stop();
         }
-        sound = newSound;
+        sound = new GreenfootSound(soundPath);
         if (sound == null) {
             return;
         }

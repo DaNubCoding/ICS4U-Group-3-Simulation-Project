@@ -12,8 +12,6 @@ import java.util.LinkedHashMap;
  * @version April 2024
  */
 public class GeneralSettingsWorld extends SettingsWorld {
-    private static final GreenfootSound settingsMusic = new GreenfootSound("settings_music.wav");
-
     /** @see UserSettings */
     private UserSettingSlider<Double> evoThresholdSlider;
     private UserSettingSlider<Integer> eggSpawnAmountSlider;
@@ -42,7 +40,7 @@ public class GeneralSettingsWorld extends SettingsWorld {
         addObject(tunaButton, midx + 40, top + 35);
         addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(46, 92, 107), userSettings::setTunaCount), midx + 25, top + 55);
 
-        Music.set(settingsMusic);
+        Music.set("settings_music.wav");
     }
 
     @Override
