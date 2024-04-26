@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
  * The final tier of fish, the rapid mutations have turned them into deadly calamities.
@@ -13,6 +13,11 @@ public class EndingFish extends Fish
         super(settings, 0, features);
     }
 
+    /**
+     * Initialize the settings for all types of EndingFish.
+     *
+     * @param settings The partially initialized settings to complete
+     */
     public static void initializeEndingFish(FishSettings settings) {
         // Base settings
         settings.setTier(5);
@@ -33,6 +38,7 @@ public class EndingFish extends Fish
         settings.validate();
     }
 
+    @Override
     public void act()
     {
         swim();

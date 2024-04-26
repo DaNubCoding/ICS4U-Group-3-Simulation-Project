@@ -5,7 +5,13 @@
  * @version April 2024
  */
 public class DoublePair {
+    /**
+     * The x value of this pair.
+     */
     public final double x;
+    /**
+     * The y value of this pair.
+     */
     public final double y;
 
     /**

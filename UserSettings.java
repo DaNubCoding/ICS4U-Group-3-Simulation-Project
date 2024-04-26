@@ -205,6 +205,7 @@ public class UserSettings {
     /**
      * Test whether or not a type of fish is to be protected from extinction.
      *
+     * @param type the subclass of Fish to test for protection
      * @return true if protecting the given subclass of Fish from extinction, false otherwise
      */
     public boolean isFishTypeProtected(Class<? extends Fish> type) {

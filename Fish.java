@@ -344,7 +344,7 @@ public abstract class Fish extends PixelActor {
      *
      * @param hook The hook that has been detected
      */
-    protected final void biteIfMatchingTier(Hook hook) {
+    private final void biteIfMatchingTier(Hook hook) {
         // Unimplemented condition until rod tiers and fish tiers are implemented
         if (hook.getTier().ordinal() + 2 >= settings.getTier()) {
             bittenHook = hook;
@@ -359,7 +359,7 @@ public abstract class Fish extends PixelActor {
      * Call this in act(). If hooked, moves the Fish to the location of the hook
      * in order to be reeled in.
      */
-    protected final void attachToHook() {
+    private final void attachToHook() {
         // If it has not bitten a hook yet, don't run the method
         if (bittenHook == null) return;
 
@@ -418,7 +418,7 @@ public abstract class Fish extends PixelActor {
      * Call this in act(). Makes the fish swim.
      * <p>May be overridden to implement special swim patterns.</p>
      */
-    protected void swim() {
+    public void swim() {
         move(settings.getSwimSpeed() * swimSpeedMultiplier);
         if (rotationTimer.ended()) {
             int maxAngle = settings.getMaxTurnDegrees();
@@ -437,7 +437,7 @@ public abstract class Fish extends PixelActor {
     /**
      * Attempt to spawn eggs.
      */
-    protected void reproduce() {
+    public void reproduce() {
         if (eggSpawnTimer.ended() && nearbyKinsCount < 8) {
             spawnEgg();
             eggSpawnTimer.restart((int) (settings.getEggSpawnFrequency() * Util.randDouble(0.8, 1.2)));
@@ -500,7 +500,7 @@ public abstract class Fish extends PixelActor {
      * <p>Between the left and right edge of the world and the minimum
      * and maximum depths.</p>
      */
-    protected void checkBounds() {
+    private void checkBounds() {
         if (getY() < SimulationWorld.SEA_SURFACE_Y) {
             if (getHeading() > 180) {
                 setHeading(getHeading() > 270 ? 0 : 180);
@@ -540,7 +540,7 @@ public abstract class Fish extends PixelActor {
     /**
      * Try to swim away from any fishes with socks within a certain radius.
      */
-    protected void repelFromSocks() {
+    private void repelFromSocks() {
         for (Fish other : ((SimulationWorld) getWorld()).getFishesByFeature(FishFeature.ANGLER_SOCK)) {
             // Find the world position of the sock itself, offset from the feature, body image, and fish position
             IntPair sockOffset = other.getSettings().getFeaturePoint(FishFeature.ANGLER_SOCK);
@@ -578,7 +578,7 @@ public abstract class Fish extends PixelActor {
     /**
      * Spawn bubbles at the Fish's mouth location (catchPoint).
      */
-    protected void spawnBubbles() {
+    private void spawnBubbles() {
         if (bubbleTimer.ended()) {
             DoublePair catchPoint = getCatchPoint();
             int numOfBubbles = Util.randInt(1, 4);

@@ -13,16 +13,23 @@ public enum BoatTier {
     STEEL(new IntPair(32, 11), 0.5, new IntPair(20, 17)),
     YACHT(new IntPair(38, 17), 0.1, new IntPair(21, 25));
 
+    /**
+     * The prefix for the image files of this tier of boat.
+     */
     public final String imagePrefix;
+    /**
+     * The offset of the rod relative to the boat's image.
+     */
     public final IntPair rodOffset;
+    /**
+     * The factor to multiply any drift-related movement by.
+     */
     public final double driftMagnitudeFactor;
+    /**
+     * The center of rotation of the boat relative to the boat's image.
+     */
     public final IntPair centerOfRotation;
 
-    /**
-     * @param rodOffset The offset of the rod relative to the boat's image
-     * @param driftMagnitudeFactor The factor to multiply any drift-related movement by
-     * @param centerOfRotation The center of rotation of the boat relative to the boat's image
-     */
     private BoatTier(IntPair rodOffset, double driftMagnitudeFactor, IntPair centerOfRotation) {
         imagePrefix = "boats/" + name().toLowerCase() + "_";
         this.rodOffset = rodOffset;

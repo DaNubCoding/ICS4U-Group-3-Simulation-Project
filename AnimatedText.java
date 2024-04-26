@@ -31,6 +31,11 @@ public class AnimatedText extends Text {
         private final String[] soundPaths;
         private SoundEffect lastSound;
 
+        /**
+         * Create a voice with a set number of variations.
+         *
+         * @param variationCount The number of sound files to randomly play
+         */
         private Voice(int variationCount) {
             soundPaths = new String[variationCount];
             for (int i = 0; i < soundPaths.length; i++) {
@@ -120,6 +125,9 @@ public class AnimatedText extends Text {
         updateImage();
     }
 
+    /**
+     * Update the image of the text, advancing the animation by one character when necessary.
+     */
     public void updateImage() {
         if (currentIndex == fullContent.length() || !nextCharTimer.ended()) return;
 

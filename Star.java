@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
  * UI element to show under fish in the summary world.
@@ -11,6 +11,11 @@ public class Star extends PixelActor
     private GreenfootImage image;
     private static final GreenfootImage STAR = new GreenfootImage("summary/star.png");
 
+    /**
+     * Creates a Star object with the given number of stars.
+     *
+     * @param number the number of stars to display
+     */
     public Star(int number){
         super(Layer.UI);
         image = new GreenfootImage(number*(STAR.getWidth()+1)-1, STAR.getHeight());

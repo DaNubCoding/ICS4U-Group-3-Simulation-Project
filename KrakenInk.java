@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 import java.util.List;
 
 /**
@@ -11,6 +11,10 @@ public class KrakenInk extends PixelActor
 {
     private double speed;
     private double ySpeed;
+
+    /**
+     * Create a new KrakenInk.
+     */
     public KrakenInk() {
         super("endFish/Kraken/ink_"+Util.randInt(0, 3)+".png", Layer.FG_BUBBLE);
         speed = Util.randDouble(0.1, 1);
@@ -18,6 +22,7 @@ public class KrakenInk extends PixelActor
         setHeading(Util.randInt(0, 360));
     }
 
+    @Override
     public void act()
     {
         setLocation(getDoubleX(), getDoubleY() - ySpeed);

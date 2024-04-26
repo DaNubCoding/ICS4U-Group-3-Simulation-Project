@@ -19,6 +19,7 @@ public class Util {
      *
      * @param image The image to scale
      * @param factor The factor to scale the image by
+     * @return A new GreenfootImage with the scaled dimensions
      */
     public static GreenfootImage scaledImage(GreenfootImage image, double factor) {
         GreenfootImage scaledImage = new GreenfootImage(image);
@@ -99,6 +100,7 @@ public class Util {
      * @param endAngle The angle to move towards
      * @param factor The factor to multiply the difference by, in order
      *               to interpolate gradually
+     * @return The new angle after interpolation
      */
     public static double interpolateAngle(double currentAngle, double endAngle, double factor) {
         double difference = Math.floorMod((int) (endAngle - currentAngle + 180), 360) - 180;

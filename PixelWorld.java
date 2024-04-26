@@ -91,6 +91,9 @@ public abstract class PixelWorld extends World {
         setBackground(scaled);
     }
 
+    /**
+     * Renders the fade effect on the world.
+     */
     private void renderFade() {
         fadePercentage += fadeSpeed;
         fadePercentage = Math.max(Math.min(fadePercentage, 1.0), 0.0);
@@ -219,6 +222,8 @@ public abstract class PixelWorld extends World {
      * Note: this method ignores objects that do not subclass from PixelActor!
      *
      * @param radius the radius of the circle, in canvas pixels
+     * @param x the x coordinate of the point
+     * @param y the y coordinate of the point
      * @param cls the class of objects to look for, or {@code null} for all types of objects
      * @return a list of objects in this actor's world of the given class within the given range
      */

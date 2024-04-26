@@ -2,14 +2,8 @@ import greenfoot.*;
 import java.util.List;
 
 /**
- * An special actor class that can render itself onto a PixelWorld.
- * <ul>
- * <li>Has floating point coordinates</li>
- * <li>Can move towards any direction</li>
- * <li>Can rotate independently of movement</li>
- * <li>Can mirror itself</li>
- * <li>Has center of rotation</li>
- * </ul>
+ * An special actor class designed to work with PixelWorld, and has a bunch of
+ * extra features that make it easier to work with.
  *
  * @author Andrew Wang
  * @author Martin Baldwin
@@ -81,6 +75,8 @@ public abstract class PixelActor extends Actor {
 
     /**
      * Create a PixelActor on a defined rendering layer without a starting image.
+     *
+     * @param layer The {@link Layer} to add this actor to
      */
     public PixelActor(Layer layer) {
         this((GreenfootImage) null, layer);
@@ -110,7 +106,7 @@ public abstract class PixelActor extends Actor {
      * the world, but we don't want PixelActors to be automatically drawn by
      * Greenfoot (they must be scaled manually).
      *
-     * @return null, always
+     * @return {@code null}, always
      */
     @Override
     public GreenfootImage getImage() {
@@ -318,6 +314,8 @@ public abstract class PixelActor extends Actor {
 
     /**
      * Get the direction the PixelActor is heading.
+     *
+     * @return The heading angle in degrees
      */
     public double getHeading() {
         return heading;
@@ -574,7 +572,7 @@ public abstract class PixelActor extends Actor {
     /**
      * Set the transparency to a value between 0 and 255 (inclusive).
      *
-     * @param transparency The transparency value between 0 ~ 255 (inclusive)
+     * @param transparency The transparency value between 0 and 255 (inclusive)
      */
     public void setTransparency(int transparency) {
         transformedImage.setTransparency(transparency);

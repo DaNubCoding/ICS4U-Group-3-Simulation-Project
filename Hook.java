@@ -39,6 +39,7 @@ public class Hook extends PixelActor {
         attachedFish = null;
     }
 
+    @Override
     public void act() {
         UserSettings userSettings = ((SimulationWorld) getWorld()).getUserSettings();
         double speedMultiplier = userSettings.getHookSpeedMultiplier(fishingRod.getFisher().getSide());

@@ -7,6 +7,9 @@ import greenfoot.*;
  * @version April 2024
  */
 public class RightFisher extends Fisher {
+    /**
+     * Constructs a new RightFisher.
+     */
     public RightFisher() {
         super();
         setMirrorX(true);

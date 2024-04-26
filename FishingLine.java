@@ -15,10 +15,9 @@ public class FishingLine extends PixelActor {
     private double endY;
 
     /**
-     * Initialize the fishing line attached to a fishing rod and hook.
+     * Initialize the fishing line attached to a fishing rod.
      *
      * @param fishingRod The fishing rod the fishing line belongs to
-     * @param hook The hook on this fishing line
      */
     public FishingLine(FishingRod fishingRod) {
         super(Layer.FISHING_LINE);
@@ -27,6 +26,8 @@ public class FishingLine extends PixelActor {
 
     /**
      * Set the hook this fishing line connects to.
+     *
+     * @param hook The hook this fishing line connects to
      */
     public void setHook(Hook hook) {
         this.hook = hook;
@@ -50,6 +51,7 @@ public class FishingLine extends PixelActor {
         canvas.drawLine((int) startX, (int) startY, (int) endX, (int) endY);
     }
 
+    @Override
     public void act() {
         // Start from the tip of the rod and end at the hook
         DoublePair rodTip = fishingRod.getTipPosition();

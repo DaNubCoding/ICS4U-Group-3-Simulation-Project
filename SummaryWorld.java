@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +78,7 @@ public class SummaryWorld extends PixelWorld
      * <p>
      * Page 3 displays all of the unlocked fish evolutions
      */
+    @Override
     public void act(){
         if(Greenfoot.isKeyDown("enter") && !keyPressed){
             displayNextPage();

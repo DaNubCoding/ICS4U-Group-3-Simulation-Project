@@ -152,7 +152,8 @@ public class Text extends PixelActor {
 
     /**
      * Creates a displayable text object from the given string with the
-     * specified alignment and desired maximum render width.
+     * specified alignment and desired maximum render width, using the given
+     * background color.
      *
      * @param content the string to render to this text object
      * @param anchorX a {@link AnchorX} value describing horizontal alignment
@@ -284,8 +285,8 @@ public class Text extends PixelActor {
     }
 
     /**
-     * Creates an image with a readable representation of the given string, with
-     * in a container of the given color.
+     * Creates an image with a readable representation of the given string,
+     * within a container of the given color.
      * <p>
      * The text is padded so that it does not reach the edge of the returned
      * image, unless {@code bgColor} is {@code null}, in which case this method

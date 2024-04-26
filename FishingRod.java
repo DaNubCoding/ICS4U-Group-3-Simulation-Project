@@ -19,6 +19,11 @@ public class FishingRod extends PixelActor {
 
     private Timer castTimer;
 
+    /**
+     * Create a new FishingRod for the given Fisher.
+     *
+     * @param fisher The Fisher that this FishingRod belongs to
+     */
     public FishingRod(Fisher fisher) {
         super(Layer.FISHING_ROD);
         this.fisher = fisher;
@@ -43,6 +48,7 @@ public class FishingRod extends PixelActor {
         act();
     }
 
+    @Override
     public void act() {
         DoublePair newPos = fisher.getRodPosition();
         setLocation(newPos.x, newPos.y);
@@ -118,7 +124,7 @@ public class FishingRod extends PixelActor {
     /**
      * Get the coordinates of the tip of the rod relative to the world.
      *
-     * @return The global x and y coordinates of the tip as a pair of doubles
+     * @return The global x and y coordinates of the tip as a {@link DoublePair}
      */
     public DoublePair getTipPosition() {
         return getImageOffsetGlobalPosition(getOriginalImage().getWidth() - 1, 0);
@@ -146,7 +152,7 @@ public class FishingRod extends PixelActor {
     /**
      * Get the tier of the rod.
      *
-     * @return The tier of the rod represented by a RodTier enum entry
+     * @return The tier of the rod represented by a {@link RodTier} enum entry
      */
     public RodTier getRodTier() {
         return rodTier;

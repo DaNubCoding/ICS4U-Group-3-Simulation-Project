@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
  * Many tentacled terror of the ocean.
@@ -26,6 +26,7 @@ public class Kraken extends EndingFish
         super(settings, null);
     }
 
+    @Override
     public void act()
     {
         //Acts normal at first

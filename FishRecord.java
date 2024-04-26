@@ -132,10 +132,20 @@ public class FishRecord extends PixelActor implements Comparable<FishRecord> {
         return 0;
     }
 
+    /**
+     * Sets the speed multiplier for all FishRecords.
+     *
+     * @param multiplier the new speed multiplier
+     */
     public static void setSpeedMultiplier(double multiplier){
         speedMultiplier = multiplier;
     }
 
+    /**
+     * Gets the speed multiplier for all FishRecords.
+     *
+     * @return the speed multiplier
+     */
     public static double getSpeedMultiplier(){
         return speedMultiplier;
     }

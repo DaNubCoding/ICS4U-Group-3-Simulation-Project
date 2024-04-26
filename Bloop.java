@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 import java.util.List;
 
 /**
@@ -28,6 +28,7 @@ public class Bloop extends EndingFish
         eat = false;
     }
 
+    @Override
     public void act()
     {
         //Behaves like normal fish until timer hits 0
@@ -60,7 +61,9 @@ public class Bloop extends EndingFish
         }
     }
 
-    //The Bloop will move across the screen back and fourth, eating fish
+    /**
+     * Moves the Bloop across the screen, eating fish along the way.
+     */
     private void crossTheScreen()
     {
         //If Bloop is fully grown, eats fish along the way

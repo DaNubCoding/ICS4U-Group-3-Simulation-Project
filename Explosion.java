@@ -1,10 +1,10 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
- * Explosion subclass
- * Creates an animated GIF image for bomb fish
+ * Explosion subclass.
+ * Creates an animated GIF image for bomb fish.
  *
- * @author Brandon
+ * @author Brandon Law
  * @version April 2024
  */
 public class Explosion extends GifPixelActor
@@ -13,11 +13,15 @@ public class Explosion extends GifPixelActor
 
     private int timer = 48;
 
+    /**
+     * Create an explosion.
+     */
     public Explosion() {
         super(new GifImage("explode.gif"), Layer.EFFECT);
         explosionSound.play();
     }
 
+    @Override
     public void act()
     {
         this.updateImage();

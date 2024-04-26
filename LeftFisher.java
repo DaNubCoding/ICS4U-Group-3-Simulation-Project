@@ -7,6 +7,9 @@ import greenfoot.*;
  * @version April 2024
  */
 public class LeftFisher extends Fisher {
+    /**
+     * Constructs a new LeftFisher.
+     */
     public LeftFisher() {
         super();
     }

@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * The fisher boats.
+ * The superclass to both Fishers.
  *
  * @author Andrew Wang
  * @version April 2024
@@ -27,6 +27,9 @@ public abstract class Fisher extends PixelActor {
 
     private FishingRod fishingRod;
 
+    /**
+     * Create a new Fisher.
+     */
     public Fisher() {
         super(Layer.BOAT);
         setBoatTier(BoatTier.WOODEN);
@@ -64,13 +67,14 @@ public abstract class Fisher extends PixelActor {
      * Get the position where this fisher's rod should be placed, relative to
      * the world.
      *
-     * @return a DoublePair of x and y coordinates for this fisher's rod location
+     * @return a {@link DoublePair} of x and y coordinates for this fisher's rod location
      */
     public DoublePair getRodPosition() {
         IntPair rodOffset = boatTier.rodOffset;
         return getImageOffsetGlobalPosition(rodOffset.x, rodOffset.y);
     }
 
+    @Override
     public void act() {
         drift();
         drive();
@@ -177,7 +181,7 @@ public abstract class Fisher extends PixelActor {
     public abstract int getRightBound();
 
     /**
-     * Set the baot's tier to a new tier, update image accordingly.
+     * Set the boat's tier to a new tier, update image accordingly.
      *
      * @param boatTier The tier of the boat as a boatTier enum element
      */
@@ -222,6 +226,8 @@ public abstract class Fisher extends PixelActor {
 
     /**
      * Get the total amount of exp a player has earned
+     *
+     * @return The total amount of exp
      */
     public int getTotalExp() {
         return totalExp;

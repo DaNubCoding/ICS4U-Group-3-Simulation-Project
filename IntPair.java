@@ -5,7 +5,13 @@
  * @version April 2024
  */
 public class IntPair {
+    /**
+     * The x value of this pair.
+     */
     public final int x;
+    /**
+     * The y value of this pair.
+     */
     public final int y;
 
     /**

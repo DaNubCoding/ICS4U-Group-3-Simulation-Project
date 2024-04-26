@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
  * A tentacle of the fearsome Kraken.
@@ -10,10 +10,18 @@ public class KrakenTentacle extends PixelActor
 {
     private int frames;
     private int yV = 7;
-    public KrakenTentacle(Layer l) {
-        super("endFish/Kraken/tentacle_0.png", l);
+
+    /**
+     * Create a new KrakenTentacle.
+     *
+     * @param layer The layer this actor belongs to
+     */
+    public KrakenTentacle(Layer layer) {
+        super("endFish/Kraken/tentacle_0.png", layer);
         frames = 0;
     }
+
+    @Override
     public void act()
     {
         setLocation(getX(), getY() - yV);

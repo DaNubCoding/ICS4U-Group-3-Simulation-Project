@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
  * The beginning cutscenes.
@@ -22,7 +22,6 @@ public class CutscenesWorld extends PixelWorld
 
     /**
      * Constructor for objects of class CutscenesWorld.
-     *
      */
     public CutscenesWorld()
     {
@@ -40,6 +39,7 @@ public class CutscenesWorld extends PixelWorld
         Music.set("cutscene_music.wav");
     }
 
+    @Override
     public void act() {
         render();
         Timer.incrementAct();

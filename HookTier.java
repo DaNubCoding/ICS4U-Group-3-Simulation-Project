@@ -12,14 +12,19 @@ public enum HookTier {
     BASIC(new IntPair(1, 1), new IntPair(2, 4)),
     ADVANCED(new IntPair(1, 1), new IntPair(5, 11));
 
+    /**
+     * The image of the hook.
+     */
     public final GreenfootImage image;
+    /**
+     * The center of rotation of the hook.
+     */
     public final IntPair centerOfRotation;
+    /**
+     * The point where the fish bites the hook.
+     */
     public final IntPair fishBitePoint;
 
-    /**
-     * @param fileName The name of the image file of the hook
-     * @param centerOfRotation The center of rotation of the image of the hook
-     */
     private HookTier(IntPair centerOfRotation, IntPair fishBitePoint) {
         image = new GreenfootImage("hooks/" + name().toLowerCase() + ".png");
         this.centerOfRotation = centerOfRotation;

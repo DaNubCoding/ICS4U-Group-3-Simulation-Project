@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 import java.util.List;
 
 /**
@@ -31,6 +31,7 @@ public class Leviathan extends EndingFish
         speed = settings.getSwimSpeed();
     }
 
+    @Override
     public void act()
     {
         super.act();

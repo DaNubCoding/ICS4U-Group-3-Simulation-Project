@@ -1,5 +1,11 @@
 import greenfoot.*;
 
+/**
+ * The settings world for the second Fisher.
+ *
+ * @author Andrew Wang
+ * @version April 2024
+ */
 public class FisherTwoSettingsWorld extends SettingsWorld {
     private static final Color COLOR = new Color(229, 115, 115);
 

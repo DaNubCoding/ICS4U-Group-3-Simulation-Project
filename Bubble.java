@@ -10,6 +10,9 @@ public class Bubble extends PixelActor {
     private double speed;
     private double riseSpeed;
 
+    /**
+     * Create a bubble.
+     */
     public Bubble() {
         super(Util.randInt(0, 1) == 0 ? "bubble_small.png" : "bubble_large.png", chooseRandomLayer());
 
@@ -18,6 +21,7 @@ public class Bubble extends PixelActor {
         setHeading(Util.randInt(180, 360));
     }
 
+    @Override
     public void act() {
         setLocation(getDoubleX(), getDoubleY() - riseSpeed);
         move(speed);

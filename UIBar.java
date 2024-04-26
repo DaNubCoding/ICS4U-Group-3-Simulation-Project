@@ -1,7 +1,7 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
- * Write a description of class ExpBar here.
+ * A bar that represents the level and experience of something.
  *
  * @author Matthew Li
  * @version April 2024
@@ -32,6 +32,14 @@ public class UIBar extends PixelActor
     //what you SHOULD do on your own is define constant static "inital values" up top, and assign them to your instance variables in your constructor
     //for now I just hardcoded the initial values inside the prameters of this method
 
+    /**
+     * Create a UIBar with the given width, height, maximum experience, and fill image.
+     *
+     * @param barWidth The width of the UIBar
+     * @param barHeight The height of the UIBar
+     * @param maxExp The maximum experience of the UIBar
+     * @param fillImagePath The path to the fill image of the UIBar
+     */
     public UIBar(int barWidth, int barHeight, int maxExp, String fillImagePath){
         //call teh pixel actors constructor first (via the super() call )
         //pixel actors constructor requires a greenfootimage for it's constructor, so we use our helper static method to generate  it, and then pass it ot the UI
@@ -44,6 +52,15 @@ public class UIBar extends PixelActor
         setCenterOfRotation(0, 0);
     }
 
+    /**
+     * Generate a UIbar's image with the given width, height, percentage filled, and fill image.
+     *
+     * @param width The width of the UIBar
+     * @param height The height of the UIBar
+     * @param percentageFilled The percentage of the UIBar that is filled
+     * @param fill The fill image of the UIBar
+     * @return The generated UIBar image
+     */
     public static GreenfootImage generateUI(int width, int height, double percentageFilled, GreenfootImage fill){
         wrap.scale(width, height);
 
@@ -64,6 +81,11 @@ public class UIBar extends PixelActor
         return barBackground;
     }
 
+    /**
+     * Gain experience for the UIBar.
+     *
+     * @param amount The amount of experience to gain
+     */
     public void gainExp(int amount){
         exp += amount;
         if(exp >= maxExp){

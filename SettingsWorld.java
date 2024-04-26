@@ -28,6 +28,7 @@ public abstract class SettingsWorld extends PixelWorld {
      *
      * @param previousWorld The SettingsWorld that came before this one
      * @param userSettings The UserSettings object from the previous SettingsWorld
+     * @param backgroundPath The path to the background image of this world
      */
     public SettingsWorld(SettingsWorld previousWorld, UserSettings userSettings, String backgroundPath) {
         super(250, 160);

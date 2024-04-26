@@ -1,9 +1,8 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import greenfoot.*;
 
 /**
- * Title World subclass
- * Uses an animated GIF world
+ * Title World subclass.
+ * Uses an animated GIF.
  *
  * @author Brandon Law
  * @version April 2024
@@ -38,6 +37,7 @@ public class TitleWorld extends PixelWorld
         this(false);
     }
 
+    @Override
     public void act() {
         render();
         Timer.incrementAct();

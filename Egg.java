@@ -22,8 +22,12 @@ public class Egg extends PixelActor {
         MEDIUM(300),
         LARGE(400),
         GIGANTIC(500),
-        COLOSSAL(600);
+        COLOSSAL(600),
+        ;
 
+        /**
+         * The time it takes for an egg of this size to hatch.
+         */
         public final int hatchTime;
 
         private Size(int hatchingTime) {
@@ -87,6 +91,7 @@ public class Egg extends PixelActor {
         spawnTimer = new Timer((int) (size.hatchTime * Util.randDouble(0.8, 1.2)));
     }
 
+    @Override
     public void act() {
         speed *= 0.98;
         move(speed);

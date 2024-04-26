@@ -125,6 +125,8 @@ public enum FishFeature {
 
     /**
      * Kill the given fish and all fish around it at a random point in time.
+     *
+     * @param fish the fish this method acts upon
      */
     private static void actBomb(Fish fish) {
         if (fish.isProtected()) {
@@ -138,6 +140,8 @@ public enum FishFeature {
 
     /**
      * Make a given fish blow up.
+     *
+     * @param fish the fish that will explode
      */
     private static void blowUp(Fish fish) {
         PixelWorld world = fish.getWorld();
@@ -168,6 +172,8 @@ public enum FishFeature {
 
     /**
      * Turn away from hooks that are close and in the fish's field of view.
+     *
+     * @param fish the fish this method acts upon
      */
     private static void actBigEye(Fish fish) {
         for (Hook hook : fish.getWorld().getObjects(Hook.class)) {
@@ -184,6 +190,8 @@ public enum FishFeature {
 
     /**
      * Turn towards the closest hook.
+     *
+     * @param fish the fish this method acts upon
      */
     private static void actHatBrown(Fish fish) {
         // Find the closest hook to this fish
@@ -208,6 +216,8 @@ public enum FishFeature {
 
     /**
      * Move forwards an extra amount so as to move faster.
+     *
+     * @param fish the fish this method acts upon
      */
     private static void actHatParty(Fish fish) {
         // 1x + 2x = 3x speed

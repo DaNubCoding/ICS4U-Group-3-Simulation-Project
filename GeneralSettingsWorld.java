@@ -60,6 +60,9 @@ public class GeneralSettingsWorld extends SettingsWorld {
         Greenfoot.setWorld(new FisherOneSettingsWorld(this, getUserSettings()));
     }
 
+    /**
+     * Toggles whether Salmons are protected from extinction.
+     */
     private void toggleSalmonProtect() {
         UserSettings userSettings = getUserSettings();
         if (userSettings.isFishTypeProtected(Salmon.class)) {
@@ -70,6 +73,9 @@ public class GeneralSettingsWorld extends SettingsWorld {
         salmonButton.setIcon(createFishIcon("fishes/salmon.png", userSettings.isFishTypeProtected(Salmon.class)));
     }
 
+    /**
+     * Toggles whether Basses are protected from extinction.
+     */
     private void toggleBassProtect() {
         UserSettings userSettings = getUserSettings();
         if (userSettings.isFishTypeProtected(Bass.class)) {
@@ -80,6 +86,9 @@ public class GeneralSettingsWorld extends SettingsWorld {
         bassButton.setIcon(createFishIcon("fishes/bass.png", userSettings.isFishTypeProtected(Bass.class)));
     }
 
+    /**
+     * Toggles whether Tunas are protected from extinction.
+     */
     private void toggleTunaProtect() {
         UserSettings userSettings = getUserSettings();
         if (userSettings.isFishTypeProtected(Tuna.class)) {
@@ -90,6 +99,13 @@ public class GeneralSettingsWorld extends SettingsWorld {
         tunaButton.setIcon(createFishIcon("fishes/tuna.png", userSettings.isFishTypeProtected(Tuna.class)));
     }
 
+    /**
+     * Creates a fish icon with an optional shield if protected from extinction.
+     *
+     * @param originalPath The path to the original fish image
+     * @param protect Whether the fish is protected from extinction
+     * @return The fish icon
+     */
     private GreenfootImage createFishIcon(String originalPath, boolean protect) {
         // All starting fish are 14 x 10, shield size 18
         GreenfootImage icon = new GreenfootImage(18, 18);

@@ -141,7 +141,7 @@ public class Slider<T extends Number> extends PixelActor {
         /**
          * Whether the Thumb is being dragged or not.
          *
-         * @return
+         * @return True if being held, false otherwise
          */
         public boolean isHeld() {
             return held;
@@ -162,7 +162,7 @@ public class Slider<T extends Number> extends PixelActor {
      * @param minValue The minimum value of the Slider (left-most value)
      * @param maxValue The maximum value of the Slider (right-most value)
      * @param defaultValue The default value the Slider will be initalized at
-     * @param length The horizontal length of the slider
+     * @param length The horizontal length of the Slider
      * @param color The color of the slider
      */
     public Slider(T minValue, T maxValue, T defaultValue, int length, Color color) {

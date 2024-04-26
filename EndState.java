@@ -16,8 +16,17 @@ public enum EndState {
     LEVIATHAN(new Color(176, 46, 46, 200), "The Fish God's mutations have gone too far. The rabid Leviathans would soon spread across all corners of the waters, tearing everything else apart. Soon, being adapted to land, war between the lands and seas would commence."),
     ;
 
+    /**
+     * The color of the text displayed on the EndWorld.
+     */
     public final Color color;
+    /**
+     * A description of the end state displayed on the EndWorld.
+     */
     public final String description;
+    /**
+     * The background image for the end state.
+     */
     public final GreenfootImage background;
 
     private EndState(Color color, String description) {

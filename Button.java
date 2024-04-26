@@ -74,6 +74,7 @@ public class Button extends PixelActor {
         }
     }
 
+    @Override
     public void act() {
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();
         if (mouseInfo == null) return;

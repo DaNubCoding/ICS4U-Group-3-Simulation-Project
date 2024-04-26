@@ -37,7 +37,6 @@ public class EndWorld extends PixelWorld {
         getCanvas().setColor(state.color);
         render();
 
-        // TODO: add music
         Music.stop();
     }
 

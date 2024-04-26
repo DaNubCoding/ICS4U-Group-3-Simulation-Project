@@ -42,6 +42,11 @@ public class SimulationWorld extends PixelWorld {
     // GifImage for waves
     private GifPixelActor waves = new GifPixelActor(new GifImage("wavesanim.gif"), Layer.FOREGROUND);
 
+    /**
+     * Constructs a new SimulationWorld with the given UserSettings.
+     *
+     * @param userSettings the UserSettings object containing all user settings for this simulation
+     */
     public SimulationWorld(UserSettings userSettings) {
         super(250, 160);
         this.userSettings = userSettings;

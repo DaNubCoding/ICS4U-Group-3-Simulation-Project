@@ -13,12 +13,11 @@ public class TextWithTooltip extends Text {
 
     /**
      * Creates a displayable text object from the given string with the
-     * specified alignment and desired maximum render width.
+     * specified alignment.
      *
      * @param content the string to render to this text object
      * @param anchorX a {@link AnchorX} value describing horizontal alignment
      * @param anchorY a {@link AnchorY} value describing vertical alignment
-     * @param maxWidth the desired maximum width of the rendered content
      * @see #reflowToWidth
      */
     public TextWithTooltip(String content, AnchorX anchorX, AnchorY anchorY) {
@@ -28,21 +27,24 @@ public class TextWithTooltip extends Text {
     /**
      * Creates a displayable text object from the given integer with the
      * specified alignment.
-     * <p>
-     * This is identical to passing {@link String#valueOf(value)} as the content to {@link #Text(String, AnchorX, AnchorY)}.
      *
-     * @param value the integer to render to this text object, using a base 10 representation
+     * @param content the string to render to this text object
      * @param anchorX a {@link AnchorX} value describing horizontal alignment
      * @param anchorY a {@link AnchorY} value describing vertical alignment
+     * @param maxWidth the desired maximum width of the rendered content
      */
     public TextWithTooltip(String content, AnchorX anchorX, AnchorY anchorY, int maxWidth) {
         super(content, anchorX, anchorY, maxWidth);
     }
 
     /**
-     * Updates this text object's image to display the given string.
+     * Creates a displayable text object from the given integer with the
+     * specified alignment.
+     * <p>
+     * This is identical to passing {@link String#valueOf(value)} as the content
+     * to {@link #Text(String, AnchorX, AnchorY)}.
      *
-     * @param content the string to render to this text object
+     * @param value the integer to render to this text object, using a base 10 representation
      */
     public TextWithTooltip(int value, AnchorX anchorX, AnchorY anchorY) {
         super(value, anchorX, anchorY);
