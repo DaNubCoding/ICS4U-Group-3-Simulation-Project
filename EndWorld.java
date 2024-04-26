@@ -7,6 +7,8 @@ import greenfoot.*;
  * @version April 2024
  */
 public class EndWorld extends PixelWorld {
+    private boolean keyPressed = true;
+
     private SimulationWorld simulationWorld;
 
     /**
@@ -35,6 +37,12 @@ public class EndWorld extends PixelWorld {
     public void act() {
         render();
         Timer.incrementAct();
+
+        boolean newKeyPressed = Greenfoot.isKeyDown("enter");
+        if (newKeyPressed && !keyPressed) {
+            triggerFadeOut(0.02);
+        }
+        keyPressed = newKeyPressed;
 
         if (isFadeOutComplete()) {
             Greenfoot.setWorld(new SummaryWorld(simulationWorld));
