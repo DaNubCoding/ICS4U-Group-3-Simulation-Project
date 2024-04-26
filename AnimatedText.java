@@ -15,6 +15,12 @@ public class AnimatedText extends Text {
     /**
      * Different styles of voice to play as animated text is displayed, each
      * with a set of sound files to randomly play.
+     * <p>
+     * Note that due to a known bug with the internal audio data lines behind
+     * Greenfoot, repeatedly stopping and starting a sound will hang the
+     * program (apparently for around 1975 ms each time). Thus, this enum's
+     * {@link playSound} method creates a new {@link SoundEffect} each time it
+     * is called so that the sound works as intended.
      *
      * @author Martin Baldwin
      * @version April 2024
@@ -23,41 +29,25 @@ public class AnimatedText extends Text {
         LOW(4), HIGH(4);
 
         private final String[] soundPaths;
+        private SoundEffect lastSound;
 
         private Voice(int variationCount) {
             soundPaths = new String[variationCount];
             for (int i = 0; i < soundPaths.length; i++) {
                 soundPaths[i] = "voices/" + name().toLowerCase() + "_" + i + ".wav";
             }
-        }
-    }
-
-    /**
-     * A collection of sound effects defined by a {@link Voice} that can be
-     * played randomly as text is displayed.
-     *
-     * @author Martin Baldwin
-     * @version April 2024
-     */
-    private static class VoiceSound {
-        private final SoundEffect[] sounds;
-        private int lastSoundIndex;
-
-        public VoiceSound(Voice voice) {
-            sounds = new SoundEffect[voice.soundPaths.length];
-            for (int i = 0; i < sounds.length; i++) {
-                sounds[i] = new SoundEffect(voice.soundPaths[i], 1);
-            }
-            lastSoundIndex = 0;
+            lastSound = null;
         }
 
         /**
          * Plays a random sound effect of this voice, stopping the previous one.
          */
-        private void play() {
-            sounds[lastSoundIndex].stop();
-            lastSoundIndex = Util.randInt(0, sounds.length - 1);
-            sounds[lastSoundIndex].play();
+        private void playSound() {
+            if (lastSound != null) {
+                lastSound.stop();
+            }
+            lastSound = new SoundEffect(soundPaths[Util.randInt(0, soundPaths.length - 1)], 1);
+            lastSound.play();
         }
     }
 
@@ -65,7 +55,7 @@ public class AnimatedText extends Text {
     private Timer nextCharTimer;
     private int currentIndex;
     // Sound effects to play as the text is displayed
-    private VoiceSound voice;
+    private Voice voice;
     // Never voice consecutive characters (too crazy sounding)
     private boolean voicedLastChar;
 
@@ -83,11 +73,7 @@ public class AnimatedText extends Text {
         fullContent = content;
         nextCharTimer = new Timer(TEXT_SPEED);
         currentIndex = 0;
-        if (voice == null) {
-            this.voice = null;
-        } else {
-            this.voice = new VoiceSound(voice);
-        }
+        this.voice = voice;
         voicedLastChar = false;
     }
 
@@ -150,7 +136,7 @@ public class AnimatedText extends Text {
         // characters when the last character wasn't voiced already
         voicedLastChar = !voicedLastChar && fullContent.charAt(currentIndex - 1) != ' ';
         if (voicedLastChar) {
-            voice.play();
+            voice.playSound();
         }
     }
 }
