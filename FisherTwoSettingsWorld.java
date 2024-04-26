@@ -16,13 +16,13 @@ public class FisherTwoSettingsWorld extends SettingsWorld {
      * @param userSettings The partial UserSettings from the FisherOneSettingsWorld
      */
     public FisherTwoSettingsWorld(SettingsWorld previousWorld, UserSettings userSettings) {
-        super(previousWorld, userSettings, "fisher2_settings_background.png");
+        super(previousWorld, userSettings, "settings/fisher_2_background.png");
 
         // Add title and fisher sprite
         int midx = getWidth() / 2;
         int top = 15;
         addObject(new Text("~ Fisher 2 ~", Text.AnchorX.CENTER, Text.AnchorY.CENTER, new Color(240, 178, 171)), midx, top);
-        PixelActor littlePerson = new StillActor("images/fisher2.png", Layer.UI);
+        PixelActor littlePerson = new StillActor("images/fisher_2.png", Layer.UI);
         littlePerson.setMirrorX(true);
         addObject(littlePerson, midx, top + 15);
     }

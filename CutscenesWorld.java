@@ -9,8 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class CutscenesWorld extends PixelWorld
 {
-    private GifPixelActor f1 = new GifPixelActor(new GifImage("fishercutscene1.gif"), Layer.BACKGROUND);
-    private GifPixelActor f2 = new GifPixelActor(new GifImage("fishercutscene2.gif"), Layer.BACKGROUND);
+    private GifPixelActor f1 = new GifPixelActor(new GifImage("cutscenes/fisher1.gif"), Layer.BACKGROUND);
+    private GifPixelActor f2 = new GifPixelActor(new GifImage("cutscenes/fisher2.gif"), Layer.BACKGROUND);
     private GifPixelActor god;
     private GifImage godMod;
     private AnimatedText t1;
@@ -84,7 +84,7 @@ public class CutscenesWorld extends PixelWorld
                 removeObject(t1);
                 removeObject(continueButton);
                 addObject(new Button("Skip Cutscene", () -> triggerFadeOut(0.04)), getWidth() - 57, getHeight() - 16);
-                godMod = new GifImage("fishgodcutscene.gif");
+                godMod = new GifImage("cutscenes/fish_god.gif");
                 god = new GifPixelActor(godMod, Layer.BACKGROUND);
                 addObject(god, 125, 80);
                 endTime = new Timer(850);

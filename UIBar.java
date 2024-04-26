@@ -18,7 +18,7 @@ public class UIBar extends PixelActor
     private int width;
     private int height;
 
-    private static GreenfootImage wrap = new GreenfootImage ("ui_bar_background.png");
+    private static GreenfootImage wrap = new GreenfootImage ("ui/bar_background.png");
     private GreenfootImage fill;
 
     //if you are chaging the pictures of the wrap, update these numbers. they are the pixel widths of your image
