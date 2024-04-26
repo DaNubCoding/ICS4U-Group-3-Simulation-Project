@@ -34,8 +34,8 @@ public class KrakenInk extends PixelActor
         if (getY() < SimulationWorld.SEA_SURFACE_Y) {
             setLocation(getX(), SimulationWorld.SEA_SURFACE_Y);
         }
-        if (getY() > SimulationWorld.SEA_FLOOR_Y) {
-            setLocation(getX(), SimulationWorld.SEA_FLOOR_Y);
+        if (getY() > getWorld().getHeight()) {
+            setLocation(getX(), getWorld().getHeight());
         }
 
         //Ink kills any creature it engulfs

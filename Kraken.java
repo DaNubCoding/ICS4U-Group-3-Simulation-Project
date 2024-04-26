@@ -31,33 +31,30 @@ public class Kraken extends EndingFish
     {
         //Acts normal at first
         super.act();
-        if (doomTimer > 0) {
-            doomTimer -= 1;
-        } else {
+        doomTimer -= 1;
+        if (doomTimer <= 0) {
             //Starts spewing mass ammounts of ink that darkens the sea and kills the fish
             if (doomTimer > -800) {
                 if (Util.randInt(0,2) == 0) {
-                    doomTimer -= 1;
                     getWorld().addObject(new KrakenInk(), getX(), getY()+5);
                 }
             } else {
                 //The Kraken waits for a bit before attacking
-                doomTimer -= 1;
                 if (alpha > 0) {
                     alpha -= 1;
                 }
                 setTransparency(alpha);
-                if (doomTimer == -1350) {
+                if (doomTimer == -1550) {
                     for (int i = 0; i < 5; i++) {
                         getWorld().addObject(new KrakenTentacle(Layer.BG_BUBBLE), 25+(getWorld().getWidth()/5)*i, 55);
                     }
                 }
-                if (doomTimer == -1425) {
+                if (doomTimer == -1625) {
                     for (int i = 0; i < 4; i++) {
                         getWorld().addObject(new KrakenTentacle(Layer.FG_BUBBLE), 40+(getWorld().getWidth()/4-10)*i, 50);
                     }
                 }
-                if (doomTimer == -1450) {
+                if (doomTimer == -1650) {
                     ((SimulationWorld)getWorld()).fishEnd(1);
                 }
             }
