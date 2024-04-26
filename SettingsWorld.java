@@ -18,7 +18,7 @@ public abstract class SettingsWorld extends PixelWorld {
     private SettingsWorld nextWorld;
 
     private UserSettings userSettings;
-    private LinkedHashMap<String, Slider<?>> sliders;
+    private Map<String, Slider<?>> sliders;
     private ArrayList<String> tooltips;
     private int sliderTop;
 
