@@ -30,6 +30,7 @@ public class GeneralSettingsWorld extends SettingsWorld {
         int top = 15;
         addObject(new Text("~ Starting Fish ~", Text.AnchorX.CENTER, Text.AnchorY.CENTER), midx, top);
         addObject(new Text("click to toggle protection from extinction", Text.AnchorX.CENTER, Text.AnchorY.CENTER), midx, top + 11);
+        addObject(new Text("Page 1 of 3", Text.AnchorX.RIGHT, Text.AnchorY.BOTTOM), getWidth() - 6, getHeight() - 4);
         salmonButton = new Button(createFishIcon("fishes/salmon.png", false), this::toggleSalmonProtect);
         addObject(salmonButton, midx - 50, top + 35);
         addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(229, 115, 115), userSettings::setSalmonCount), midx - 65, top + 55);
