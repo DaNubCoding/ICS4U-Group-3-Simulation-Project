@@ -4,6 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * The beginning cutscenes.
  *
  * @author Brandon Law
+ * @author Sandra Huang
  * @version April 2024
  */
 public class CutscenesWorld extends PixelWorld
@@ -13,6 +14,7 @@ public class CutscenesWorld extends PixelWorld
     private GifPixelActor god;
     private GifImage godMod;
     private AnimatedText t1;
+    private Button continueButton;
     private Timer endTime;
     private int cutsceneNum = 1;
     private int savedNum = 1;
@@ -28,6 +30,9 @@ public class CutscenesWorld extends PixelWorld
         addObject(f1, 125, 80);
         t1 = new AnimatedText("Have you heard? There's new fish in the reef!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 75, AnimatedText.Voice.LOW);
         addObject(t1, 135, 67);
+
+        continueButton = new Button("Continue", () -> triggerFadeOut(0.04));
+        addObject(continueButton, getWidth() - 38, getHeight() - 16);
 
         triggerFadeIn(0.02);
         render();
@@ -77,6 +82,8 @@ public class CutscenesWorld extends PixelWorld
 
             if (cutsceneNum == 5) {
                 removeObject(t1);
+                removeObject(continueButton);
+                addObject(new Button("Skip Cutscene", () -> triggerFadeOut(0.04)), getWidth() - 57, getHeight() - 16);
                 godMod = new GifImage("fishgodcutscene.gif");
                 god = new GifPixelActor(godMod, Layer.BACKGROUND);
                 addObject(god, 125, 80);
@@ -87,7 +94,7 @@ public class CutscenesWorld extends PixelWorld
             savedNum++;
         }
 
-        if (cutsceneNum > 5 || (endTime != null && endTime.ended())){
+        if (cutsceneNum > 5 || (endTime != null && endTime.ended())) {
             Greenfoot.setWorld(new GeneralSettingsWorld());
         }
     }
