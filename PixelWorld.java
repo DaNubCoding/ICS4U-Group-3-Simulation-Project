@@ -62,6 +62,8 @@ public abstract class PixelWorld extends World {
         fadeImage = new GreenfootImage(worldWidth, worldHeight);
         fadeImage.setColor(Color.BLACK);
         fadeImage.fill();
+
+        SoundEffect.resetState();
     }
 
     /**
