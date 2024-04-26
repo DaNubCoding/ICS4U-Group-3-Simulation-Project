@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * UI element to show under fish in the summary world
+ * UI element to show under fish in the summary world.
  *
  * @author Sandra Huang
- * @version (a version number or a date)
+ * @version April 2024
  */
 public class Star extends PixelActor
 {

@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A
+ * An invertebrate with a deadly sting.
  *
  * @author Stanley Wang
  * @author Sandra Huang

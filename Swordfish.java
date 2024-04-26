@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A
+ * A fish highly skilled in wielding the katana.
  *
  * @author Stanley Wang
  * @author Sandra Huang

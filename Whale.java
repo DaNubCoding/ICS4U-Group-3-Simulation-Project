@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A
+ * A gigantic sea creature.
  *
  * @author Stanley Wang
  * @author Sandra Huang

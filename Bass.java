@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * A fast freshwater fish
+ * A fast freshwater fish.
  *
  * @author Brandon Law
  * @author Sandra Huang

@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * A class that holds all fish settings for a basic, tier one fish
+ * A class that holds all fish settings for a basic, tier one fish.
  *
  * @author Sandra Huang
  * @version April 2024

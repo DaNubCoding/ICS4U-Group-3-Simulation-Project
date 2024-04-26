@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A fish with an impressive sense of smell for blood
+ * A fish with an impressive sense of smell for blood.
  *
  * @author Stanley Wang
  * @author Sandra Huang

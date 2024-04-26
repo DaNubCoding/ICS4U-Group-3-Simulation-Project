@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A
+ * An invasive, venomous fish.
  *
  * @author Stanley Wang
  * @author Sandra Huang

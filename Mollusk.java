@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A
+ * A brainless sea dweller.
  *
  * @author Stanley Wang
  * @author Sandra Huang

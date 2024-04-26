@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * A tentacle of the fearsome Kraken
+ * A tentacle of the fearsome Kraken.
  *
  * @author Stanley Wang
  * @version April 2024

@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 /**
- * A
+ * An agile, speedy, torpedo-shaped fish.
  *
  * @author Stanley Wang
  * @author Sandra Huang
