@@ -14,6 +14,8 @@ public class CutscenesWorld extends PixelWorld
     private GifPixelActor god;
     private GifImage godMod;
     private AnimatedText t1;
+    private Text nameLabel1 = new Text("Su C. Sheph", Text.AnchorX.CENTER, Text.AnchorY.BOTTOM, new Color(224, 196, 196, 200));
+    private Text nameLabel2 = new Text("Marie B. O'Logist", Text.AnchorX.CENTER, Text.AnchorY.BOTTOM, new Color(196, 224, 224, 200));
     private Button continueButton;
     private Timer endTime;
     private int cutsceneNum = 1;
@@ -29,6 +31,7 @@ public class CutscenesWorld extends PixelWorld
         addObject(f1, 125, 80);
         t1 = new AnimatedText("Have you heard? There's new fish in the reef!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 75, AnimatedText.Voice.LOW);
         addObject(t1, 135, 67);
+        addObject(nameLabel1, getWidth() / 2, getHeight() - 8);
 
         continueButton = new Button("Continue", () -> triggerFadeOut(0.04));
         addObject(continueButton, getWidth() - 38, getHeight() - 16);
@@ -61,27 +64,34 @@ public class CutscenesWorld extends PixelWorld
 
             if (cutsceneNum == 2) {
                 removeObject(t1);
+                removeObject(nameLabel1);
                 addObject(f2, 125, 80);
                 t1 = new AnimatedText("New Fish? Can't wait to go fishing!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 90, AnimatedText.Voice.HIGH);
                 addObject(t1, 35, 72);
+                addObject(nameLabel2, getWidth() / 2, getHeight() - 8);
             }
 
             if (cutsceneNum == 3) {
                 removeObject(t1);
+                removeObject(nameLabel2);
                 addObject(f1, 125, 80);
                 t1 = new AnimatedText("As a sushi chef, I can't wait to eat them!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 75, AnimatedText.Voice.LOW);
                 addObject(t1, 135, 67);
+                addObject(nameLabel1, getWidth() / 2, getHeight() - 8);
             }
 
             if (cutsceneNum == 4) {
                 removeObject(t1);
+                removeObject(nameLabel1);
                 addObject(f2, 125, 80);
                 t1 = new AnimatedText("As a marine biologist, I can write a paper on this!", Text.AnchorX.LEFT, Text.AnchorY.TOP, 100, AnimatedText.Voice.HIGH);
                 addObject(t1, 29, 67);
+                addObject(nameLabel2, getWidth() / 2, getHeight() - 8);
             }
 
             if (cutsceneNum == 5) {
                 removeObject(t1);
+                removeObject(nameLabel2);
                 removeObject(continueButton);
                 addObject(new Button("Skip Cutscene", () -> triggerFadeOut(0.04)), getWidth() - 57, getHeight() - 16);
                 godMod = new GifImage("cutscenes/fish_god.gif");
@@ -102,17 +112,14 @@ public class CutscenesWorld extends PixelWorld
     private void render() {
         if (cutsceneNum == 1 || cutsceneNum == 3) {
             f1.updateImage();
-            f1.render(getCanvas());
         }
 
         if (cutsceneNum == 2 || cutsceneNum == 4) {
             f2.updateImage();
-            f2.render(getCanvas());
         }
 
         if (cutsceneNum == 5) {
             god.updateImage();
-            god.render(getCanvas());
         }
 
         renderPixelActors();
