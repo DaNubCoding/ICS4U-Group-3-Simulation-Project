@@ -92,7 +92,7 @@ public class UIBar extends PixelActor
             if(level < maxLevel){
                 level++;
                 upgradeSound.play();
-                exp = 0;
+                exp -= maxExp;
             }else{
                 exp = maxExp;
             }
