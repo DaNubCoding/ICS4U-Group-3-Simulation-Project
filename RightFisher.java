@@ -36,6 +36,11 @@ public class RightFisher extends Fisher {
     }
 
     @Override
+    public int placeIcon(){
+        return 210;
+    }
+
+    @Override
     public double getBarOverlapPercentage(int barRange) {
         int right = getX() + (int) getTransformedWidth() / 2;
         return (getWorld().getWidth() - right) / (double) barRange;

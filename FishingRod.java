@@ -6,6 +6,7 @@ import java.util.ArrayList;
  *
  * @author Andrew Wang
  * @author Martin Baldwin
+ * @author Matthew Li
  * @version April 2024
  */
 public class FishingRod extends PixelActor {
@@ -16,6 +17,7 @@ public class FishingRod extends PixelActor {
     private ArrayList<Hook> hooks;
     private RodTier rodTier;
     private UIBar rodBar;
+    private Icon hookIcon;
 
     private Timer castTimer;
 
@@ -36,11 +38,13 @@ public class FishingRod extends PixelActor {
 
         castTimer = new Timer(100);
         rodBar = new UIBar(30, 8, 800, "ui/bar_gold.png");
+        hookIcon = new Icon(2);
     }
 
     @Override
     public void addedToWorld(World world) {
         world.addObject(rodBar, fisher.getBarX(), 12);
+        world.addObject(hookIcon, fisher.placeIcon(), 16);
         if (fisher.getMirrorX()) {
             setMirrorX(true);
         }
@@ -176,6 +180,15 @@ public class FishingRod extends PixelActor {
      */
     public UIBar getRodBar() {
         return rodBar;
+    }
+
+    /**
+     * Get the Icon for the rod UIBar
+     *
+     * @return The hook Icon of this fishing rod
+     */
+    public Icon getHookIcon() {
+        return hookIcon;
     }
 
     /**

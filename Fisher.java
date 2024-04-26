@@ -4,6 +4,7 @@ import greenfoot.*;
  * The superclass to both Fishers.
  *
  * @author Andrew Wang
+ * @author Matthew Li
  * @version April 2024
  */
 public abstract class Fisher extends PixelActor {
@@ -26,6 +27,7 @@ public abstract class Fisher extends PixelActor {
     private Timer moveTimer;
 
     private FishingRod fishingRod;
+    private Icon boatIcon;
 
     /**
      * Create a new Fisher.
@@ -45,6 +47,8 @@ public abstract class Fisher extends PixelActor {
 
         fishingRod = new FishingRod(this);
         boatBar = new UIBar(30, 8, 1600, "ui/bar_water.png");
+        boatIcon = new Icon(1);
+
     }
 
     @Override
@@ -52,6 +56,11 @@ public abstract class Fisher extends PixelActor {
         setAnchor(getX(), getY());
 
         world.addObject(getBoatBar(), getBarX(), 2);
+        world.addObject(getIcon(), placeIcon(), 5);
+        if (placeIcon() > 125) {
+            boatIcon.setMirrorX(true);
+        }
+
         setBounds(getLeftBound(), getRightBound());
         world.addObject(getFishingRod(), getX(), getY());
     }
@@ -181,6 +190,13 @@ public abstract class Fisher extends PixelActor {
     public abstract int getRightBound();
 
     /**
+     * Get the x-coordinate to use when placing any Icons for this Fisher.
+     *
+     * @return the horizontal location of this Fisher's Icons
+     */
+    public abstract int placeIcon();
+
+    /**
      * Set the boat's tier to a new tier, update image accordingly.
      *
      * @param boatTier The tier of the boat as a boatTier enum element
@@ -243,6 +259,15 @@ public abstract class Fisher extends PixelActor {
     }
 
     /**
+     * Get the Icon for the boat UIBar
+     *
+     * @return The boat Icon of the Fisher
+     */
+    public Icon getIcon() {
+        return boatIcon;
+    }
+
+    /**
      * Fade out the UIBars if the boat overlaps with them.
      */
     private void fadeOutBars() {
@@ -251,7 +276,9 @@ public abstract class Fisher extends PixelActor {
         percentage = Math.min(Math.max(percentage, 0.0), 1.0);
         int transparency = (int) (100 + 80 * percentage);
         boatBar.setTransparency(transparency);
+        boatIcon.setTransparency(transparency);
         fishingRod.getRodBar().setTransparency(transparency);
+        fishingRod.getHookIcon().setTransparency(transparency);
     }
 
     /**
