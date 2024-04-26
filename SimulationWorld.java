@@ -104,12 +104,6 @@ public class SimulationWorld extends PixelWorld {
             fishEnd(2);
         }
 
-        // Temporary test
-        if (Greenfoot.isKeyDown("e")) {
-            triggerFadeOut(0.02);
-            endState = EndState.TEST;
-        }
-
         if (isFadeOutComplete()) {
             Greenfoot.setWorld(new EndWorld(this, endState));
         }

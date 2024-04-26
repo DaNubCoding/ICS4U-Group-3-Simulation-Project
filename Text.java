@@ -33,11 +33,16 @@ public class Text extends PixelActor {
     public static final int LINE_SPACING = 1;
 
     /**
-     * The number of pixels of padding to add to text images when a background
-     * color is used.
+     * The number of pixels of horizontal padding to add to text images when a
+     * background color is used.
      */
-    private static final int BACKGROUND_PADDING_X = 4;
-    private static final int BACKGROUND_PADDING_Y = 2;
+    public static final int BACKGROUND_PADDING_X = 4;
+
+    /**
+     * The number of pixels of vertical padding to add to text images when a
+     * background color is used.
+     */
+    public static final int BACKGROUND_PADDING_Y = 2;
 
     // Map characters to their image representations
     // A character's image is found at the index of the ASCII value minus 0x20 so that it starts at space
