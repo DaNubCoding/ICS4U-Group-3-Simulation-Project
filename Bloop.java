@@ -12,7 +12,7 @@ public class Bloop extends EndingFish
     // Collection of all settings that define this subclass of EndingFish
     private static final FishSettings settings;
     private boolean eat;
-    private int doomTimer = 2400;
+    private int doomTimer = 1800;
     //sets this ending fish's settings to basic settings, with specified body image and egg color
     static {
         settings = new FishSettings();
@@ -42,7 +42,7 @@ public class Bloop extends EndingFish
             super.act();
         } else {
             //Bloop will leave the screen and come back bigger and starts to eat the fish
-            if (doomTimer > -5)
+            if (doomTimer > -4)
             {
                 crossTheScreen();
             } else {
