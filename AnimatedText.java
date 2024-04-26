@@ -26,7 +26,7 @@ public class AnimatedText extends Text {
      * @version April 2024
      */
     public static enum Voice {
-        LOW(4), HIGH(4);
+        LOW(4), HIGH(4), BEEP(3);
 
         private final String[] soundPaths;
         private SoundEffect lastSound;

@@ -28,7 +28,7 @@ public class EndWorld extends PixelWorld {
         super(250, 160);
         this.simulationWorld = simulationWorld;
 
-        addObject(new AnimatedText(state.description, Text.AnchorX.LEFT, Text.AnchorY.TOP, TEXT_WIDTH), TEXT_X, TEXT_Y);
+        addObject(new AnimatedText(state.description, Text.AnchorX.LEFT, Text.AnchorY.TOP, TEXT_WIDTH, AnimatedText.Voice.BEEP), TEXT_X, TEXT_Y);
         addObject(new Button("Continue", () -> triggerFadeOut(0.02)), getWidth() - 38, getHeight() - 16);
 
         triggerFadeIn(0.01);
