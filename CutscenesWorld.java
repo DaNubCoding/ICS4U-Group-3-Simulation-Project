@@ -40,6 +40,7 @@ public class CutscenesWorld extends PixelWorld
         render();
 
         Music.set("cutscene_music.wav");
+        Music.triggerFadeIn(0.01);
     }
 
     @Override
@@ -48,8 +49,10 @@ public class CutscenesWorld extends PixelWorld
         Timer.incrementAct();
 
         if (Greenfoot.isKeyDown("Enter") && !keyPressed){
-            if (cutsceneNum <= 5) {
-                triggerFadeOut(0.04);
+            triggerFadeOut(0.04);
+            if (cutsceneNum == 4) {
+                Music.triggerFadeOut(0.01);
+                System.out.println("hi");
             }
         }
         keyPressed = Greenfoot.isKeyDown("Enter");
@@ -107,6 +110,8 @@ public class CutscenesWorld extends PixelWorld
         if (cutsceneNum > 5 || (endTime != null && endTime.ended())) {
             Greenfoot.setWorld(new GeneralSettingsWorld());
         }
+
+        Music.doFade();
     }
 
     private void render() {

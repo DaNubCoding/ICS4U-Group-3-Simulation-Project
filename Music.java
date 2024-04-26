@@ -17,6 +17,9 @@ public final class Music {
     // whether or not the program is running.
     private static boolean isRunning = false;
 
+    private static double fadePercentage = 1.0;
+    private static double fadeSpeed;
+
     /**
      * Set the current background music to the given sound file. Any currently
      * playing background music will be stopped. If the program is running, the
@@ -49,6 +52,14 @@ public final class Music {
         sound.playLoop();
     }
 
+    public static void doFade() {
+        fadePercentage += fadeSpeed;
+        fadePercentage = Math.max(Math.min(fadePercentage, 1.0), 0.0);
+        // The music default volume seems to be at around 75
+        // Greenfoot has a bug where the volume is not set correctly on initialization
+        sound.setVolume((int) (fadePercentage * 75));
+    }
+
     /**
      * Pause the currently playing background music, if any.
      */
@@ -70,5 +81,25 @@ public final class Music {
         }
         sound.stop();
         sound = null;
+    }
+
+    /**
+     * Fade in the music at the given speed.
+     *
+     * @param speed the speed at which to fade in the music
+     */
+    public static void triggerFadeIn(double speed) {
+        fadePercentage = 0.0;
+        fadeSpeed = speed;
+    }
+
+    /**
+     * Fade out the music at the given speed.
+     *
+     * @param speed the speed at which to fade out the music
+     */
+    public static void triggerFadeOut(double speed) {
+        fadePercentage = 1.0;
+        fadeSpeed = -speed;
     }
 }

@@ -43,13 +43,16 @@ public class TitleWorld extends PixelWorld
         Timer.incrementAct();
 
         if (Greenfoot.isKeyDown("enter") && !keyPressed){
-            triggerFadeOut(0.04);
+            triggerFadeOut(0.03);
+            Music.triggerFadeOut(0.01);
         }
         keyPressed = Greenfoot.isKeyDown("Enter");
 
         if (isFadeOutComplete()) {
             Greenfoot.setWorld(new CutscenesWorld());
         }
+
+        Music.doFade();
     }
 
     private void render() {
