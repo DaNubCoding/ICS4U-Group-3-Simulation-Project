@@ -47,7 +47,7 @@ public class AnimatedText extends Text {
         /**
          * Plays a random sound effect of this voice, stopping the previous one.
          */
-        private void playSound() {
+        public void playSound() {
             if (lastSound != null) {
                 lastSound.stop();
             }
