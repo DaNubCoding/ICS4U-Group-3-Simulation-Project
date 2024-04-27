@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class SimulationWorld extends PixelWorld {
     private static final GreenfootImage background = new GreenfootImage("background.png");
     private static final GreenfootImage foreground = new GreenfootImage("foreground.png");
+    private static final GreenfootSound ambienceSound = new GreenfootSound("ambience.wav");
 
     /** The y coordinate of the surface of the water, in canvas pixels, relative to the top of this world. */
     public static final int SEA_SURFACE_Y = 37;
@@ -91,6 +92,7 @@ public class SimulationWorld extends PixelWorld {
 
         render();
         Music.set("background_music.wav");
+        ambienceSound.playLoop();
     }
 
     @Override
@@ -110,6 +112,7 @@ public class SimulationWorld extends PixelWorld {
         }
 
         if (isFadeOutComplete()) {
+            ambienceSound.stop();
             Greenfoot.setWorld(new EndWorld(this, endState));
         }
     }
