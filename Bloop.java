@@ -93,4 +93,14 @@ public class Bloop extends EndingFish
             eat = true;
         }
     }
+
+    /**
+     * Test if this Bloop is fully grown (and eating other fish).
+     *
+     * @return true if this Bloop is fully grown, false otherwise
+     */
+    public boolean isGrown()
+    {
+        return eat;
+    }
 }

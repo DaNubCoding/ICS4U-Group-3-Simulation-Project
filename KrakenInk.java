@@ -43,7 +43,8 @@ public class KrakenInk extends PixelActor
         List<Fish> fish = getObjectsInRange(5, Fish.class);
         List<Egg> egg = getObjectsInRange(5, Egg.class);
         for (Fish f:fish) {
-            if (!f.getClass().isAssignableFrom(Kraken.class) && Util.randInt(0, 10) == 0) {
+            boolean immune = f instanceof Kraken || f instanceof Leviathan || (f instanceof Bloop && ((Bloop) f).isGrown());
+            if (!immune && Util.randInt(0, 10) == 0) {
                 world.removeObject(f);
             }
         }
