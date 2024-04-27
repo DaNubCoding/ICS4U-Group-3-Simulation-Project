@@ -142,6 +142,13 @@ public class SummaryWorld extends PixelWorld
         Text rodsUnlocked = new Text("Rods Unlocked", Text.AnchorX.LEFT, Text.AnchorY.TOP);
         addObject(rodsUnlocked, 164, 65);
 
+        Text playerName;
+        if(playerNum==1){
+            playerName = new Text("Marie B. O'Logist", Text.AnchorX.CENTER, Text.AnchorY.TOP, new Color(196, 224, 224, 200));
+        }else{
+            playerName = new Text("Su C. Sheph", Text.AnchorX.CENTER, Text.AnchorY.TOP, new Color(224, 196, 196, 200));
+        }
+        addObject(playerName, 125, 43);
         //render the background and title
         canvasBackground.drawImage(BACKGROUND, 0, 0);
         canvasBackground.drawImage(TITLE_TEXT, 52, 6);
