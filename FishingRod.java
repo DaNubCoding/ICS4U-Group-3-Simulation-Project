@@ -37,7 +37,7 @@ public class FishingRod extends PixelActor {
         fishingLines = new ArrayList<FishingLine>();
 
         castTimer = new Timer(100);
-        rodBar = new UIBar(30, 8, 1200, "ui/bar_gold.png");
+        rodBar = new UIBar(30, 8, 1400, "ui/bar_gold.png");
         hookIcon = new Icon(2);
     }
 
