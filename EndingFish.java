@@ -6,7 +6,7 @@ import greenfoot.*;
  * @author Stanley Wang
  * @version April 2024
  */
-public class EndingFish extends Fish
+public abstract class EndingFish extends Fish
 {
     static boolean endFish = false;
     public EndingFish(FishSettings settings, FishFeature... features) {
