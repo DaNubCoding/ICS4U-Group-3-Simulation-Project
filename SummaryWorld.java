@@ -129,18 +129,18 @@ public class SummaryWorld extends PixelWorld
         int playerIndexNum = playerNum-1;
 
         Button nextPageButton = new Button("Continue", this::displayNextPage);
-        addObject(nextPageButton, 125, 140);
+        addObject(nextPageButton, 125, 145);
 
         Fisher fisher = simWorld.getFisher(playerNum);
         int expEarned = fisher.getTotalExp();
         Text expText = new Text("Total EXP: " + expEarned, Text.AnchorX.LEFT, Text.AnchorY.TOP);
-        addObject(expText, 9, 54);
+        addObject(expText, 9, 59);
 
         Text boatsUnlocked = new Text("Boats Unlocked", Text.AnchorX.LEFT, Text.AnchorY.TOP);
-        addObject(boatsUnlocked, 9, 65);
+        addObject(boatsUnlocked, 9, 70);
 
         Text rodsUnlocked = new Text("Rods Unlocked", Text.AnchorX.LEFT, Text.AnchorY.TOP);
-        addObject(rodsUnlocked, 164, 65);
+        addObject(rodsUnlocked, 164, 70);
 
         Text playerName;
         if(playerNum==1){
@@ -163,7 +163,7 @@ public class SummaryWorld extends PixelWorld
         //draw unlocked boats
         int boatUnlocked = fisher.getBoatTier().ordinal();
         int boatXDrawPos = 9;
-        int boatYDrawPos = 75;
+        int boatYDrawPos = 80;
 
         for(int i=0; i<=boatUnlocked; i++){
             canvasBackground.drawImage(BOAT_BACKGROUND, boatXDrawPos, boatYDrawPos);
@@ -179,7 +179,7 @@ public class SummaryWorld extends PixelWorld
         //draw unlocked rods
         int rodUnlocked = fisher.getFishingRod().getRodTier().ordinal();
         int rodXDrawPos = 165;
-        int rodYDrawPos = 75;
+        int rodYDrawPos = 80;
         for(int i=0; i<=rodUnlocked; i++){
             canvasBackground.drawImage(ROD_BACKGROUND, rodXDrawPos, rodYDrawPos);
             canvasBackground.drawImage(PLAYER_RODS[playerIndexNum][i], rodXDrawPos, rodYDrawPos);
