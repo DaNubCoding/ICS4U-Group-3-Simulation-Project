@@ -37,7 +37,21 @@ public class EndWorld extends PixelWorld {
         getCanvas().setColor(state.color);
         render();
 
-        Music.stop();
+        // Play the appropriate music for this end state
+        switch (state) {
+        case EXTINCTION:
+            Music.stop();
+            break;
+        case FISHER_1:
+        case FISHER_2:
+            Music.set("credits.wav");
+            break;
+        case BLOOP:
+        case KRAKEN:
+        case LEVIATHAN:
+            Music.set("fish_end_music.wav", false);
+            break;
+        }
     }
 
     @Override

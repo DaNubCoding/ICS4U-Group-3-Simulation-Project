@@ -66,7 +66,7 @@ public class SummaryWorld extends PixelWorld
         triggerFadeIn(0.02);
         render();
 
-        Music.set("settings_music.wav");
+        Music.set("credits.wav");
     }
 
     /**
