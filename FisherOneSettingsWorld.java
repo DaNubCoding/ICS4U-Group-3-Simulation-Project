@@ -27,7 +27,7 @@ public class FisherOneSettingsWorld extends SettingsWorld {
         // Add title and fisher sprite
         int midx = getWidth() / 2;
         int top = 15;
-        addObject(new Text("~ Fisher 1 ~", Text.AnchorX.CENTER, Text.AnchorY.CENTER, new Color(127, 219, 223)), midx, top);
+        addObject(new Text("Fisher 1 - Marie B. O'Logist", Text.AnchorX.CENTER, Text.AnchorY.CENTER, new Color(127, 219, 223)), midx, top);
         addObject(new StillActor("images/fisher_1.png", Layer.UI), midx, top + 15);
         addObject(new Text("Page 2 of 3", Text.AnchorX.RIGHT, Text.AnchorY.BOTTOM), getWidth() - 6, getHeight() - 4);
     }

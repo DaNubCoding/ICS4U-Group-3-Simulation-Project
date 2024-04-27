@@ -28,18 +28,18 @@ public class GeneralSettingsWorld extends SettingsWorld {
         UserSettings userSettings = getUserSettings();
         int midx = getWidth() / 2;
         int top = 15;
-        addObject(new Text("~ Starting Fish ~", Text.AnchorX.CENTER, Text.AnchorY.CENTER), midx, top);
-        addObject(new Text("click to toggle protection from extinction", Text.AnchorX.CENTER, Text.AnchorY.CENTER), midx, top + 11);
+        addObject(new Text("Starting Fish", Text.AnchorX.CENTER, Text.AnchorY.CENTER, new Color(247, 210, 128)), midx, top);
+        addObject(new Text("click to toggle protection from extinction", Text.AnchorX.CENTER, Text.AnchorY.CENTER), midx, top + 15);
         addObject(new Text("Page 1 of 3", Text.AnchorX.RIGHT, Text.AnchorY.BOTTOM), getWidth() - 6, getHeight() - 4);
         salmonButton = new Button(createFishIcon("fishes/salmon.png", false), this::toggleSalmonProtect);
-        addObject(salmonButton, midx - 50, top + 35);
-        addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(229, 115, 115), userSettings::setSalmonCount), midx - 65, top + 55);
+        addObject(salmonButton, midx - 50, top + 40);
+        addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(229, 115, 115), userSettings::setSalmonCount), midx - 65, top + 60);
         bassButton = new Button(createFishIcon("fishes/bass.png", false), this::toggleBassProtect);
-        addObject(bassButton, midx, top + 35);
-        addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(105, 201, 118), userSettings::setBassCount), midx - 15, top + 55);
+        addObject(bassButton, midx, top + 40);
+        addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(105, 201, 118), userSettings::setBassCount), midx - 15, top + 60);
         tunaButton = new Button(createFishIcon("fishes/tuna.png", false), this::toggleTunaProtect);
-        addObject(tunaButton, midx + 50, top + 35);
-        addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(46, 92, 107), userSettings::setTunaCount), midx + 35, top + 55);
+        addObject(tunaButton, midx + 50, top + 40);
+        addObject(new UserSettingSlider<Integer>(0, 10, 1, 30, new Color(46, 92, 107), userSettings::setTunaCount), midx + 35, top + 60);
 
         Music.set("settings_music.wav");
     }
