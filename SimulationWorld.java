@@ -96,6 +96,18 @@ public class SimulationWorld extends PixelWorld {
     }
 
     @Override
+    public void started() {
+        super.started();
+        ambienceSound.playLoop();
+    }
+
+    @Override
+    public void stopped() {
+        super.stopped();
+        ambienceSound.stop();
+    }
+
+    @Override
     public void act() {
         render();
         Timer.incrementAct();
